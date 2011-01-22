@@ -1,0 +1,130 @@
+<!/imagestype html public "-/w3c/dtd html 4.0 transitional/en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+   <meta name="CHANGEDBY" content="Thomas Dilts">
+</head>
+<body>
+
+<div STYLE="margin-bottom: 0in"></div>&nbsp;
+
+<br>
+<hr>
+
+<p STYLE="margin-bottom: 0in">[ <a href="index.en.html">Contents</a> ]
+[ <a href="copyright.en.html">Copyright Notice</a> ]
+<br>
+<hr>
+<br><b><font color="#000000"><font size=+3>Import from a CSV(Comma Separated Variable) 
+format file</font></font></b>
+<br>This section describes how to import your transactions, 
+an account schema, or Customer/Project definitions to Lazy8Ledger from another book-keeping system or
+database.  The CSV file format is a universal means for transferring data.  Importing
+is a rather complex process with many possibilities to make errors so I highly recommend that
+you first <a href="backup.en.html">back-up your database</a> before attempting importing so that
+if something goes wrong, you can restore your data.  Plus, I would not recommend anybody to
+attempt importing if you are not very experienced in databases in general.  There is just so
+much that can go wrong and it requires some expertise to make it work.  After importing, you
+must thoroughly check your database to make sure the import worked like you wanted it to.<br/>
+You might also want to use the <a href="export.en.html">export tool</a> to first export your information in this format and then take a normal
+word processor to edit the information, and then re import it again back into Lazy8Leger.  That way 
+you can do massive "search and replace" operations quickly and easily on your exported CSV file that would
+otherwise be impossible to do with only the Lazy8Ledger program.<br/>
+When you first start this procedure, you will be presented with a dialog
+which will allow you to select the CSV file you want to import from.  This file must exist and
+it must be in the CSV format.
+<h1><a name="general"></a>
+General procedure</h1>
+You must match the fields in the left list with the fields on the right list.  The fields in 
+the left list are fields read from the CSV file you selected previously.  The fields in the 
+right list are all the fields available for importing to, into Lazy8Ledger.  To match the fields, select a row on 
+the left and then select a row on the right and hit the <a href="import.en.html#match">match button</a>.  Continue doing so 
+until all the required fields are matched.  You can see which fields are required by looking in the 
+column on the right table marked "Is Required".  A "yes" in this column means you may not do the
+importing until that field is matched to a field on the left.  When you are finished matching
+all the fields you want to import, hit the 'Test only' button to check if there will be errors 
+during importing.  It is suggested that you do not proceed with importing if there are 
+errors.  However, you may decide to proceed anyway and ignore the errors. Finish by hitting 
+the button 'Import.'  If errors are present, the import process will once more show you the 
+errors and then you must hit again the import button if you want to proceed with the importing.
+<h1>Options and field formats</h1>
+There are a lot of special options and field formats available to specify the exact 
+format of your CSV file.  Hit the following <a href="exportoptions.en.html">"Options and field formats"</a>
+link to read more about it.
+<h1><a name="csvfields"></a>
+Fields from the CSV file</h1>
+This table on the left shows the fields read from the first row in the CSV file you selected
+when you first started this procedure.  You may use the <a href="import.en.html#next">Next</a> 
+and <a href="import.en.html#previous">Previous</a> buttons to browse through
+the CSV file and eventually view all the rows in the CSV file if you desire.<br/>
+You need to select a row in this table and then select a row in the table on the right and then
+hit the <a href="import.en.html#match">match button</a> for each field you wish to match.  At a minimum, you must match up all the
+fields on the right table marked as "is required."
+<h1><a name="lazy8fields"></a>
+Lazy8 Ledger database import fields table</h1>
+This table on the right shows all the fields available for importing to, into Lazy8Ledger. 
+You need to select a row in this table and then select a row in the table on the left and then
+hit the <a href="import.en.html#match">match button</a> for each field you wish to match.  At a minimum, you must match up all the
+fields in this marked as "yes" int the "is required" column.  When you have matched a field, you will
+see the contents from the CSV file beside the lazy8 field definition.  Notice that the "data types" 
+must match the data types in your CSV file.  If they don't match, you will get errors when you try
+to import. 
+<h1><a name="match"></a>
+Match button</h1>
+Hitting this button will match a field in the <a href="import.en.html#csvfields">Fields from the CSV file</a>
+on the left, with a field in the <a href="import.en.html#lazy8fields">
+Lazy8 Ledger database import fields table</a> on the right.
+You need to first select a row in each of these tables and then
+hit this "match" button for each field you wish to match.  At a minimum, you must match up all the
+fields on the <a href="import.en.html#lazy8fields">
+Lazy8 Ledger database import fields table</a> on the right marked as "is required."
+<h1><a name="unmatch"></a>
+Unmatch button</h1>
+Hitting this button will remove a match between a field in the <a href="import.en.html#csvfields">Fields from the CSV file</a>
+on the left and a field in the <a href="import.en.html#lazy8fields">
+Lazy8 Ledger database import fields table</a> on the right.
+<h1><a name="previous"></a>
+Previous button</h1>
+Hitting this button will show all the fields in the CSV file in the previous row relative to the row
+currently being seen in the table <a href="import.en.html#csvfields">Fields from the CSV file</a> 
+on the left.
+<h1><a name="next"></a>
+Next button</h1>
+Hitting this button will show all the fields in the CSV file in the next row relative to the row
+currently being seen in the table <a href="import.en.html#csvfields">Fields from the CSV file</a> 
+on the left.
+<h1><a name="testonly"></a>
+Test only button</h1>
+Hitting this button will perform several tests on the import specification and import CSV file and
+your present Lazy8 Leger database to see if the import will succeed.  Note that before you can get
+this button to do anything, you must at a minimum match up all the
+fields on the <a href="import.en.html#lazy8fields">
+Lazy8 Ledger database import fields table</a> on the right marked as "is required."
+<h1><a name="importbutton"></a>
+Import button</h1>
+Hitting this button will perform the import of the data if no errors are present.  If errors are 
+present, the import process will once more show you the 
+errors and then you must hit again the import button if you want to proceed anyway with the importing.
+ Note that before you can get this button to do anything, you must at a minimum match up all the
+fields on the <a href="import.en.html#lazy8fields">
+Lazy8 Ledger database import fields table</a> on the right marked as "is required."
+<h1><a name="help"></a>
+Help button</h1>
+Show the help screen associated with this form.
+<h1><a name="exit"></a>
+Exit button</h1>
+Hitting this button closes this import window..
+
+
+</P>
+<P ALIGN=CENTER><IMG SRC="../images/lazy8color.jpg"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:support@lazy8.nu?subject=Lazy8 Ledger">Lazy
+Eight Data HB email : support@lazy8.nu </A></P>
+<P ALIGN=CENTER><A HREF="http://www.lazy8.nu">http://www.lazy8.nu</A></P>
+<P ALIGN=CENTER><IMG SRC="../images/ceterus.gif"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:info@ceterus.se?subject=Lazy8 Ledger">
+Ceterus Ekonomi AB email : info@ceterus.se </A></P>
+<P ALIGN=CENTER><A HREF="http://www.ceterus.se/">http://www.ceterus.se</A></P>
+</BODY>
+</HTML>

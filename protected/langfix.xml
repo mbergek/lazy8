@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lazy8webportlang version="1.00">
+<language langcode="en">
+<message category="lazy8" key="Are you sure? This will delete all current standard reports."><translation>Are you sure? This will delete all current standard reports.</translation></message>
+<message category="lazy8" key="Category"><translation>Category</translation></message>
+<message category="lazy8" key="Could not create the Account, bad paramters"><translation>Could not create the Account, bad paramters</translation></message>
+<message category="lazy8" key="Could not create the AccountType, bad paramters"><translation>Could not create the AccountType, bad paramters</translation></message>
+<message category="lazy8" key="Could not create the company, bad paramters"><translation>Could not create the company, bad paramters</translation></message>
+<message category="lazy8" key="Could not create the Customer, bad paramters"><translation>Could not create the Customer, bad paramters</translation></message>
+<message category="lazy8" key="Could not create the period, bad paramters"><translation>Could not create the period, bad paramters</translation></message>
+<message category="lazy8" key="Could not create the TransactionAmount, bad paramters"><translation>Could not create the TransactionAmount, bad paramters</translation></message>
+<message category="lazy8" key="Could not create the Transaction, bad paramters"><translation>Could not create the Transaction, bad paramters</translation></message>
+<message category="lazy8" key="Currently selected company is invalid. Select a new company/period and try again."><translation>Currently selected company is invalid. Select a new company/period and try again.</translation></message>
+<message category="lazy8" key="Currently selected period is invalid. Select a new company/period and try again."><translation>Currently selected period is invalid. Select a new company/period and try again.</translation></message>
+<message category="lazy8" key="Customer code not found"><translation>Customer code not found</translation></message>
+<message category="lazy8" key="Account code not found"><translation>Account code not found</translation></message>
+<message category="lazy8" key="Customer code is null"><translation>Customer code is null</translation></message>
+<message category="lazy8" key="Export all"><translation>Export all</translation></message>
+<message category="lazy8" key="input file could not be xml parsed"><translation>input file could not be xml parsed</translation></message>
+<message category="lazy8" key="Language"><translation>Language</translation></message>
+<message category="lazy8" key="Manage Options"><translation>Manage Options</translation></message>
+<message category="lazy8" key="Message"><translation>Message</translation></message>
+<message category="lazy8" key="New Options"><translation>New Options</translation></message>
+<message category="lazy8" key="Options List"><translation>Options List</translation></message>
+<message category="lazy8" key="Re-install standard reports"><translation>Re-install standard reports</translation></message>
+<message category="lazy8" key="Report"><translation>Report</translation></message>
+<message category="lazy8" key="Row"><translation>Row</translation></message>
+<message category="lazy8" key="Sort Order"><translation>Sort Order</translation></message>
+<message category="lazy8" key="The invoice date is not within the allowed range"><translation>The invoice date is not within the allowed range</translation></message>
+<message category="lazy8" key="There maybe problems because this is a file version greater then this programs version"><translation>There maybe problems because this is a file version greater then this programs version</translation></message>
+<message category="lazy8" key="The sum of the credits and debits are not equal"><translation>The sum of the credits and debits are not equal</translation></message>
+<message category="lazy8" key="This language already exists. Enter another language"><translation>This language already exists. Enter another language</translation></message>
+<message category="lazy8" key="Trans"><translation>Trans</translation></message>
+<message category="lazy8" key="Translation"><translation>Translation</translation></message>
+<message category="lazy8" key="Update Options"><translation>Update Options</translation></message>
+<message category="lazy8" key="User Changed"><translation>User Changed</translation></message>
+<message category="lazy8" key="You are not allowed to change any transactions. See company options."><translation>You are not allowed to change any transactions. See company options.</translation></message>
+<message category="lazy8" key="You must enter a language"><translation>You must enter a language</translation></message>
+<message category="lazy8" key="An account that will be included in this report"><translation>An account that will be included in this report</translation></message>
+<message category="lazy8" key="Chosen Account 1"><translation>Chosen Account 1</translation></message>
+<message category="lazy8" key="Chosen Account 2"><translation>Chosen Account 2</translation></message>
+<message category="lazy8" key="Chosen Account 3"><translation>Chosen Account 3</translation></message>
+<message category="lazy8" key="Chosen Account 4"><translation>Chosen Account 4</translation></message>
+<message category="lazy8" key="Chosen Account 5"><translation>Chosen Account 5</translation></message>
+<message category="lazy8" key="Chosen Account 6"><translation>Chosen Account 6</translation></message>
+<message category="lazy8" key="Chosen Account 7"><translation>Chosen Account 7</translation></message>
+<message category="lazy8" key="Chosen Account 8"><translation>Chosen Account 8</translation></message>
+<message category="lazy8" key="Chosen Account 9"><translation>Chosen Account 9</translation></message>
+<message category="lazy8" key="Chosen Account 10"><translation>Chosen Account 10</translation></message>
+<message category="lazy8" key="Year"><translation>Year</translation></message>
+<message category="lazy8" key="Analysis account types/month"><translation>Analysis account types/month</translation></message>
+<message category="lazy8" key="Analysis account types/quarter"><translation>Analysis account types/quarter</translation></message>
+<message category="lazy8" key="Analysis chosen accounts/month"><translation>Analysis chosen accounts/month</translation></message>
+<message category="lazy8" key="Analysis chosen accounts/quarter"><translation>Analysis chosen accounts/quarter</translation></message>
+<message category="lazy8" key="q1"><translation>First quarter</translation></message>
+<message category="lazy8" key="q2"><translation>Second quarter</translation></message>
+<message category="lazy8" key="q3"><translation>Third quarter</translation></message>
+<message category="lazy8" key="q4"><translation>Fourth quarter</translation></message>
+<message category="lazy8" key="m1"><translation>January</translation></message>
+<message category="lazy8" key="m2"><translation>February</translation></message>
+<message category="lazy8" key="m3"><translation>March</translation></message>
+<message category="lazy8" key="m4"><translation>April</translation></message>
+<message category="lazy8" key="m5"><translation>May</translation></message>
+<message category="lazy8" key="m6"><translation>June</translation></message>
+<message category="lazy8" key="m7"><translation>July</translation></message>
+<message category="lazy8" key="m8"><translation>August</translation></message>
+<message category="lazy8" key="m9"><translation>September</translation></message>
+<message category="lazy8" key="m10"><translation>October</translation></message>
+<message category="lazy8" key="m11"><translation>November</translation></message>
+<message category="lazy8" key="m12"><translation>December</translation></message>
+<message category="lazy8" key="Balance Report"><translation>Balance Report</translation></message>
+<message category="lazy8" key="Result Report"><translation>Result Report</translation></message>
+<message category="lazy8" key="contexthelp.English.Accounts"><translation>Choose this button to add a standard group of default English accounts to your company</translation></message>
+<message category="lazy8" key="contexthelp.EnglishAccountType"><translation>Choose this button to add a standard group of default Swedish account types to your company</translation></message>
+<message category="lazy8" key="contexthelp.language"><translation>Enter the 2 character abbreviation for the language you want to create.  If needed, you and add an underscore and a 2 character locale abreviation to the language abbreviation</translation></message>
+<message category="lazy8" key="contexthelp.Swedish.Accounts"><translation>Choose this button to add a standard group of default Swedish accounts to your company</translation></message>
+<message category="lazy8" key="contexthelp.SwedishAccountType"><translation>Choose this button to add a standard group of default Swedish account types to your company</translation></message>
+</language>
+</lazy8webportlang>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lazy8webportaccount version="1.00">
+    <accounttype code="0" name="Current Assets" sortorder="100" isinbalance="1" >
+    </accounttype>
+    <accounttype code="1" name="Current Liabilities" sortorder="200" isinbalance="1" >
+    </accounttype>
+    <accounttype code="2" name="Revenues" sortorder="400" isinbalance="0" >
+    </accounttype>
+    <accounttype code="3" name="Expenses" sortorder="500" isinbalance="0" >
+    </accounttype>
+    <accounttype code="4" name="Equity" sortorder="300" isinbalance="1" >
+    </accounttype>
+    <accounttype code="6" name="Cost of Sales" sortorder="450" isinbalance="0" >
+    </accounttype>
+    <accounttype code="7" name="Long Term Assets" sortorder="150" isinbalance="1" >
+    </accounttype>
+    <accounttype code="8" name="Long Term Liabilities" sortorder="250" isinbalance="1" >
+    </accounttype>
+</lazy8webportaccount>

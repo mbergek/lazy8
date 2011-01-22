@@ -1,0 +1,134 @@
+<!/imagestype html public "-/w3c/dtd html 4.0 transitional/en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+   <meta name="CHANGEDBY" content="Thomas Dilts">
+</head>
+<body>
+
+<hr style="margin-bottom: 0in, ">
+<p style="margin-top: 0in;margin-bottom: 0in">[ <a
+href="index.sv.html">Innehållsförteckning</a>
+] [ <a href="copyright.sv.html">Kopieringsrättigheter</a>
+]</p>
+<hr>
+
+
+<br><b><font color="#000000"><font size=+3>Importera från en CSV(Comma Separated Variabel) 
+formaterade fil</font></font></b>
+<br>
+Detta beskriver hur man importera alla verifikationer eller konto definitioner
+eller kund/projekt definitioner till lazy 8 bokförings-databas.
+Detta CSV format är en universal teknik för att överföra data, fast, i Sverige finns 
+en mycket enklare och säkrare sätt att överföra data mellan bokförings-system och det 
+kallas SIE format.  Se <a href="sie.sv.html">SIE format</a> för mer information om SIE.<br><br>
+Att importera i CSV formatet är en mycket komplex procedur och med många chanser för att 
+misslyckas.  Därför föreslår jag att man alltid <a href="backup.sv.html">spara sin databas</a> 
+först innan man importera så att om något blir fel, kan man alltid återskapa databasen. 
+Plus, föreslår jag att enbart mycket erfarna databas folk försöka att importera med CSV formatet.
+Om man inte är så erfaren borde man hålla sig till <a href="sie.sv.html">SIE formatet.</a>
+<br/>
+Efter varje importerande måste man noggrant kolla alla sina data eftersom det kan lätt hända att
+importerande gick inte som man vill.<br/>
+
+Man kan också använda CSV exportera/importera tekniken för att 
+<a href="export.sv.html">exportera</a> från lazy8 bokföring,
+sedan manuellt ändra på data med en ordbehandlare, och sedan importera igen.  
+På detta sätt kan man göra massiva och kraftfulla "sök och ersätta" operationer på 
+hela databasen som är omöjligt att göra enbart i lazy8 bokföring
+<br/>
+I början av proceduren dyker upp en dialogruta som kräver fil namnet av CSV filen som ska importeras.
+Filen måste redan finnas och vara i CSV formatet.
+
+<h1><a name="general"></a>
+Allmänna procedur</h1>
+Man måste sammankoppla fält i den vänstra listan med fält i den högra listan.  
+I den vänstra listan finns fält från CSV filen man angav.  I den högra 
+listan finns alla tillgängliga fält i lazy8 bokförings databas.
+För att klara av detta, välja en rad i den vänstra listan och sedan en rad i den högra 
+listan och slå <a href="import.sv.html#match">'Sammankoppla'</a> knappen.  
+Fortsätter tills alla obligatoriska fält 
+sammankopplas. <br><br>
+Man kan se vilka fält krävs för importerande igenom att titta på 'Krävs?' kolumnen i
+den högra listan.  Om kolumnen innehåller 'Ja', måste fältet sammankopplas till den
+vänstra listan. <br> 
+Sedan, slå 'Enbart testa' knappen för att kolla om det finns 
+några fel.  Jag föreslår att man inte fortsätter om det finns några fel men man kan 
+fortsätter och importera om man vill.  Avsluta igenom att slå 'Importera' knappen.
+Om det finns några fel kommer fel dialogen upp en gång till och om man vill ändå 
+fortsätta måste man trycka på 'Importera' knappen igen.
+
+<h1>Inställningar och fält format</h1>
+Det finns många inställningar och fält format för att specificera CSV formatet.  Trycka på den följande
+<a href="exportoptions.sv.html">"Inställningar och fält format"</a> länk för att läsa mer om detta.
+<h1><a name="csvfields"></a>
+Fält från CSV filen</h1>
+Tabellen på den vänstra sidan visar fält från den första raden i CSV filen som man valde i början
+av proceduren.  Man kan använda <a href="import.sv.html#next">'Nästa'</a> 
+and <a href="import.sv.html#previous">'Föregående'</a> knapparna för att bläddra igenom CSV filen
+om man vill. Man måste sammankoppla fält i den vänstra listan med fält i den högra listan och 
+slå <a href="import.sv.html#match">'Sammankoppla'</a> knappen för varje fält man vill importera.
+Åtminstone måste man sammankoppla alla fält vems kolumnen 'Krävs?' innehåller 'Ja'.
+<h1><a name="lazy8fields"></a>
+Lazy8 bokförings databas import fält tabell</h1>
+Denna tabell visar alla tillgängliga fält i lazy8 bokförings databas att importera till.
+Man måste sammankoppla fält i den vänstra listan med fält i denna lista och 
+slå <a href="import.sv.html#match">'Sammankoppla'</a> knappen för varje fält man vill importera.
+Åtminstone måste man sammankoppla alla fält vems kolumnen 'Krävs?' innehåller 'Ja'.
+När man har sammankopplat
+ett fält, kommer CSV fältets innehåll att visas bredvid det sammankopplade fältet.  
+
+Kolla att 'Data typ' är korrekt för fältet man valde från CSV filen.  Om data typen är inte rätt kommer
+man att få fel meddelande under importerande.
+<h1><a name="match"></a>
+Sammankoppla knappen</h1>
+Tryck på denna knapp för att sammankoppla fält i 
+<a href="import.sv.html#csvfields">den vänstra listan</a> med fält i 
+<a href="import.sv.html#lazy8fields">den högra listan.</a>
+Man måste först välja en rad i den vänstra listan och sedan en rad i den högra 
+listan.  Åtminstone måste man sammankoppla alla fält vems kolumnen 'Krävs?' innehåller 'Ja'.
+<h1><a name="unmatch"></a>
+Koppla bort knappen</h1>
+Tryck på denna knapp för att koppla bort fält i 
+<a href="import.sv.html#csvfields">den vänstra listan</a> från fält i 
+<a href="import.sv.html#lazy8fields">den högra listan.</a>
+<h1><a name="previous"></a>
+Föregående knappen</h1>
+Tryck på denna knapp för att visa alla fält i CSV filen i den föregående raden relativt till raden som
+visas nu i <a href="import.sv.html#csvfields">den vänstra listan.</a>
+<h1><a name="next"></a>
+Nästa knappen</h1>
+Tryck på denna knapp för att visa alla fält i CSV filen i den nästa raden relativt till raden som
+visas nu i <a href="import.sv.html#csvfields">den vänstra listan.</a>
+<h1><a name="testonly"></a>
+Enbart test knappen</h1>
+Tryck på denna knapp för att testa om sammankopplingen av fälten och CSV fil formatet är bra och kan
+lyckas.  Innan du trycka på denna knapp måste man sammankoppla alla fält vems kolumnen 'Krävs?' innehåller 'Ja'
+i <a href="import.sv.html#lazy8fields">den högra listan.</a>
+<h1><a name="importbutton"></a>
+Importera knappen</h1>
+Tryck på denna knapp för att importera data ifrån CSV filen.  
+Om det finns några fel kommer fel dialogen upp en gång till och om man vill ändå 
+fortsätta måste man trycka på 'Importera' knappen igen.
+Innan man trycker på denna knapp måste man sammankoppla alla fält vems kolumnen 'Krävs?' innehåller 'Ja'
+i <a href="import.sv.html#lazy8fields">den högra listan.</a>
+<h1><a name="help"></a>
+Hjälp knappen</h1>
+Visa detta hjälp fönster.
+<h1><a name="exit"></a>
+Avsluta knappen</h1>
+Tryck på denna knapp för att stänga fönstret.
+
+
+</P>
+<P ALIGN=CENTER><IMG SRC="../images/lazy8color.jpg"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:support@lazy8.nu?subject=Lazy8 Ledger">Lazy
+Eight Data HB email : support@lazy8.nu </A></P>
+<P ALIGN=CENTER><A HREF="http://www.lazy8.nu">http://www.lazy8.nu</A></P>
+<P ALIGN=CENTER><IMG SRC="../images/ceterus.gif"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:info@ceterus.se?subject=Lazy8 Ledger">
+Ceterus Ekonomi AB email : info@ceterus.se </A></P>
+<P ALIGN=CENTER><A HREF="http://www.ceterus.se/">http://www.ceterus.se</A></P>
+</BODY>
+</HTML>
