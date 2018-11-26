@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lazy8webportaccount version="1.00">
+  <accounttype code="100" name="Immateriella anläggningstillgångar" sortorder="100" isinbalance="1"/>
+  <accounttype code="105" name="Materiella anläggningstillgångar" sortorder="105" isinbalance="1">
+   <account code="1220" name="Inventarier"/>
+   <account code="1229" name="Avskrivningar inventarier"/>
+  </accounttype>
+  <accounttype code="110" name="Finansiella anläggningstillgångar" sortorder="110" isinbalance="1"/>
+  <accounttype code="115" name="Varulager m.m." sortorder="115" isinbalance="1">
+   <account code="1400" name="Lager"/>
+  </accounttype>
+  <accounttype code="120" name="Fordringar" sortorder="120" isinbalance="1">
+   <account code="1510" name="Kundfordringar"/>
+   <account code="1630" name="Avräkning för skatter och avgifter (skattekonto)"/>
+   <account code="1640" name="Skattefordringar"/>
+   <account code="1650" name="Momsfordran, redovisningskonto"/>
+   <account code="1790" name="Övriga förutbetalda kostnader och upplupna intäkter"/>
+  </accounttype>
+  <accounttype code="130" name="Kortfristiga placeringar" sortorder="130" isinbalance="1"/>
+  <accounttype code="135" name="Kassa och bank" sortorder="135" isinbalance="1">
+   <account code="1910" name="Kassa"/>
+   <account code="1920" name="Bankgiro"/>
+   <account code="1930" name="Checkräkningskonto"/>
+   <account code="1940" name="Övriga bankkonton"/>
+  </accounttype>
+  <accounttype code="140" name="Eget Kapital" sortorder="140" isinbalance="1">
+   <account code="2019" name="Redovisat resultat"/>
+   <account code="2081" name="Aktiekapital"/>
+   <account code="2091" name="Balanserad vinst eller förlust"/>
+   <account code="2099" name="Årets resultat"/>
+  </accounttype>
+  <accounttype code="145" name="Obeskattade reserver" sortorder="145" isinbalance="1">
+   <account code="2129" name="Periodiseringsfond vid 2009 års taxering"/>
+  </accounttype>
+  <accounttype code="150" name="Avsättningar" sortorder="150" isinbalance="1"/>
+  <accounttype code="155" name="Långfristiga skulder" sortorder="155" isinbalance="1">
+   <account code="2330" name="Beviljad checkräkningskredit"/>
+   <account code="2393" name="Lån från aktieägare"/>
+  </accounttype>
+  <accounttype code="160" name="Kortfr skulder kreditinst/kund/lev" sortorder="160" isinbalance="1">
+   <account code="2440" name="Leverantörsskulder"/>
+  </accounttype>
+  <accounttype code="165" name="Skatteskulder" sortorder="165" isinbalance="1">
+   <account code="2510" name="Skatteskulder"/>
+   <account code="2611" name="Utgående moms 25%"/>
+   <account code="2615" name="Beräknad utg.moms varuförv EU"/>
+   <account code="2641" name="Ingående moms"/>
+   <account code="2645" name="Beräknad ing.moms varuförv EU"/>
+   <account code="2650" name="Momsskuld, redovisningskonto"/>
+   <account code="2710" name="Personalens källskatt"/>
+   <account code="2711" name="Innehållen Anna personalskatt"/>
+   <account code="2712" name="Innehållen Sven personalskatt"/>
+   <account code="2731" name="Avräkning lagstadgade sociala avgifter"/>
+   <account code="2732" name="Avräkning särskild löneskatt pension"/>
+  </accounttype>
+  <accounttype code="170" name="Övriga kortfristiga skulder" sortorder="170" isinbalance="1"/>
+  <accounttype code="175" name="Uppl kostn/förutbet intäkter" sortorder="175" isinbalance="1">
+   <account code="2941" name="Beräknade upplupna lagstadgade sociala avgifter"/>
+   <account code="2943" name="Beräknad upplupen särskild löneskatt på pensionskostnader"/>
+   <account code="2990" name="Upplupna kostnader"/>
+  </accounttype>
+  <accounttype code="199" name="Nettoomsättning" sortorder="199" isinbalance="0">
+   <account code="3041" name="Försäljning av hälso tjänster 25%"/>
+   <account code="3042" name="Försäljning av data tjänster 25%"/>
+   <account code="3051" name="Försäljning av häslo varor 25%"/>
+   <account code="3052" name="Försäljning av varor 12%"/>
+   <account code="3053" name="Försäljning av varor 6%"/>
+   <account code="3054" name="Försäljning av data tjänster till EU"/>
+   <account code="3055" name="Försäljning av varor utanför EU"/>
+   <account code="3056" name="Försäljning av varor till EU"/>
+   <account code="3160" name="Kursdifferenser"/>
+   <account code="3740" name="Öres- och kronutjämning"/>
+  </accounttype>
+  <accounttype code="210" name="Utgående kostnader varor, material, mm" sortorder="210" isinbalance="0">
+   <account code="4010" name="Inköp av material och varor"/>
+   <account code="4056" name="Inköp av varor från EU"/>
+   <account code="4600" name="Legoarbeten underentreprenörer"/>
+  </accounttype>
+  <accounttype code="215" name="Övriga externa rörelse utg kostnader" sortorder="215" isinbalance="0">
+   <account code="5010" name="Lokalhyra"/>
+   <account code="5020" name="Elkostnader"/>
+   <account code="5030" name="Värme"/>
+   <account code="5050" name="Lokaltillbehör"/>
+   <account code="5090" name="Övriga kostnader för lokal"/>
+   <account code="5410" name="Förbrukningsinventarier"/>
+   <account code="5460" name="Förbrukningsmaterial"/>
+   <account code="5480" name="Arbetskläder"/>
+   <account code="5611" name="Drivmedel bilar"/>
+   <account code="5710" name="Frakter o transporter"/>
+   <account code="5800" name="Resekostnader"/>
+   <account code="5910" name="Annonsering"/>
+   <account code="5930" name="Reklamtrycksaker"/>
+   <account code="5990" name="Övrig reklam"/>
+   <account code="6071" name="Avdragsgill representation"/>
+   <account code="6072" name="Ej avdr.gill representation"/>
+   <account code="6090" name="Övriga försäljningskostnader"/>
+   <account code="6110" name="Kontorsmaterial"/>
+   <account code="6150" name="Trycksaker"/>
+   <account code="6211" name="Telefon"/>
+   <account code="6212" name="Mobiltelefon"/>
+   <account code="6213" name="Internet"/>
+   <account code="6214" name="Fax"/>
+   <account code="6250" name="Porto"/>
+   <account code="6310" name="Företagsförsäkringar"/>
+   <account code="6420" name="Revisionsarvoden"/>
+   <account code="6530" name="Redovisningstjänster"/>
+   <account code="6570" name="Bankkostnader"/>
+   <account code="6590" name="Övriga externa tjänster"/>
+   <account code="6900" name="Övriga externa kostnader"/>
+   <account code="6970" name="Tidningar facklitteratur"/>
+   <account code="6981" name="Föreningsavgifter, avdragsgilla"/>
+   <account code="6982" name="Föreningsavgifter, ej avdragsgilla"/>
+   <account code="6991" name="Övriga externa kostnader, avdragsgilla"/>
+   <account code="6992" name="Ej avdr gilla kostnader"/>
+   <account code="6995" name="Restavgifter skatter och sociala avgifter"/>
+   <account code="6997" name="Räntekostnader skattekonto"/>
+   <account code="6998" name="Räntor skattekonto"/>
+  </accounttype>
+  <accounttype code="220" name="Utgående kostnader för personal" sortorder="220" isinbalance="0">
+   <account code="7010" name="Lön kollektivanställda"/>
+   <account code="7220" name="Lön Anna tjänstemän"/>
+   <account code="7221" name="Lön Sven tjänstemän"/>
+   <account code="7323" name="Skattefria traktamenten, utlandet"/>
+   <account code="7331" name="Skattefria bilersättningar"/>
+   <account code="7412" name="Premier för kjaersgaards pensionsförsäkringar"/>
+   <account code="7413" name="Premier för Dilts pensionsförsäkringar"/>
+   <account code="7510" name="Arbetsgivaravgifter"/>
+   <account code="7530" name="Särskild löneskatt"/>
+   <account code="7533" name="Särskild löneskatt för pensionskostnader"/>
+   <account code="7699" name="Övriga personalkostnader"/>
+  </accounttype>
+  <accounttype code="225" name="Avskrivningar" sortorder="225" isinbalance="0">
+   <account code="7830" name="Avskrivningar på maskiner och inventarier"/>
+   <account code="7832" name="Avskrivningar inventarier"/>
+  </accounttype>
+  <accounttype code="230" name="Resultat från aktier och andelar i koncernföretag" sortorder="230" isinbalance="0"/>
+  <accounttype code="235" name="Resultat från aktier och andelar i intresseföretag" sortorder="235" isinbalance="0"/>
+  <accounttype code="240" name="Resultat övriga värdepapper/långfr fordringar" sortorder="240" isinbalance="0"/>
+  <accounttype code="245" name="Övriga räntaintäkter och liknande intäkter" sortorder="245" isinbalance="0">
+   <account code="8300" name="Ränteintäkter"/>
+  </accounttype>
+  <accounttype code="250" name="Räntekostnader och liknande kostnader" sortorder="250" isinbalance="0">
+   <account code="8400" name="Räntekostnader"/>
+  </accounttype>
+  <accounttype code="255" name="Extraordinära intäkter" sortorder="255" isinbalance="0"/>
+  <accounttype code="260" name="Extraordinära kostnader" sortorder="260" isinbalance="0"/>
+  <accounttype code="265" name="Bokslutsdispositioner" sortorder="265" isinbalance="0">
+   <account code="8811" name="Avsättning till periodiseringsfond"/>
+  </accounttype>
+  <accounttype code="270" name="Skatt på årets resultat" sortorder="270" isinbalance="0">
+   <account code="8910" name="Skatt på årets beskattningsbara resultat"/>
+  </accounttype>
+  <accounttype code="275" name="Övriga skatter" sortorder="275" isinbalance="0">
+   <account code="8999" name="Redovisat resultat"/>
+  </accounttype>
+</lazy8webportaccount>

@@ -1,0 +1,128 @@
+<!/imagestype html public "-/w3c/dtd html 4.0 transitional/en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+   <meta name="CHANGEDBY" content="Thomas Dilts">
+</head>
+<body>
+<hr style="margin-bottom: 0in, ">
+<p style="margin-top: 0in;margin-bottom: 0in">[ <a
+href="index.sv.html">Innehållsförteckning</a>
+] [ <a href="copyright.sv.html">Kopieringsrättigheter</a>
+]</p>
+<hr>
+
+
+
+
+<br><font size=+4>Technical specification</font>
+<p>1.&nbsp; Written in JAVA version 1.4.1
+<br>2.&nbsp; Database is McKoi 1.0.
+<br>3.&nbsp; All fields have been tested for 100% unicode compatibility.&nbsp;
+This program will run any language in the world.
+<br>4.&nbsp; At the bottom of this page is are definitions of all the database tables:
+<br>5.&nbsp; In your [home]/.jedit/Lazy8Ledger/report directory is several XML files which
+are the definitions of all the reports.  You may edit these files if you want to customize
+the reports, yet you probably need to be a programmer to do it and you need to get tips from
+the website http://www.jfree.org/jfreereport/index.html which holds the defintions of these
+XML files:
+<br>6.&nbsp; The following are some useful SQL statements and tips which handle some of the pecularities of 
+Lazy8Ledger's table setup:
+<P>
+Note that any time the table name 'Account' is used in an SQL statement, it must
+be called 'APP.Account' and any time a field called 'Account' is used, it must be called
+'APP.Account.Account'.  This is probably due to the fact that Account is a reserved
+word in the database.
+<P>
+This statement will sum up accounts:
+<P>
+SELECT Amount.Account, APP.Account.AccDesc AS FirstAccDesc, 
+APP.Account.IsAsset AS FirstOfIsAsset,
+Sum(Amount.Amount * ((2 * Amount.IsDebit) - 1) ) AS SumOfAmount1, 
+Amount.Customer AS FirstCust, Customer.CustName AS FirstCustName 
+FROM Customer RIGHT JOIN Amount ON (Amount.Customer=Customer.CustId AND Amount.CompId=APP.Customer.CompId) 
+JOIN Activity ON (Amount.Act_id=Activity.Act_id AND Amount.CompId=Activity.CompId) 
+JOIN APP.Account ON (APP.Account.Account=Amount.Account AND APP.Account.CompId=Activity.CompId) 
+WHERE Activity.CompId=?
+AND Activity.InvDate >= ? 
+AND Activity.InvDate <= ? GROUP BY Amount.Account 
+<P>
+This will get you all Transactions:
+<P>
+SELECT Amount.Act_id, InvDate, Activity.Notes, Customer.CustName, +
+Amount.Account, AccDesc, FileInfo,RegDate,IsDebit,+
+Amount.Amount, Amount.Notes +
+FROM Customer RIGHT JOIN Amount ON (Amount.Customer=Customer.CustId AND Amount.CompId=APP.Customer.CompId) 
+JOIN Activity ON (Amount.Act_id=Activity.Act_id AND Amount.CompId=Activity.CompId)
+JOIN APP.Account ON (APP.Account.Account=Amount.Account AND APP.Account.CompId=Activity.CompId) 
+WHERE APP.Account.CompId=?
+AND Activity.InvDate >= ? AND Activity.InvDate <= ? 
+<P>
+<P>
+TABLE DEFINTIONS
+<P>
+<br>create table Activity 
+<br>(CompId INTEGER NOT NULL, 
+<br>Act_id INTEGER NOT NULL, 
+<br>RegDate DATE, 
+<br>InvDate DATE, 
+<br>Notes VARCHAR(200), 
+<br>FileInfo VARCHAR(200), 
+<br>PRIMARY KEY(Act_id,CompId))",
+</P><P>create table Amount 
+<br>(CompId INTEGER NOT NULL, 
+<br>Act_id INTEGER NOT NULL, 
+<br>Account INTEGER NOT NULL, 
+<br>Amount DOUBLE, 
+<br>IsDebit INTEGER, 
+<br>Customer INTEGER, 
+<br>Notes VARCHAR(40)) " ,
+</P><P>create table Account 
+<br>(CompId int NOT NULL, 
+<br>Account int NOT NULL, 
+<br>AccDesc VARCHAR(255), 
+<br>IsAsset int, 
+<br>PRIMARY KEY(Account,CompId))",
+</P><P>create table Customer2 
+<br>(CompId int NOT NULL, 
+<br>CustId int NOT NULL, 
+<br>CustName VARCHAR(100), 
+<br>CustDesc VARCHAR(200), 
+<br>DefaultAcc int NOT NULL,
+<br>PRIMARY KEY (CustId,CompId))",
+</P><P>create table UniqNum  
+<br>(CompId int NOT NULL, 
+<br>UniqName varchar(50) NOT NULL, 
+<br>LastNumber int, 
+<br>PRIMARY KEY (UniqName,CompId))",
+</P><P>create table AccountingPeriods  
+<br>(CompId int NOT NULL, 
+<br>StartPeriod date NOT NULL, 
+<br>EndPeriod date NOT NULL, 
+<br>PRIMARY KEY (CompId,StartPeriod,EndPeriod))",
+</P><P>create table Company 
+<br>(CompId int NOT NULL, 
+<br>Name VARCHAR(200), 
+<br>PRIMARY KEY (CompId))"};
+<br>SELECT * FROM AccountType WHERE CompId=99999,
+<br>create table AccountType 
+<br>(CompId int NOT NULL,
+<br>AccTypeId int NOT NULL,
+<br>TypeName VARCHAR(100),
+<br>SortOrder int NOT NULL,
+<br>IsInBalanceReport int NOT NULL,
+<br>PRIMARY KEY (AccTypeId,CompId))"};
+</P>
+
+</P>
+<P ALIGN=CENTER><IMG SRC="../images/lazy8color.jpg"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:support@lazy8.nu?subject=Lazy8 Ledger">Lazy
+Eight Data HB email : support@lazy8.nu </A></P>
+<P ALIGN=CENTER><A HREF="http://www.lazy8.nu">http://www.lazy8.nu</A></P>
+<P ALIGN=CENTER><IMG SRC="../images/ceterus.gif"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:info@ceterus.se?subject=Lazy8 Ledger">
+Ceterus Ekonomi AB email : info@ceterus.se </A></P>
+<P ALIGN=CENTER><A HREF="http://www.ceterus.se/">http://www.ceterus.se</A></P>
+</BODY>
+</HTML>

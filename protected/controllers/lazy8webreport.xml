@@ -1,0 +1,1207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lazy8webportreport version="1.00">
+  <report name="Analysis account types/quarter">
+    <desc>Analysis of the account type groupings by quarter for one year </desc>
+    <selectsql>select AccountType.name as Name,&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=1 AND MONTH(Trans.invDate)&lt;=3 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q1',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=4 AND MONTH(Trans.invDate)&lt;=6 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q2',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=7 AND MONTH(Trans.invDate)&lt;=9 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q3',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=10 AND MONTH(Trans.invDate)&lt;=12 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q4'&#13;
+from TransRow join Trans on TransRow.transId=Trans.id  RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id &#13;
+WHERE Trans.companyId={companyId} AND YEAR(Trans.invDate)={year} group by AccountType.id&#13;
+ORDER BY sortOrder</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>11</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Analysis account types/quarter');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Year" alias="{year}" datatype="DROP_DOWN" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc>The year this report will analyse</desc>
+      <phpsecondaryinfo>for($z=15;$z&gt;=0;$z--)$sqlList[date('Y')-$z]=(date('Y')-$z);</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y',strtotime(Yii::app()-&gt;user-&gt;getState('selectedPeriodStart')));</defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="25" name="Show Graph" alias="{ShowGraph}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Show a graphical chart with the reported values</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray($this-&gt;getXmlGraphicFileTitles());$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue>$defaultValue='';</defaultvalue>
+    </parameter>
+    <parameter sortorder="26" name="Negate values for graphics" alias="" datatype="BOOLEAN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Change plus to minus and minus to plus</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <rows sortorder="2" fieldname="Name" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="q1" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="q2" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="q3" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="q4" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Analysis account types/month">
+    <desc>Analysis of the account type groupings by month for one year </desc>
+    <selectsql>select AccountType.name as Name,&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=1,IF(isInBalance=1,amount,-amount),0)),5)) as 'm1',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=2,IF(isInBalance=1,amount,-amount),0)),5)) as 'm2',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=3,IF(isInBalance=1,amount,-amount),0)),5)) as 'm3',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=4,IF(isInBalance=1,amount,-amount),0)),5)) as 'm4',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=5,IF(isInBalance=1,amount,-amount),0)),5)) as 'm5',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=6,IF(isInBalance=1,amount,-amount),0)),5)) as 'm6',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=7,IF(isInBalance=1,amount,-amount),0)),5)) as 'm7',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=8,IF(isInBalance=1,amount,-amount),0)),5)) as 'm8',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=9,IF(isInBalance=1,amount,-amount),0)),5)) as 'm9',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=10,IF(isInBalance=1,amount,-amount),0)),5)) as 'm10',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=11,IF(isInBalance=1,amount,-amount),0)),5)) as 'm11',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=12,IF(isInBalance=1,amount,-amount),0)),5)) as 'm12'&#13;
+from TransRow join Trans on TransRow.transId=Trans.id  RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id &#13;
+WHERE Trans.companyId={companyId} AND YEAR(Trans.invDate)={year} group by AccountType.id&#13;
+ORDER BY sortOrder</selectsql>
+    <csscolorfilename>reportwidecolor.css</csscolorfilename>
+    <cssbwfilename>reportwidebw.css</cssbwfilename>
+    <sortOrder>10</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Analysis account types/month');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Year" alias="{year}" datatype="DROP_DOWN" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc>The year this report will analyse</desc>
+      <phpsecondaryinfo>for($z=15;$z&gt;=0;$z--)$sqlList[date('Y')-$z]=(date('Y')-$z);</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y',strtotime(Yii::app()-&gt;user-&gt;getState('selectedPeriodStart')));</defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="25" name="Show Graph" alias="{ShowGraph}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Show a graphical chart with the reported values</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray($this-&gt;getXmlGraphicFileTitles());$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue>$defaultValue='';</defaultvalue>
+    </parameter>
+    <parameter sortorder="26" name="Negate values for graphics" alias="" datatype="BOOLEAN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Change plus to minus and minus to plus</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <rows sortorder="2" fieldname="Name" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="m1" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="m2" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="m3" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="m4" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="7" fieldname="m5" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="8" fieldname="m6" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="9" fieldname="m7" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="10" fieldname="m8" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="11" fieldname="m9" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="12" fieldname="m10" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="13" fieldname="m11" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="14" fieldname="m12" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Account summary">
+    <desc>A listing of all transactions in each account</desc>
+    <selectsql>select CONCAT('&lt;a href="{url}?r=trans/update&amp;id=',Trans.id,'"  target="_blank"&gt;',{TransNumField},'&lt;/a&gt;') as TransNum, Trans.*,Trans.notes as Notes,TransRow.notes as rownotes,e1.ingoing, Account.code as accountcode, Account.name as accountname,CAST(CONCAT(Customer.code,' ', Customer.name) AS CHAR CHARACTER SET utf8) as CustomerName, IF(amount&lt;0, 0, amount) as Debit,IF(amount&lt;0,-amount,0) as Credit from TransRow join &#13;
+Trans on TransRow.transId=Trans.id JOIN Account on TransRow.accountId=Account.id LEFT join Customer on customerId=Customer.id&#13;
+LEFT JOIN (&#13;
+select if(isInBalance,TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)),0) as 'ingoing',accountId from TransRow join Trans on TransRow.transId=Trans.id join Account on Account.id=accountId join AccountType on AccountType.id=Account.accountTypeId&#13;
+WHERE Trans.companyId={companyId}  AND invDate&lt;DATE '{startDate}' group by accountid) e1 ON  e1.accountId=TransRow.accountId  &#13;
+WHERE Trans.companyId={companyId} AND Trans.invDate&gt;=DATE '{startDate}' AND Trans.invDate&lt;=DATE '{stopDate}' {accountLimit} order by TransRow.accountId,Trans.invDate</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>1</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Account summary');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Start date" alias="{startDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodStart');</defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="End date" alias="{stopDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodEnd');</defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Account" alias="{accountLimit}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>If desired, choose just one account to show</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId=' 	.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'AND Account.id=\',id) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="" alias="{TransNumField}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')=='true'?'Trans.periodNum':'companyNum';</defaultvalue>
+    </parameter>
+    <parameter sortorder="10" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="11" name="Url" alias="{url}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;request-&gt;hostInfo . Yii::app()-&gt;request-&gt;scriptUrl;</defaultvalue>
+    </parameter>
+    <group sortorder="1" breakingfield="accountcode" pagebreak="false" showgrid="false" showheader="false" continuesumsovergroup="false">
+      <field sortorder="1" fieldname="accountcode" fieldwidth="15px" row="1" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="2" fieldname="accountname" fieldwidth="100px" row="1" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+    </group>
+    <rows sortorder="1" fieldname="TransNum" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="invDate" fieldwidth="23px" row="" issummed="false" isalignright="false" isdate="true" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="Notes" fieldwidth="40px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="rownotes" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="CustomerName" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="Debit" fieldwidth="23px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="7" fieldname="Credit" fieldwidth="23px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="8" fieldname="balance" fieldwidth="23px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc>$display=$row['ingoing']+ $sums['Debit'] -$sums['Credit'];</fieldcalc>
+    </rows>
+  </report>
+  <report name="Balance/Result">
+    <desc>The current sum of each account with ingoing and outgoing values.</desc>
+    <selectsql>select IF(isInBalance=1,summa,-summa) as summa,IF(isInBalance=1,ingoing,-ingoing) as ingoing,code as Code,name as Name,sortOrder, isInBalance, typename from (select TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'summa',e1.ingoing,Account.code,Account.name,AccountType.sortOrder, AccountType.isInBalance ,AccountType.name as typename from TransRow join Trans on TransRow.transId=Trans.id  RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id&#13;
+left JOIN (&#13;
+select TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'ingoing',accountId from TransRow join Trans on TransRow.transId=Trans.id WHERE companyId={companyId} AND invDate&lt;DATE '{startDate}' group by accountId) e1 ON  e1.accountId=TransRow.accountId  &#13;
+WHERE Trans.companyId={companyId} AND Trans.invDate&gt;=DATE '{startDate}' AND Trans.invDate&lt;=DATE '{stopDate}' group by TransRow.accountId &#13;
+UNION&#13;
+select e1.summa, TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'ingoing',Account.code,Account.name,AccountType.sortOrder, AccountType.isInBalance, AccountType.name as typename from TransRow join Trans on TransRow.transId=Trans.id RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id&#13;
+left JOIN (&#13;
+select TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'summa',accountId from TransRow join Trans on TransRow.transId=Trans.id WHERE companyId={companyId} AND invDate&gt;=DATE '{startDate}' AND invDate&lt;=DATE '{stopDate}' group by accountId) e1 ON  e1.accountId=TransRow.accountId  &#13;
+WHERE Trans.companyId={companyId} AND Trans.invDate&lt;DATE '{startDate}' AND IsNull(summa) group by TransRow.accountId order by isInBalance DESC,sortOrder,code) e22 {RemoveBlanks}</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>2</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Balance/Result');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Start date" alias="{startDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodStart');</defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="End date" alias="{stopDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodEnd');</defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Remove blanks" alias="{RemoveBlanks}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue= Yii::app()-&gt;user-&gt;getState('RemoveEmptyAmountsInReports')?' WHERE not ((IsNull(summa) OR summa=0) AND ingoing=0) AND not ((IsNull(summa) OR summa=0) AND isInBalance&lt;&gt;1)':'';</defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <group sortorder="1" breakingfield="isInBalance" pagebreak="true" showgrid="false" showheader="false" continuesumsovergroup="false">
+      <field sortorder="1" fieldname="Balance/result" fieldwidth="" row="1" isdate="false" isdecimal="false">
+        <fieldcalc>$display=$row['isInBalance']?Yii::t('lazy8','Balance Report'):Yii::t('lazy8','Result Report');</fieldcalc>
+      </field>
+    </group>
+    <group sortorder="2" breakingfield="typename" pagebreak="false" showgrid="false" showheader="false" continuesumsovergroup="true">
+      <field sortorder="1" fieldname="typename" fieldwidth="" row="" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+    </group>
+    <rows sortorder="1" fieldname="Code" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="Name" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="ingoing" fieldwidth="20px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc>$display=$row['isInBalance']?$row['ingoing']:0.0;</fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="summa" fieldwidth="20px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="outgoing" fieldwidth="20px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc>$display=$row['isInBalance']?($row['ingoing']+ $row['summa']):0.0;</fieldcalc>
+    </rows>
+  </report>
+  <report name="Trial balance">
+    <desc>The current sum of each account </desc>
+    <selectsql>select IF(isInBalance=1,summa,-summa) as summa,IF(isInBalance=1,ingoing,-ingoing) as ingoing,code as Code,name as Name,sortOrder, isInBalance, typename from (select TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'summa',e1.ingoing,Account.code,Account.name,AccountType.sortOrder, AccountType.isInBalance ,AccountType.name as typename from TransRow join Trans on TransRow.transId=Trans.id  RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id&#13;
+left JOIN (&#13;
+select TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'ingoing',accountId from TransRow join Trans on TransRow.transId=Trans.id WHERE companyId={companyId} AND invDate&lt;DATE '{startDate}' group by accountId) e1 ON  e1.accountId=TransRow.accountId  &#13;
+WHERE Trans.companyId={companyId} AND Trans.invDate&gt;=DATE '{startDate}' AND Trans.invDate&lt;=DATE '{stopDate}' group by TransRow.accountId &#13;
+UNION&#13;
+select e1.summa, TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'ingoing',Account.code,Account.name,AccountType.sortOrder, AccountType.isInBalance, AccountType.name as typename from TransRow join Trans on TransRow.transId=Trans.id RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id&#13;
+left JOIN (&#13;
+select TRIM(TRAILING 0 FROM ROUND(SUM(amount),5)) as 'summa',accountId from TransRow join Trans on TransRow.transId=Trans.id WHERE companyId={companyId} AND invDate&gt;=DATE '{startDate}' AND invDate&lt;=DATE '{stopDate}' group by accountId) e1 ON  e1.accountId=TransRow.accountId  &#13;
+WHERE Trans.companyId={companyId} AND Trans.invDate&lt;DATE '{startDate}' AND IsNull(summa) group by TransRow.accountId order by isInBalance DESC,sortOrder,code) e22 {RemoveBlanks}</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>4</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Trial balance');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Start date" alias="{startDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodStart');</defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="End date" alias="{stopDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodEnd');</defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Remove blanks" alias="{RemoveBlanks}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue= Yii::app()-&gt;user-&gt;getState('RemoveEmptyAmountsInReports')?' WHERE not ((IsNull(summa) OR summa=0) AND ingoing=0) AND not ((IsNull(summa) OR summa=0) AND isInBalance&lt;&gt;1)':'';</defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <rows sortorder="1" fieldname="Code" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="Name" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="ingoing" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc>$display=$row['isInBalance']?$row['ingoing']:0.0;</fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="summa" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="outgoing" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc>$display=$row['isInBalance']?($row['ingoing']+ $row['summa']):0.0;</fieldcalc>
+    </rows>
+  </report>
+  <report name="Transactions">
+    <desc>Each transaction created within the given criteria</desc>
+    <selectsql>select CONCAT('&lt;a href="{url}?r=trans/update&amp;id=',Trans.id,'"  target="_blank"&gt;',{TransNumField},'&lt;/a&gt;') as TransNum, Trans.*,Trans.notes as Notes,TransRow.notes as rownotes, Account.code as accountcode, Account.name as accountname,CAST(CONCAT(Customer.code,' ', Customer.name) AS CHAR CHARACTER SET utf8) as CustomerName, IF(amount&lt;0, 0, amount) as Debit,IF(amount&lt;0,-amount,0) as Credit from TransRow join &#13;
+Trans on TransRow.transId=Trans.id JOIN Account on TransRow.accountId=Account.id LEFT join Customer on customerId=Customer.id WHERE Trans.companyId={companyId} AND Trans.invDate&gt;=DATE '{startDate}' AND Trans.invDate&lt;=DATE '{stopDate}' &#13;
+AND {TransNumField}&gt;=CAST('{startTransNum}' as UNSIGNED) AND IF(CAST('{endTransNum}' as UNSIGNED)&gt;0,({TransNumField}&lt;=CAST('{endTransNum}' as UNSIGNED)),true) ORDER BY companyNum</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>3</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Transactions');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Start date" alias="{startDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodStart');</defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="End date" alias="{stopDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodEnd');</defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Start trans num" alias="{startTransNum}" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>If desired, choose just one account to show</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="End trans num" alias="{endTransNum}" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="10" name="" alias="{TransNumField}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')=='true'?'Trans.periodNum':'companyNum';</defaultvalue>
+    </parameter>
+    <parameter sortorder="11" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="12" name="Url" alias="{url}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;request-&gt;hostInfo . Yii::app()-&gt;request-&gt;scriptUrl;</defaultvalue>
+    </parameter>
+    <group sortorder="1" breakingfield="TransNum" pagebreak="false" showgrid="false" showheader="true" continuesumsovergroup="false">
+      <field sortorder="1" fieldname="TransNum" fieldwidth="10" row="" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="2" fieldname="invDate" fieldwidth="20" row="" isdate="true" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="3" fieldname="Notes" fieldwidth="40" row="" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="4" fieldname="fileInfo" fieldwidth="10" row="1" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="5" fieldname="regDate" fieldwidth="20" row="1" isdate="true" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+    </group>
+    <rows sortorder="1" fieldname="accountcode" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="accountname" fieldwidth="40px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="rownotes" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="CustomerName" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="Debit" fieldwidth="23px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="7" fieldname="Credit" fieldwidth="23px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Customer/project accounts">
+    <desc>A listing of all transactions in each account for a customer/project</desc>
+    <selectsql>select CONCAT('&lt;a href="{url}?r=trans/update&amp;id=',Trans.id,'"  target="_blank"&gt;',{TransNumField},'&lt;/a&gt;') as TransNum, Trans.*,Trans.notes as Notes,TransRow.notes as rownotes, Account.code as accountcode, Account.name as accountname,CAST(CONCAT(Customer.code,' ', Customer.name) AS CHAR CHARACTER SET utf8) as CustomerName, IF(amount&lt;0, 0, amount) as Debit,IF(amount&lt;0,-amount,0) as Credit from TransRow join &#13;
+Trans on TransRow.transId=Trans.id JOIN Account on TransRow.accountId=Account.id LEFT join Customer on customerId=Customer.id  &#13;
+WHERE Trans.companyId={companyId} AND Trans.invDate&gt;=DATE '{startDate}' AND Trans.invDate&lt;=DATE '{stopDate}' {accountLimit} {customerLimit} AND not IsNull(Customer.code) order by Customer.code,TransRow.accountId</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>6</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Customer/project accounts');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Start date" alias="{startDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodStart');</defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="End date" alias="{stopDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodEnd');</defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Account" alias="{accountLimit}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>If desired, choose just one account to show</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId=' 	.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'AND Account.id=\',id) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Customer" alias="{customerLimit}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>If desired, choose just one customer/project to show</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Customer::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'AND Customer.id=\',id) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="10" name="" alias="{TransNumField}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')=='true'?'Trans.periodNum':'companyNum';</defaultvalue>
+    </parameter>
+    <parameter sortorder="11" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="12" name="Url" alias="{url}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;request-&gt;hostInfo . Yii::app()-&gt;request-&gt;scriptUrl;</defaultvalue>
+    </parameter>
+    <group sortorder="1" breakingfield="CustomerName" pagebreak="false" showgrid="false" showheader="false" continuesumsovergroup="false">
+      <field sortorder="1" fieldname="CustomerName" fieldwidth="100%" row="" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+    </group>
+    <group sortorder="2" breakingfield="accountcode" pagebreak="false" showgrid="false" showheader="false" continuesumsovergroup="true">
+      <field sortorder="1" fieldname="accountcode" fieldwidth="20%" row="1" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="2" fieldname="accountname" fieldwidth="80%" row="1" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+    </group>
+    <rows sortorder="1" fieldname="TransNum" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="invDate" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="true" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="Notes" fieldwidth="40px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="rownotes" fieldwidth="30px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="Debit" fieldwidth="23px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="7" fieldname="Credit" fieldwidth="23px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Customer/Project">
+    <desc>A list of all customer/projects</desc>
+    <selectsql>select Customer.name as CustomerName,Customer.code as customercode,Customer.desc as description,Account.code as defaultaccountcode, Account.name as defaultaccountname FROM Customer JOIN Account on accountId=Account.id WHERE Customer.companyId={companyId} ORDER BY Customer.code</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>8</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Customer/Project');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <rows sortorder="1" fieldname="customercode" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="CustomerName" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="description" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="defaultaccountcode" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="defaultaccountname" fieldwidth="30px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Chart of accounts">
+    <desc>A list of all the accounts</desc>
+    <selectsql>select Account.code as accountcode,Account.name as accountname, AccountType.isInBalance,AccountType.name as typename from Account join AccountType on AccountType.id = Account.accountTypeId WHERE AccountType.companyId={companyId} ORDER BY Account.code</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>5</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Chart of accounts');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <rows sortorder="1" fieldname="accountcode" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="accountname" fieldwidth="40px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="typename" fieldwidth="30px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc>$display=Yii::t('lazy8',$row['typename']);</fieldcalc>
+    </rows>
+  </report>
+  <report name="Customer/Project Transactions">
+    <desc>Each transaction created within the given criteria for each customer/project</desc>
+    <selectsql>select CONCAT('&lt;a href="{url}?r=trans/update&amp;id=',Trans.id,'"  target="_blank" &gt;',{TransNumField},'&lt;/a&gt;') as TransNum, Trans.*,Trans.notes as Notes,TransRow.notes as rownotes, Account.code as accountcode, Account.name as accountname,Customer.desc as CustomerDesc, CAST(CONCAT(Customer.code,' ', Customer.name) AS CHAR CHARACTER SET utf8) as CustomerName, IF(amount&lt;0, 0, amount) as Debit,IF(amount&lt;0,-amount,0) as Credit from TransRow join &#13;
+Trans on TransRow.transId=Trans.id JOIN Account on TransRow.accountId=Account.id LEFT join Customer on customerId=Customer.id WHERE Trans.companyId={companyId} AND Trans.invDate&gt;=DATE '{startDate}' AND Trans.invDate&lt;=DATE '{stopDate}' &#13;
+AND {TransNumField}&gt;=CAST('{startTransNum}' as UNSIGNED) AND IF(CAST('{endTransNum}' as UNSIGNED)&gt;0,({TransNumField}&lt;=CAST('{endTransNum}' as UNSIGNED)),true) AND not IsNull(Customer.code) ORDER BY Customer.code,Trans.companyNum</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>7</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Customer/Project Transactions');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Start date" alias="{startDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodStart');</defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="End date" alias="{stopDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedPeriodEnd');</defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Start trans num" alias="{startTransNum}" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>If desired, choose just one account to show</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="End trans num" alias="{endTransNum}" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="10" name="" alias="{TransNumField}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')=='true'?'Trans.periodNum':'companyNum';</defaultvalue>
+    </parameter>
+    <parameter sortorder="11" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="12" name="Url" alias="{url}" datatype="HIDDEN_NO_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;request-&gt;hostInfo . Yii::app()-&gt;request-&gt;scriptUrl;</defaultvalue>
+    </parameter>
+    <group sortorder="1" breakingfield="CustomerName" pagebreak="false" showgrid="false" showheader="true" continuesumsovergroup="true">
+      <field sortorder="1" fieldname="CustomerName" fieldwidth="40%" row="" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+      <field sortorder="2" fieldname="CustomerDesc" fieldwidth="60%" row="" isdate="false" isdecimal="false">
+        <fieldcalc></fieldcalc>
+      </field>
+    </group>
+    <rows sortorder="1" fieldname="TransNum" fieldwidth="8px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="invDate" fieldwidth="17px" row="" issummed="false" isalignright="false" isdate="true" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="regDate" fieldwidth="17px" row="" issummed="false" isalignright="false" isdate="true" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="Notes" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="rownotes" fieldwidth="20px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="accountcode" fieldwidth="10px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="7" fieldname="accountname" fieldwidth="30px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="8" fieldname="Debit" fieldwidth="15px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="9" fieldname="Credit" fieldwidth="15px" row="" issummed="true" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Activity log">
+    <desc>Report of all adds, deletes and changes in all the database tables.</desc>
+    <selectsql>SELECT tableName,logType,ChangeLog.changedBy,ChangeLog.dateChanged ,ChangeLog.desc as 'Desc',CAST( CONCAT(Company.code, ' ',Company.name) AS CHAR CHARACTER SET utf8) as companyname  FROM ChangeLog JOIN Company on ChangeLog.companyId=Company.id WHERE ChangeLog.dateChanged&gt;=DATE '{StartDate}' AND ChangeLog.dateChanged&lt;=DATE '{EndDate}' {companyList} {TableName} {LoggingType} {username} {sortorder}</selectsql>
+    <csscolorfilename>reportcolor.css</csscolorfilename>
+    <cssbwfilename>reportbw.css</cssbwfilename>
+    <sortOrder>9</sortOrder>
+    <parameter sortorder="0" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="1" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Activity log');</defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Company" alias="{companyList}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Select a company or leave blank for all companies</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Company::model()-&gt;findAll(array('select'=&gt;'CONCAT(\'AND Company.id=\',id) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Start date" alias="{StartDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The start date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="End date" alias="{EndDate}" datatype="DATE" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc>The end date for the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="User name" alias="{username}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>The name of the user who did the logging</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::listData(User::model()-&gt;findAll(array('select'=&gt;'CONCAT(\'AND ChangeLog.changedBy=\'\'\',username,\'\'\'\') as  id,username','order'=&gt;'username')),'id','username');$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Table name" alias="{TableName}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>The name of the database table the log is about</desc>
+      <phpsecondaryinfo>$sqlList=array(''=&gt;'','AND tableName=\'Company\''=&gt;Yii::t('lazy8','Company'),'AND tableName=\'Trans\''=&gt;Yii::t('lazy8','Trans'),'AND tableName=\'Period\''=&gt;Yii::t('lazy8','Period'),'AND tableName=\'Customer\''=&gt;Yii::t('lazy8','Customer'),'AND tableName=\'Account\''=&gt;Yii::t('lazy8','Account'),'AND tableName=\'AccountType\''=&gt;Yii::t('lazy8','AccountType'),'AND tableName=\'User\''=&gt;Yii::t('lazy8','User'));</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="7" name="Logging type" alias="{LoggingType}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Type of logging done, i.e. ADD, DELETE, UPDATE</desc>
+      <phpsecondaryinfo>$sqlList=array(''=&gt;'','AND logType=\'UPDATE\''=&gt;Yii::t('lazy8','UPDATE'),'AND logType=\'ADD\''=&gt;Yii::t('lazy8','ADD'),'AND logType=\'DELETE\''=&gt;Yii::t('lazy8','DELETE'),'AND logType=\'OTHER\''=&gt;Yii::t('lazy8','OTHER'));</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="8" name="Sort by" alias="{sortorder}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>How to sort the report</desc>
+      <phpsecondaryinfo>$sqlList=array(''=&gt;'','ORDER BY ChangeLog.changedBy'=&gt;Yii::t('lazy8','changedBy'),'ORDER BY Company.name'=&gt;Yii::t('lazy8','Company name'),'ORDER BY ChangeLog.dateChanged'=&gt;Yii::t('lazy8','dateChanged'),'ORDER BY tableName'=&gt;Yii::t('lazy8','tableName'));</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="12" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <rows sortorder="1" fieldname="companyname" fieldwidth="20" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="2" fieldname="tableName" fieldwidth="10" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="logType" fieldwidth="10" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="changedBy" fieldwidth="10" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="dateChanged" fieldwidth="10" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="Desc" fieldwidth="50" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Analysis chosen accounts/month">
+    <desc>Analysis of the account type groupings by month for one year </desc>
+    <selectsql>select CAST(CONCAT(Account.code,' - ',Account.name )AS CHAR CHARACTER SET utf8) as Name,&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=1,IF(isInBalance=1,amount,-amount),0)),5)) as 'm1',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=2,IF(isInBalance=1,amount,-amount),0)),5)) as 'm2',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=3,IF(isInBalance=1,amount,-amount),0)),5)) as 'm3',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=4,IF(isInBalance=1,amount,-amount),0)),5)) as 'm4',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=5,IF(isInBalance=1,amount,-amount),0)),5)) as 'm5',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=6,IF(isInBalance=1,amount,-amount),0)),5)) as 'm6',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=7,IF(isInBalance=1,amount,-amount),0)),5)) as 'm7',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=8,IF(isInBalance=1,amount,-amount),0)),5)) as 'm8',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=9,IF(isInBalance=1,amount,-amount),0)),5)) as 'm9',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=10,IF(isInBalance=1,amount,-amount),0)),5)) as 'm10',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=11,IF(isInBalance=1,amount,-amount),0)),5)) as 'm11',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)=12,IF(isInBalance=1,amount,-amount),0)),5)) as 'm12'&#13;
+from TransRow join Trans on TransRow.transId=Trans.id  RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id &#13;
+WHERE Trans.companyId={companyId} AND YEAR(Trans.invDate)={year} AND (Account.id=0&#13;
+ {account1} {account2} {account3} {account4} {account5} {account6} {account7} {account8} {account9} {account10})&#13;
+group by Account.id&#13;
+ORDER BY Account.code</selectsql>
+    <csscolorfilename>reportwidecolor.css</csscolorfilename>
+    <cssbwfilename>reportwidebw.css</cssbwfilename>
+    <sortOrder>12</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Analysis chosen accounts/month');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Year" alias="{year}" datatype="DROP_DOWN" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc>The year this report will analyse</desc>
+      <phpsecondaryinfo>for($z=15;$z&gt;=0;$z--)$sqlList[date('Y')-$z]=(date('Y')-$z);</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y',strtotime(Yii::app()-&gt;user-&gt;getState('selectedPeriodStart')));</defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="10" name="Chosen Account 1" alias="{account1}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="11" name="Chosen Account 2" alias="{account2}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="12" name="Chosen Account 3" alias="{account3}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="13" name="Chosen Account 4" alias="{account4}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="14" name="Chosen Account 5" alias="{account5}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="15" name="Chosen Account 6" alias="{account6}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="16" name="Chosen Account 7" alias="{account7}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="17" name="Chosen Account 8" alias="{account8}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="18" name="Chosen Account 9" alias="{account9}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="19" name="Chosen Account 10" alias="{account10}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="25" name="Show Graph" alias="{ShowGraph}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Show a graphical chart with the reported values</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray($this-&gt;getXmlGraphicFileTitles());$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue>$defaultValue='';</defaultvalue>
+    </parameter>
+    <parameter sortorder="26" name="Negate values for graphics" alias="" datatype="BOOLEAN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Change plus to minus and minus to plus</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <rows sortorder="2" fieldname="Name" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="m1" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="m2" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="m3" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="m4" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="7" fieldname="m5" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="8" fieldname="m6" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="9" fieldname="m7" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="10" fieldname="m8" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="11" fieldname="m9" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="12" fieldname="m10" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="13" fieldname="m11" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="14" fieldname="m12" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+  <report name="Analysis chosen accounts/quarter">
+    <desc>Analysis of the account type groupings by month for one year </desc>
+    <selectsql>select CAST( CONCAT(Account.code,' - ',Account.name) AS CHAR CHARACTER SET utf8) as Name,&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=1 AND MONTH(Trans.invDate)&lt;=3 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q1',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=4 AND MONTH(Trans.invDate)&lt;=6 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q2',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=7 AND MONTH(Trans.invDate)&lt;=9 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q3',&#13;
+	TRIM(TRAILING 0 FROM ROUND(SUM(IF(MONTH(Trans.invDate)&gt;=10 AND MONTH(Trans.invDate)&lt;=12 ,IF(isInBalance=1,amount,-amount),0)),5)) as 'q4'&#13;
+from TransRow join Trans on TransRow.transId=Trans.id  RIGHT JOIN Account on TransRow.accountId=Account.id JOIN AccountType ON Account.accountTypeId=AccountType.id &#13;
+WHERE Trans.companyId={companyId} AND YEAR(Trans.invDate)={year} AND (Account.id=0&#13;
+ {account1} {account2} {account3} {account4} {account5} {account6} {account7} {account8} {account9} {account10})&#13;
+group by Account.id&#13;
+ORDER BY Account.code</selectsql>
+    <csscolorfilename>reportwidecolor.css</csscolorfilename>
+    <cssbwfilename>reportwidebw.css</cssbwfilename>
+    <sortOrder>13</sortOrder>
+    <parameter sortorder="1" name="Title" alias="" datatype="FREE_TEXT" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>A text that will show only in the header of the report and should describe the report</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="2" name="Report type" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::t('lazy8','Analysis chosen accounts/month');</defaultvalue>
+    </parameter>
+    <parameter sortorder="3" name="Company" alias="{companyId}" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompany');</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('selectedCompanyId');</defaultvalue>
+    </parameter>
+    <parameter sortorder="4" name="User" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('displayname');</defaultvalue>
+    </parameter>
+    <parameter sortorder="5" name="Last used transaction" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=Yii::app()-&gt;user-&gt;getState('showPeriodTransactionNumber')? Period::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedPeriodId'))-&gt;lastPeriodTransNum :Company::model()-&gt;findbyPk(Yii::app()-&gt;user-&gt;getState('selectedCompanyId'))-&gt;lastAbsTransNum;</defaultvalue>
+    </parameter>
+    <parameter sortorder="6" name="Year" alias="{year}" datatype="DROP_DOWN" isdefaultphp="true" isdate="false" isdecimal="false">
+      <desc>The year this report will analyse</desc>
+      <phpsecondaryinfo>for($z=15;$z&gt;=0;$z--)$sqlList[date('Y')-$z]=(date('Y')-$z);</phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y',strtotime(Yii::app()-&gt;user-&gt;getState('selectedPeriodStart')));</defaultvalue>
+    </parameter>
+    <parameter sortorder="9" name="Todays date" alias="" datatype="HIDDEN_SHOW_HEAD" isdefaultphp="true" isdate="true" isdecimal="false">
+      <desc></desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue>$defaultValue=date('Y-m-d');</defaultvalue>
+    </parameter>
+    <parameter sortorder="10" name="Chosen Account 1" alias="{account1}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="11" name="Chosen Account 2" alias="{account2}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="12" name="Chosen Account 3" alias="{account3}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="13" name="Chosen Account 4" alias="{account4}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="14" name="Chosen Account 5" alias="{account5}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="15" name="Chosen Account 6" alias="{account6}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="16" name="Chosen Account 7" alias="{account7}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="17" name="Chosen Account 8" alias="{account8}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="18" name="Chosen Account 9" alias="{account9}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="19" name="Chosen Account 10" alias="{account10}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>An account that will be included in this report</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray(CHtml::listData(Account::model()-&gt;findAll(array('condition'=&gt;'companyId='.Yii::app()-&gt;user-&gt;getState('selectedCompanyId'),'select'=&gt;'CONCAT(\'OR Account.code=\',code) as  id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=&gt;'code')),'id','name'));$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <parameter sortorder="25" name="Show Graph" alias="{ShowGraph}" datatype="DROP_DOWN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Show a graphical chart with the reported values</desc>
+      <phpsecondaryinfo>$sqlList=CHtml::encodeArray($this-&gt;getXmlGraphicFileTitles());$sqlList['']='';</phpsecondaryinfo>
+      <defaultvalue>$defaultValue='';</defaultvalue>
+    </parameter>
+    <parameter sortorder="26" name="Negate values for graphics" alias="" datatype="BOOLEAN" isdefaultphp="false" isdate="false" isdecimal="false">
+      <desc>Change plus to minus and minus to plus</desc>
+      <phpsecondaryinfo></phpsecondaryinfo>
+      <defaultvalue></defaultvalue>
+    </parameter>
+    <rows sortorder="2" fieldname="Name" fieldwidth="50px" row="" issummed="false" isalignright="false" isdate="false" isdecimal="false">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="3" fieldname="q1" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="4" fieldname="q2" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="5" fieldname="q3" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+    <rows sortorder="6" fieldname="q4" fieldwidth="20px" row="" issummed="false" isalignright="true" isdate="false" isdecimal="true">
+      <fieldcalc></fieldcalc>
+    </rows>
+  </report>
+</lazy8webportreport>

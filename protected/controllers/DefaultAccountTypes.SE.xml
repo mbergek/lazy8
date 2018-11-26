@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lazy8webportaccount version="1.00">
+  <accounttype code="100" name="Immateriella anläggningstillgångar" sortorder="100" isinbalance="1"/>
+  <accounttype code="105" name="Materiella anläggningstillgångar" sortorder="105" isinbalance="1">
+  </accounttype>
+  <accounttype code="110" name="Finansiella anläggningstillgångar" sortorder="110" isinbalance="1"/>
+  <accounttype code="115" name="Varulager m.m." sortorder="115" isinbalance="1">
+  </accounttype>
+  <accounttype code="120" name="Fordringar" sortorder="120" isinbalance="1">
+  </accounttype>
+  <accounttype code="130" name="Kortfristiga placeringar" sortorder="130" isinbalance="1"/>
+  <accounttype code="135" name="Kassa och bank" sortorder="135" isinbalance="1">
+  </accounttype>
+  <accounttype code="140" name="Eget Kapital" sortorder="140" isinbalance="1">
+  </accounttype>
+  <accounttype code="145" name="Obeskattade reserver" sortorder="145" isinbalance="1">
+  </accounttype>
+  <accounttype code="150" name="Avsättningar" sortorder="150" isinbalance="1"/>
+  <accounttype code="155" name="Långfristiga skulder" sortorder="155" isinbalance="1">
+  </accounttype>
+  <accounttype code="160" name="Kortfr skulder kreditinst/kund/lev" sortorder="160" isinbalance="1">
+  </accounttype>
+  <accounttype code="165" name="Skatteskulder" sortorder="165" isinbalance="1">
+  </accounttype>
+  <accounttype code="170" name="Övriga kortfristiga skulder" sortorder="170" isinbalance="1"/>
+  <accounttype code="175" name="Uppl kostn/förutbet intäkter" sortorder="175" isinbalance="1">
+  </accounttype>
+  <accounttype code="199" name="Nettoomsättning" sortorder="199" isinbalance="0">
+  </accounttype>
+  <accounttype code="210" name="Utgående kostnader varor, material, mm" sortorder="210" isinbalance="0">
+  </accounttype>
+  <accounttype code="215" name="Övriga externa rörelse utg kostnader" sortorder="215" isinbalance="0">
+  </accounttype>
+  <accounttype code="220" name="Utgående kostnader för personal" sortorder="220" isinbalance="0">
+  </accounttype>
+  <accounttype code="225" name="Avskrivningar" sortorder="225" isinbalance="0">
+  </accounttype>
+  <accounttype code="230" name="Resultat från aktier och andelar i koncernföretag" sortorder="230" isinbalance="0"/>
+  <accounttype code="235" name="Resultat från aktier och andelar i intresseföretag" sortorder="235" isinbalance="0"/>
+  <accounttype code="240" name="Resultat övriga värdepapper/långfr fordringar" sortorder="240" isinbalance="0"/>
+  <accounttype code="245" name="Övriga räntaintäkter och liknande intäkter" sortorder="245" isinbalance="0">
+  </accounttype>
+  <accounttype code="250" name="Räntekostnader och liknande kostnader" sortorder="250" isinbalance="0">
+  </accounttype>
+  <accounttype code="255" name="Extraordinära intäkter" sortorder="255" isinbalance="0"/>
+  <accounttype code="260" name="Extraordinära kostnader" sortorder="260" isinbalance="0"/>
+  <accounttype code="265" name="Bokslutsdispositioner" sortorder="265" isinbalance="0">
+  </accounttype>
+  <accounttype code="270" name="Skatt på årets resultat" sortorder="270" isinbalance="0">
+  </accounttype>
+  <accounttype code="275" name="Övriga skatter" sortorder="275" isinbalance="0">
+  </accounttype>
+</lazy8webportaccount>

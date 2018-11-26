@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><!-- saved from url=(0067)intro/index.html -->
+<HTML>
+<HEAD>
+	<TITLE>Lathund för Lazy8 bokföring</TITLE>
+	<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+	
+	<META content="MSHTML 5.00.3315.2870" name=GENERATOR>
+</HEAD>
+<BODY bgColor=#ffffff link=#000099><B><FONT size=-1>Lathund för Lazy8 bokföring</FONT></B> <BR>
+<TABLE width=550>
+  
+  <TR>
+    <TD align=left vAlign=center><A 
+      href="reports.sv.html" 
+      ><IMG align=center alt="Föregående sida" border=0 src="images/PreviousArrow.gif" ></A> 
+      <A href="tutorialmain.sv.html" 
+      ><IMG align=center alt="Innehålsförteckning" border=0 
+      src="images/TOCIcon.sv.gif" ></A> <A 
+      href="backup.sv.html" 
+      ><IMG align=center alt="Nästa sida" border=0 
+      src="images/NextArrow.gif" ></A></TD>
+      </TR>
+
+</TABLE>
+<IMG align=bottom height=8 src="images/blueline.gif" width=550 NATURALSIZEFLAG="3">
+<!-------------------------------End of header--------------------------------------------->
+<H2>Lesson: Diagrams </H2>
+<BLOCKQUOTE>Detta beskriver hur man kan skapa 
+Denna sida beskriver hur man skapa stapel, pie och linje diagram för analys av dina konto.  
+Med denna kraftig verktyg kan du får en snabb överblick av ditt bolag.  Du kan visa rörelser
+i alla konto under vilket tidsinterval som helst.  Det är möjligt att gruppera konto tillsammans
+under ett namn och en summa och det finns grupper som är fördefinierade, t.ex., vinst, tillgångar,
+skulder, inkomster och utgifter.
+<br><br>
+Det finns en till dimension till analysen.  Du kan jämföra upp till 5 olika tidsinterval sida vid sida.
+T. ex. för att jämför 2 tidsinterval kunde man jämför varje månad av föra året med varje månad av 
+detta år, alltihop i ett enda diagram.
+<br><br><br>
+<IMG src="images/diagram1.sv.png">
+<br><br><br>
+Alla fält som krävs för att definiera ett diagram finns nedan:
+<h1><a name="company"></a>Bolag</h1>
+<p>Detta kan bara
+rapportera ett bolag i taget. Här måste du välja det bolag som skall skrivas ut.
+Om du bara har ett enda bolag skall detta vara förifyllt och oåtkomligt.&nbsp; Se <a
+href="setup.sv.html">Inställningar</a>
+ för mer information om hur man väljer ett
+basbolag att arbeta med. </p>
+
+<h1><a name="includebalances"></a>
+Inkludera inkommande balans</h1>
+Detta är en av de viktigaste parametrar till skapelsen av diagrammet.  Om detta är ikryssat,
+kommer alla tillgångar och skulder att visas som en ackumulerade summa.  Denna summa innehåller
+alla rörelser i kontot upp till detta tidsinterval.  Kort sagt, detta visar balansen i konton.
+Om detta är inte ikryssat kommer alla tillgångar och skulder att visas som bara rörelser i konton
+under angiven perioden.  Detta påverker inte inkomster eller utgifter.
+
+<h1><a name="groupdeletecreate"></a>
+Radera och skapa grupp knappar</h1>
+Man har möjligheten att skapa eller radera grupper av konto som du bestämmer har något gemensamt
+som borde visas i diagrammet under ett namn och en summa.  När du slår 'Skapa grupp' knappen
+visas en lista av alla konton som är inte redan grupperat.  Bara välja konton du vill gruppera
+och ange ett namn för gruppen.  När man slår 'Radera grupp' knappen visas en lista av alla grupper
+och man kan välja gruppen man vill radera.
+<h1><a name="title"></a>
+Diagram titel</h1>
+Angiven text i detta fält visas högst upp på diagrammet i ett stort teckensnitt.
+<h1><a name="titlex"></a>
+X axis titel</h1>
+Angiven text i detta fält visas på botten av diagrammet för att visa vilken enhet x axis har.
+Fast, man kan ange vad som helst här eftersom det är självklart att denna axis är tiden och 
+kanske inga vidare förklaring krävs.
+<h1><a name="titley"></a>
+Y axis titel</h1>
+Angiven text i detta fält visas i sidled på den vänstra sidan av diagrammet för att visa vilken enhet y axis har.
+Det kunde vara bra att ange vilken typ av valuta används t.ex 'Euro', 'Kronor' eller 'US Dollar'
+<h1><a name="findimage"></a>
+Hitta bakgrunds-bild</h1>
+
+Detta är en bild som visas i bakgrunden av diagrammet.  Denna får lämnas tom om
+man vill.  Bilden kan vara i PNG, JPEG, eller GIF
+format.  Knappen finns här för att hjälpa dig hitta en bild i fil systemet.
+Man kan också ange en URL här.  Exempel på URL - 'http://www.lazy8.nu/lazy83d.jpg'
+och om du ange just detta och är kopplade till internet kommer en fin lazy8 logo att
+visas i bakgrunden av diagrammet.
+<h1><a name="accounts"></a>
+Konto</h1>
+Här visas en lista av alla konto för bolaget.  Kryssa i 'Visa' kolumnen för att välja vilka konto
+som ska visas i diagrammet.  I vissa konto är det alltid en negativ balans och i diagrammet är det
+kanske bättre att visa den absolut värden av konto balansen.  Kryssa i 'Invertera' kolumnen för att invertera 
+just ett sådan konto.  Att behandla ett konto så här visar inte riktig absolut värden av balansen men den 
+inverterade värden.  T.ex. om du har ett negativ värde i kontot kommer det att visas som positiv.  Om
+du har ett positiv värde kommer det att visas som negativ.  Detta används mest för konto som är 
+skulder eller inkomster.</P>
+
+Om du har <a href="graphics.sv.html#groupdeletecreate">skapat en grupp</a>
+av konton visas grupp namnet i 'Grupp' kolumnen.  Man kan inte ta bort visning av ett grupperat 
+konto igenom att ta bort kryssen från 'Visa' kolumnen.  Man måste radera gruppen istället.
+<h1><a name="predefinedgroups"></a>
+Fördefinierade grupper</h1>
+Här finns några mycket användbara fördefinierade grupper som du kanske vill visa i diagrammet.
+De beskrivs nedan:
+
+<br><b>Vinst</b><br>
+Välj denna grupp för att visa vinsten i diagrammet. <a href="graphics.sv.html#includebalances">
+'Inkludera inkommande balans'</a> val möjligheten kommer inte att påverka just vinsten.
+<br><b>Tillgångar plus skulder</b><br>
+Välj denna grupp för att visa summan av Tillgångar och skulder i diagrammet.
+<a href="graphics.sv.html#includebalances">
+'Inkludera inkommande balans'</a> val möjligheten kommer att påverka denna grupp och i sådana
+fall kunde man kalla gruppen för 'Kapital i bolaget' eftersom det är just detta det blir.  Men,
+utan 'Inkludera inkommande balans' valet kommer denna grupp att visa exakt samma sak som vinst
+gruppen.
+
+<br><b>Tillgångar, skulder, inkomster och utgifter</b><br>
+Dessa grupper visar summan av deras respektive konto.
+<br><br><br>
+<IMG src="images/diagram2.sv.png">
+<br><br><br>
+<h1><a name="timeinterval"></a>
+Tidsinterval</h1>
+Här kan du välja hur länga varje tidsinterval ska vara i diagrammet.  Om man väljer 
+'Alla angiven data' visas enbart en period.
+<h1><a name="numberoftimeintervals"></a>
+Antal tidsinterval att visa</h1>
+Detta är hur många av <a href="graphics.sv.html#timeinterval">
+Tidsinterval</a> ska visas i diagrammet.  Om man väljer 
+'Alla angiven data' används inte denna fält eftersom enbart en period visas.
+
+<h1><a name="startdates"></a>
+Tidsinterval start datum</h1>
+Enbart den första start datum i lista krävs.  Vanligtvis är det enbart den första start datumet
+som används.  Om man ska jämför två tidsinterval sida vid sida på ett enda diagram måste du fylla i
+'jämförelse datum 1'.  Om man vill jämför flera tidsinterval kan man jämför upp till 5 jämförelser..
+
+<h1><a name="graphtypes"></a>
+Vilken diagramtyp</h1>
+Här kan man välja vilka typer av diagram att visa.  Alla visa samma sak (förutom pie diagram)
+så att det är bara en smaksak vilket man ska välja här.  Pie diagrammet är mycket ovanligt och
+möjligtvis oanvändbart.  Men, om du gillar det kan du använda det.  Annars låt bli.
+
+<br><br><br>
+<IMG src="images/diagram3.sv.png">
+<br><br><br>
+<h1><a name="Reports"></a>Rapport</h1>
+
+<p>Här kan du välja
+en fördefinierade diagram. </p>
+
+<h1><a name="Select"></a>SQL fråga fönster</h1>
+
+<p>Här kan du mata
+in diagramdefinitionen om du kan SQL programmering.&nbsp; 
+. </p>
+
+<h1><a name="Save"></a>Spara</h1>
+
+<p>Om du har skrivit
+en ny diagramdefinition (troligen inte) då kan du då använda denna knapp för
+att spara din definition under det namn som finns i Rapportfältet.&nbsp; Men du
+skulle nog istället använda &quot;spara som&quot; kappen som beskrivs nedan. </p>
+
+<h1><a name="SaveAs"></a>Spara som</h1>
+
+<p>När du har skrivit
+en ny diagramdefinition (troligen inte) då ska du trycka på denna knapp och du blir
+då tillfrågad om ett namn för den nya rapporten.&nbsp; Detta namn ska sedan
+visas i det föregående Rapport fältet . </p>
+
+<h1><a name="Delete"></a>Radera</h1>
+
+<p>Akta dig
+här.&nbsp; Detta kommer att radera diagramdefinitionen som vissas i det föregående
+Rapportfältet.</p>
+
+<h1><a name="Clear"></a>Tömma</h1>
+
+<p>Detta ska tömma
+det föregående SQL fråga fönstret. </p>
+
+<br><br><br>
+<IMG src="images/diagram4.sv.png">
+<br><br><br>
+<h1><a name="showdiagram"></a>
+Visa diagram knappen</h1>
+Denna knapp skapar och visar diagrammet som definierades.  Diagrammet dykar upp i ett annat 
+fönster som har sina egna menyer för att spara, skriva ut och t.o.m ändra några egenskaper av
+diagrammet.<br>
+Man kan höger-klicka var som helst på diagrammet och få upp en meny för zoomning.<br>
+Det är viktig att du dra ut eller krympa fönstret innan du spara diagrammet eftersom storleken av
+fönstret är exakt vad sparas i filen.  Men, utskrifterna påverkas inte av fönster storlek och 
+utskrifterna fyller alltid en hel sida.<br>
+<h1><a name="exit"></a>Exit</h1>
+Lämna denna skärm
+<h1><a name="help"></a>Hjälp</h1>
+Visa en  hjälpskärm om denna diagramdefinition.
+
+
+</BLOCKQUOTE>
+    
+<!-------------------------------beginning of footer--------------------------------------------->    
+<IMG align=bottom height=8 src="images/blueline.gif" 
+width=550 NATURALSIZEFLAG="3"> <BR>
+<TABLE width=550>
+  
+  <TR>
+    <TD align=left vAlign=center>
+      <A href="reports.sv.html" 
+      ><IMG align=center alt="Föregående sida" border=0 src="images/PreviousArrow.gif" ></A> 
+      <A href="tutorialmain.sv.html" 
+      ><IMG align=center alt="Innehålsförteckning" border=0 
+      src="images/TOCIcon.sv.gif" ></A> 
+      <A href="backup.sv.html" 
+      ><IMG align=center alt="Nästa sida" border=0 
+      src="images/NextArrow.gif" ></A>
+     </TD>
+  </TR>
+
+</TABLE>
+<P><FONT size=-1><A 
+href="../doc/copyright.sv.html">Copyright</A> 
+2002 Lazy Eight Data HB </FONT></P>
+</BODY>
+</HTML>

@@ -1,0 +1,119 @@
+div.report
+{
+}
+
+/* begin data grid style */
+table.ReportHeader
+{
+	border-collapse: collapse;
+	margin:1.0em 0 1.0em 0;
+}
+
+table.ReportHeader th, table.ReportHeader td
+{
+	font-size: 0.9em;
+	border: 1px #4F81BD solid;
+	padding: 0.3em;
+}
+
+table.ReportHeader th
+{
+	text-align: center;
+}
+
+table.ReportHeader th.label
+{
+	width: 150px;
+}
+
+table.ReportHeader tr.odd
+{
+}
+/* end of data grid style */
+
+/* begin data grid style */
+table.ReportRows
+{
+	border-collapse: collapse;
+	width: 1600px;
+	table-layout:fixed;
+	word-wrap: break-word;
+}
+
+table.ReportRows th, table.ReportRows td
+{
+	font-size: 0.8em;
+	border: 1px #4F81BD solid;
+	padding: 0.3em;   
+}
+
+table.ReportRows th
+{
+	font-size: 0.7em;
+	text-align: center;
+}
+table.ReportRows tr.ReportSums
+{
+	font-weight: bold; 
+}
+
+table.ReportRows th.label
+{
+	width: 150px;
+}
+
+table.ReportRows tr.odd
+{
+}
+/* end of data grid style */
+
+
+/* begin data grid style */
+table.ReportGroupTable0,table.ReportGroupTable1,table.ReportGroupTable2,table.ReportGroupTable3
+{
+	width: 1600px;
+	background: white;
+	border-collapse: collapse;
+	margin:1.0em 0 0 0;
+}
+
+table.ReportGroupTable0 th, table.ReportGroupTable0 td,table.ReportGroupTable1 th, table.ReportGroupTable1 td,table.ReportGroupTable2 th, table.ReportGroupTable2 td,table.ReportGroupTable3 th, table.ReportGroupTable3 td
+{
+	font-size: 1.5em;
+	padding: 0.3em;
+}
+
+table.ReportGroupTable0 th,table.ReportGroupTable1 th,table.ReportGroupTable2 th,table.ReportGroupTable3 th
+{
+	text-align: center;
+}
+table.ReportGroupTable0 th,table.ReportGroupTable1 th,table.ReportGroupTable2 th,table.ReportGroupTable3 th
+{
+	font-size: 0.8em;
+	text-align: left;
+}
+
+table.ReportGroupTable0 tr.odd,table.ReportGroupTable1 tr.odd,table.ReportGroupTable2 tr.odd,table.ReportGroupTable3 tr.odd
+{
+}
+table.ReportGroupTable1
+{
+	margin:1.0em 0 0 3.0em;
+}
+table.ReportGroupTable2
+{
+	margin:1.0em 0 0 6.0em;
+}
+table.ReportGroupTable3
+{
+	margin:1.0em 0 0 9.0em;
+}
+tr.ReportSumsSums
+{
+	font-style: italic;
+	font-weight: bold; 
+	margin-right: 2em;
+	color:grey;
+	content: 5.0em 0 0 0;
+}
+/* end of data grid style */

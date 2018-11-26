@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Lazy8Web Change log</TITLE>
+	<STYLE TYPE="text/css">
+	</STYLE>
+</HEAD>
+<BODY LANG="en_US">
+
+<h2>Version 2.03 2011-02-27</h2>
+<p>
+<ul>
+	<li>Very minor errors in the template module that is included in this distribution</li>	
+</ul>
+</p>
+<h2>Version 2.02 2011-02-23</h2>
+<p>
+<ul>
+	<li>New installation error. Crashed with message "cant open table Message". Fixed</li>	
+</ul>
+</p>
+<h2>Version 2.01 2011-02-22</h2>
+<p>
+<ul>
+	<li>phpcalc field in Templates did not work for credit values. Fixed. Since the 
+	templates module is included in this release then this release must have a new
+	version number as well</li>	
+</ul>
+</p>
+<h2>Version 2.00 2011-02-17</h2>
+<p>
+<ul>
+	<li>Added a module structure to the code to allow the easy adding of completely
+	seperate modules and functionality.</li>	
+	<li>Added the first new module to Lazy8Web called Templates. Templates allows you to 
+	create templates to make entering transactions much easier.  If you update from
+	version 1.13 to 2.00 you will need to make changes to your config/main.php file to be able
+	to use the new template module.</li>	
+	<li>Yii framework has been updated to version 1.16</li>	
+	<li>Very minor bugs have been found and fixed. You probably never noticed them.</li>	
+</ul>
+</p>
+
+<h2>Version 1.13 2011-01-14</h2>
+<p>
+<ul>
+	<li>When creating new posts in almost any table, if you put in a text where you 
+	should put in a number, it crashed instead of giving an error message. Fixed.</li>	
+</ul>
+</p>
+
+<h2>Version 1.12 2010-10-22</h2>
+<p>
+<ul>
+	<li>Added port number option to the mysql database connect screen</li>	
+</ul>
+</p>
+
+<h2>Version 1.11 2010-10-22</h2>
+<p>
+<ul>
+	<li>Changed all the code in this project to be STRICT complient to php standards</li>	
+</ul>
+</p>
+
+<h2>Version 1.10 2010-10-18</h2>
+<p>
+<ul>
+	<li>When editing a transaction, if you erased all rows and saved, then the transaction would
+	be forever lost and creating lots of problems.  Fixed</li>	
+	<li>Added graphical charts to some of the reports</li>
+	<li>Added pdf output for all reports</li>
+</ul>
+</p>
+
+<h2>Version 1.09 2010-04-28</h2>
+<p>
+<ul>
+	<li>A transaction that was copied kept the original registration date instead of getting a 
+	new registration date.  Fixed</li>		
+</ul>
+</p>
+
+<h2>Version 1.08 2010-04-25</h2>
+<p>
+<ul>
+	<li>Did not work in windows due to usage of a function that is defined to not 
+	work in windows. It was the date function strptime.  Fixed</li>		
+</ul>
+</p>
+
+<h2>Version 1.07 2010-04-24</h2>
+<p>
+<ul>
+	<li>The analysis monthly reports were showing poorly due to unclosed divisions. Fixed</li>		
+</ul>
+</p>
+
+<h2>Version 1.06 2010-04-20</h2>
+<p>
+<ul>
+	<li>Export company did not work in Safari browser. Fixed</li>	
+	<li>Reinstall reports resulted in multiple reports with the same name.  Fixed.</li>	
+	<li>Changed the default names of all export files to include a description of the file.</li>		
+</ul>
+</p>
+
+
+<h2>Version 1.05 2010-04-19</h2>
+<p>
+<ul>
+	<li>Cosmetic change.  Added space between the report header table and the report</li>	
+	<li>Cosmetic change.  User update page looked bad in Safari browser. fixed.</li>	
+	<li>Cosmetic change.  Report header table looked bad in Safari browser. fixed.</li>	
+	<li>Several changes to the Swedish language. </li>	
+</ul>
+</p>
+
+
+<h2>Version 1.04 2010-04-19</h2>
+<p>
+<ul>
+	<li>Re-organized the user-security system to make it more understandable, logical and easy to use.
+	If updating from a previous version, you need to update manually the options moved to the "company" screen</li>	
+</ul>
+</p>
+
+<h2>Version 1.03 2010-04-15</h2>
+<p>
+<ul>
+	<li>Added dateLastLogin and dateLastLogout to the table User to be able to track if somebody is possibly logged in</li>	
+	<li>Added list of possibly logged in users to main screen for administrators.</li>	
+	<li>The text key 'contexthelp.BalanceRow' needed a better translation into Swedish and English. Fixed</li>	
+	<li>Added a version handling system for each language. The initial value of the version for each language is now 1.00</li>	
+</ul>
+</p>
+
+
+
+<h2>Version 1.02 2010-04-14</h2>
+<p>
+<ul>
+	<li>Cosmetic changes. The screen is now wider</li>
+	<li>Cosmetic changes. Added link in the header from Lazy8Web to the home screen</li>
+	<li>Cosmetic changes. Added link in the header from the username to the users profile</li>
+	<li>Cosmetic changes. Added link in the header from the accounting period to the accounting period selection</li>
+	<li>The Swedish language has been updated.  Thanks to Martin</li>
+	<li>The text 'Select Company/Period for' was not translateable. Fixed</li>	
+	<li>The screen for management of transactions had a field header 'notes' that refused to be translated into other languages. Fixed</li>
+</ul>
+</p>
+
+
+<h2>Version 1.01 2010-04-08</h2>
+<p>
+<ul>
+	<li>The importing of accounts and account types from xml file resulted in all account types having a definition of 
+	"false" to the field "is in balance" which makes then the balance/result report show negative numbers for all 
+	balance accounts. This problem normally only showed up if you chose to use the standard accounts.  This is now fixed.
+	</li>
+</ul>
+</p>
+
+<h2>Version 1.00 2010-04-06</h2>
+<p>
+<ul>
+	<li>Added 4 new reports.  They are:
+	<ul>
+		<li>Analysis account types/month</li>
+		<li>Analysis account types/quarter</li>
+		<li>Analysis chosen accounts/month</li>
+		<li>Analysis chosen accounts/quarter</li>
+	</ul>
+	</li>
+	<li>Fixed Trial Balance report which had a problem with all numbers were shown as the negative value
+	of what it should be</li>
+	<li>Added about 30 new translations to all languages.  These translations are seldom used error messages</li>
+	<li>The language Lithuanian was not existing as promised. It was missed by accident. It has now been added.</li>
+	<li>Created the version handling and marking system.</li>
+</ul>
+</p>
+
+<h2>Version 0.99 Beta 2010-03-02</h2>
+<p>
+First release of Lazy8Web.  This release is not marked in any way with a version number but
+is now afterwards called 0.99 Beta.
+</p>
+
+</BODY>
+</HTML>

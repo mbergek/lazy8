@@ -1,0 +1,171 @@
+/* begin overall style */
+body
+{
+	margin: 0 0 40px 0;
+	padding: 0;
+	color: #444;
+	font: normal 10pt Arial,Helvetica,sans-serif;
+	background:white ;
+}
+
+#page
+{
+	width: 850px;
+	margin: 0 0 0 10px;
+	padding: 0;
+}
+
+#header
+{
+	margin: 0;
+	padding: 0;
+	height: 100px;
+	width: 850px;
+}
+
+#header table {
+	width: 100%;
+}
+
+#logo
+{
+	padding: 16px 0 0 10px;
+	font-size: 200%;
+}
+#logo a
+{
+	color:black;
+	text-decoration: none;
+}
+#logo a:hover
+{
+	color:blue;
+	text-decoration: underline;
+}
+#titleperiod a
+{
+	color:black;
+	text-decoration: none;
+}
+#titleperiod a:hover
+{
+	color:blue;
+	text-decoration: underline;
+}
+#titleperioderror a
+{
+	color:red;
+	text-decoration: none;
+}
+#titleperioderror a:hover
+{
+	color:blue;
+	text-decoration: underline;
+}
+
+#mainmenu
+{
+	position: absolute;
+	top: 59px;
+	width: 100px;
+}
+
+div#page div#header ul#menu.menu {
+	margin-top: 20px;
+}
+
+div#page div#header ul#menu.menu .menulink {
+	width: 155px;
+}
+
+#mainmenu ul
+{
+	padding: 0;
+	margin: 0;
+	padding: 0.4em 0 0.3em 0;
+}
+
+#mainmenu ul li
+{
+	display: inline;
+}
+
+#mainmenu ul li a
+{
+	padding: 0.4em 0.4em;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#mainmenu ul li a:hover, #mainmenu ul li a.active
+{
+	background: #E6F2FF;
+	color: #6399cd;
+}
+
+#content
+{
+    position: relative;
+    width: 95%;
+    margin: 0 auto;
+	margin-top: 50px;
+    padding: 0px;
+}
+
+#footer
+{
+	padding: 15px;
+	margin: 20px 0 0 0;
+	font-size: 0.8em;
+	text-align: center;
+	border-top: 1px solid #EEE;
+}
+/* end of overall style */
+
+/* begin data grid style */
+table.dataGrid
+{
+	background: white;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.dataGrid th, table.dataGrid td
+{
+	font-size: 0.9em;
+	border: 1px #4F81BD solid;
+	padding: 0.3em;
+}
+
+table.dataGrid th
+{
+	background: #d3dfee;
+	text-align: center;
+}
+
+table.dataGrid th.label
+{
+	width: 150px;
+}
+
+table.dataGrid tr.odd
+{
+	background: #E6F2FF;
+}
+/* end of data grid style */
+
+.actionBar
+{
+	margin: 10px;
+}
+
+div.item
+{
+	margin: 10px 0 0 0;
+	border: 1px solid silver;
+	padding: 5px;
+}
+label.help:hover {background:white;  border:lightblue 2px solid;}
+{
+}

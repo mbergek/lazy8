@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lazy8webportaccount version="1.00">
+    <accounttype code="0" name="Current Assets" sortorder="100" isinbalance="1" >
+      <account code="11200" name="Bank - 1" />
+      <account code="11300" name="Bank - 2" />
+      <account code="12100" name="Accounts Receivable" />
+      <account code="12200" name="Allowance for Bad Debts" />
+      <account code="12400" name="Accounts Receivable - Other" />
+      <account code="13000" name="Inventory" />
+      <account code="14000" name="Prepaid Expenses" />
+      <account code="14100" name="Prepaid Deposits" />
+      <account code="24100" name="Income Tax Payable - Prov." />
+    </accounttype>
+    <accounttype code="1" name="Current Liabilities" sortorder="200" isinbalance="1" >
+      <account code="22100" name="Accounts Payable" />
+      <account code="22200" name="Accrued Liabilities" />
+      <account code="22300" name="Accounts Payable - Other" />
+      <account code="22400" name="Visa payable" />
+      <account code="22500" name="Wages Payable" />
+      <account code="23510" name="GST Charged on Sales" />
+      <account code="23520" name="GST Paid on Purchases" />
+      <account code="23530" name="GST Instalments" />
+      <account code="23540" name="GST Payable" />
+      <account code="23600" name="PST Payable" />
+      <account code="23700" name="CPP Payable" />
+      <account code="23800" name="EI Payable" />
+      <account code="23900" name="Employee Tax Payable" />
+      <account code="24000" name="Income Tax Payable - Fed." />
+      <account code="25300" name="Line of Credit" />
+      <account code="25400" name="Shareholder Loan" />
+      <account code="25900" name="Current Portion of Debt CL" />
+    </accounttype>
+    <accounttype code="2" name="Revenues" sortorder="400" isinbalance="0" >
+      <account code="41100" name="Sales" />
+      <account code="41200" name="Other Income" />
+      <account code="41300" name="GST ITC adjustment" />
+    </accounttype>
+    <accounttype code="3" name="Expenses" sortorder="500" isinbalance="0" >
+      <account code="61050" name="Accounting" />
+      <account code="61100" name="Advertising &amp; Marketing" />
+      <account code="61200" name="Amortization" />
+      <account code="61400" name="Bad Debts" />
+      <account code="61500" name="Bank Charges &amp; Interest" />
+      <account code="61550" name="Business tax and licences" />
+      <account code="61600" name="Computing expenses" />
+      <account code="61620" name="Courier" />
+      <account code="61650" name="Consulting Fees" />
+      <account code="61700" name="Dues &amp; Subscriptions" />
+      <account code="61800" name="Education &amp; Training" />
+      <account code="61900" name="Employee benefits" />
+      <account code="61950" name="Franchise fees" />
+      <account code="62000" name="Insurance" />
+      <account code="62100" name="Interest on Debt" />
+      <account code="62200" name="Legal Fees" />
+      <account code="62250" name="Management Salaries" />
+      <account code="62300" name="Meals &amp; Entertainment" />
+      <account code="62400" name="Miscellaneous" />
+      <account code="62500" name="Office Supplies" />
+      <account code="62600" name="Rent" />
+      <account code="62700" name="Repairs &amp; Maintenance" />
+      <account code="62750" name="Supplies" />
+      <account code="62800" name="Telephone &amp; Internet" />
+      <account code="62900" name="Travel &amp; Parking" />
+      <account code="62950" name="Utilities" />
+      <account code="63000" name="Vehicle expenses" />
+      <account code="64000" name="Wages" />
+    </accounttype>
+    <accounttype code="4" name="Equity" sortorder="300" isinbalance="1" >
+      <account code="30000" name="Common Shares" />
+      <account code="35000" name="Retained Earnings" />
+      <account code="36000" name="Dividends" />
+      <account code="38000" name="Capital" />
+      <account code="38500" name="Capital Contributions" />
+      <account code="39000" name="Drawings" />
+    </accounttype>
+    <accounttype code="6" name="Cost of Sales" sortorder="450" isinbalance="0" >
+      <account code="51100" name="Inventory - Opening" />
+      <account code="51200" name="Purchases" />
+      <account code="51300" name="Shipping - Courier" />
+      <account code="52200" name="Inventory - Closing" />
+    </accounttype>
+    <accounttype code="7" name="Long Term Assets" sortorder="150" isinbalance="1" >
+      <account code="15110" name="Furniture and Equipment" />
+      <account code="15120" name="Acc. Am. - Furn. &amp; Equip." />
+      <account code="15210" name="Computer Equipment" />
+      <account code="15220" name="Acc. Am. - Computer Equip." />
+      <account code="15310" name="Vehicle" />
+      <account code="15320" name="Acc. Am. - Vehicle" />
+    </accounttype>
+    <accounttype code="8" name="Long Term Liabilities" sortorder="250" isinbalance="1" >
+      <account code="26200" name="Term Loan" />
+      <account code="26300" name="Current Portion of Debt LT" />
+    </accounttype>
+</lazy8webportaccount>

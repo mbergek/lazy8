@@ -1,0 +1,212 @@
+<!/imagestype html public "-/w3c/dtd html 4.0 transitional/en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+   <meta name="CHANGEDBY" content="Thomas Dilts">
+</head>
+<body>
+
+<div STYLE="margin-bottom: 0in"></div>&nbsp;
+
+<br>
+<hr>
+
+<p STYLE="margin-bottom: 0in">[ <a href="index.en.html">Contents</a> ]
+[ <a href="copyright.en.html">Copyright Notice</a> ]
+<br>
+<hr>
+<br><b><font color="#000000"><font size=+3>CSV(Comma Separated Variable) Options 
+and number formats</font></font></b>
+<br>This section describes all the options available for specifying the exact format
+of the CSV files.  Although CSV is a standard, there are many variations to 
+this standard depending on what country the CSV file is created in and what program has
+created the CSV file. See the sections 
+<a href="exportoptions.en.html#standardspecification">"Standard CSV format specification"</a>
+ and 
+ <a href="exportoptions.en.html#excelspecification">"Excel CSV format specification"</a>.
+  Then, aside from the CSV format, there is no standard for the format of each field in the
+CSV file.  The main field format problems are with money, numbers and dates which are very country and
+language dependent.  Therefore, you must
+specify how money, numbers, and dates will be formated in the CSV file.  The default formats for
+money, numbers, and dates are what JAVA has determined is standard for your specific locale.  You might need to make
+changes to these default formats to meet your specific needs.  In some of the import/export 
+operations, there are perhaps no dates or monies involved.  In such cases, you will not be presented
+the possibility to change the formats of money or dates.
+<h1><a name="company"></a>
+Company</h1>
+Choose here which company you want to work with.&nbsp; Most users will
+have only one company to work with and in such a case then there should
+be no selection necessary and the company will come here automatically
+and in such a case this field will even be disabled so you wont be able
+to choose a company.&nbsp; Please see <a href="setup.en.html">SETUP&nbsp;</a>
+for more information on how to choose a default company and <a href="company.en.html">Company</a>
+to see how to enter more companies.
+<br>&nbsp;
+<h1><a name="csvtype"></a>Csv type</h1>
+Lazy8 Ledger supports two Csv types.  First there is the Microsoft Excel type that only Microsoft Excel uses.
+  Then there is the standard type that everybody else uses.  For specifications of these types, 
+  see the sections 
+<a href="exportoptions.en.html#standardspecification">"Standard CSV format specification"</a>
+ and 
+ <a href="exportoptions.en.html#excelspecification">"Excel CSV format specification"</a>.
+  
+<h1><a name="standard"></a>Standard</h1>
+The standard type is probably what you need as long as you are planning on not using Microsoft Excel.
+ For a technical description of the format, see the section 
+ <a href="exportoptions.en.html#standardspecification">"Standard CSV format specification"</a>
+<h1><a name="excel"></a>Microsoft Excel</h1>
+The Microsoft Excel type should only be used if you are planning on exporting/importing to/from
+Microsoft Excel.  For a technical description of the format, see the section 
+ <a href="exportoptions.en.html#excelspecification">"Excel CSV format specification"</a>.
+
+<h1><a name="delimiter"></a>Delimiter</h1>
+The name "Comma separated variables" implies that a comma is the delimiter (character to separate fields).
+But, in some cases,
+specifically some countries in Europe and perhaps elsewhere, the comma is not the delimiter but a 
+semicolon is the delimiter in the CSV(Comma separated variables) format.
+<h1><a name="comma"></a>Comma</h1>
+This is the normal selection.  A comma should always be used as the delimiter if possible. See the
+<a href="exportoptions.en.html#delimiter">Delimiter</a> section.
+<h1><a name="semicolon"></a>Semicolon</h1>
+This is the exceptional case.  This format is only valid in a few countries using a few special programs. 
+See the <a href="exportoptions.en.html#delimiter">Delimiter</a> section.
+
+<h1><a name="StartDate"></a>Start date</h1>
+This field will only be visible for exporting transactions.  This is the start date for all invoice dates 
+on transactions you want to be exported.
+<h1><a name="StopDate"></a>Stop date</h1>
+This field will only be visible for exporting transactions.  This is the stop date for all invoice dates 
+on transactions you want to be exported.
+
+<h1>Field Formatting</h1>
+
+<h1><a name="moneytitle"></a>
+Money</h1>
+This defines the format of the debit and credit fields.  In some of the import/export 
+operations, there are perhaps no monies involved.  In such cases, you will not be presented
+the possibility to change the formats of money.
+<h1><a name="moneyexample"></a>
+Money example</h1>
+This field shows an example of the format that is presently selected.
+<h1><a name="moneybuttons0"></a>
+OS system standard number</h1>
+Selecting this will format the number according to how JAVA together with your operating system judge from
+your locale settings, what the money format should be
+<h1><a name="moneybuttons1"></a>
+OS system standard currency</h1>
+Selecting this will format the number according to how JAVA together with your operating system judge from
+your locale settings, what the money format should be.  Specifically, this will add the currency symbol to 
+each number and display the countries standard number of digits used for money.
+<h1><a name="moneybuttons2"></a>
+Special format</h1>
+Here is offered some other formats that might be interesting for you to use.  You may even enter your own 
+custom format in this field.  The syntax behind the formatting is quite complex and if you cant understand
+the syntax from the examples given in this drop-down list box, consult a JAVA manual for the classes NumberFormat,
+DecimalFormat, DateFormat and SimpleDateFormat for a complete description of the syntax.
+
+
+<h1><a name="integertitle"></a>
+Numbers</h1>
+This defines the format of the account number, transaction number and Customer/Project number fields.
+<h1><a name="integerexample"></a>
+Numbers example</h1>
+This field shows an example of the format that is presently selected.
+<h1><a name="integerbuttons0"></a>
+OS system standard number</h1>
+Selecting this will format the number according to how JAVA together with your operating system judge from
+your locale settings, what the number format should be
+<h1><a name="integerbuttons1"></a>
+Special format</h1>
+Here is offered some other formats that might be interesting for you to use.  You may even enter your own 
+custom format in this field.  The syntax behind the formatting is quite complex and if you cant understand
+the syntax from the examples given in this drop-down list box, consult a JAVA manual for the classes NumberFormat,
+DecimalFormat, DateFormat and SimpleDateFormat for a complete description of the syntax.
+
+<h1><a name="datetitle"></a>
+Dates</h1>
+This defines the format of the dates that only exist in the transaction fields. In some of the import/export 
+operations, there are perhaps no dates involved.  In such cases, you will not be presented
+the possibility to change the formats of dates.
+<h1><a name="dateexample"></a>
+Date example</h1>
+This field shows an example of the format that is presently selected.
+<h1><a name="datebuttons0"></a>
+OS system standard number - Short</h1>
+Selecting this will format the date according to how JAVA together with your operating system judge from
+your locale settings, what the date format should be if you want the shortest possible date expression.
+<h1><a name="datebuttons1"></a>
+OS system standard number - Medium</h1>
+Selecting this will format the date according to how JAVA together with your operating system judge from
+your locale settings, what the date format should be.  Specifically, this changes the month number to
+a 3 character abbreviation of the month.
+<h1><a name="datebuttons2"></a>
+OS system standard number - Long</h1>
+Selecting this will format the date according to how JAVA together with your operating system judge from
+your locale settings, what the date format should be.  Specifically, this changes the month number to
+the full month name and possibly adds even more characters.
+<h1><a name="datebuttons3"></a>
+Special format</h1>
+Here is offered some other formats that might be interesting for you to use.  You may even enter your own 
+custom format in this field.  The syntax behind the formatting is quite complex and if you cant understand
+the syntax from the examples given in this drop-down list box, consult a JAVA manual for the classes NumberFormat,
+DecimalFormat, DateFormat and SimpleDateFormat for a complete description of the syntax.
+
+<h1><a name="standardspecification"></a>
+Standard CSV format specification</h1>
+CSV is a file format used as a portable representation of a database.
+Each line is one entry or record and the fields in a record are separated by commas (some rare cases use semicolons).
+Commas may be preceded or followed by arbitrary space and/or tab characters which are
+ignored.
+<P>
+If field includes a comma or a new line, the whole field must be surrounded with double quotes.
+When the field is in quotes, any quote literals must be escaped by \" Backslash
+literals must be escaped by \\.	Otherwise a backslash an the character following it
+will be treated as the following character, ie."\n" is equivalent to "n".  Other escape
+sequences are "\n\r\t\f".	Text that comes after quotes that have
+been closed but come before the next comma will be ignored.
+<P>
+Empty fields are returned as as String of length zero: "".  The following line has four empty
+fields and two non-empty fields in it.  There is an empty field on each end, and two in the
+middle.<br>
+<pre>,second,, ,fifth,</pre>
+<P>
+Blank lines are always ignored.	Other lines will be ignored if they start with # or !<P>
+
+<h1><a name="excelspecification"></a>
+Excel CSV format specification</h1>
+Excel CSV is a file format used as a portable representation of a database.
+Each line is one entry or record and the fields in a record are separated by commas(some rare cases use semicolons).
+<P>
+If field includes a comma or a new line, the whole field must be surrounded with double quotes.
+When the field is in quotes, any quote literals must be escaped by two quotes ("").
+Text that comes after quotes that have been closed but come before the next comma will be ignored.
+<P>
+Empty fields are returned as as String of length zero: "".  The following line has three empty
+fields and three non-empty fields in it.  There is an empty field on each end, and one in the
+middle.	One token is returned as a space.<br>
+<pre>,second,, ,fifth,</pre>
+<P>
+Blank lines are always ignored.	There are no line comment characters which would signal
+that a line should be ignored..
+<P>
+The CSV that Excel outputs differs from the generally accepted standard CSV standard in several respects:
+<ul><li>Leading and trailing whitespace is significant.</li>
+<li>A backslash is not a special character and is not used to escape anything.</li>
+<li>Quotes inside quoted strings are escaped with a double quote rather than a backslash.</li>
+<li>Excel may convert data before putting it in CSV format:<ul>
+<li>Tabs are converted to a single space.</li>
+<li>New lines in the data are always represented as the UNIX new line. ("\n")</li>
+<li>Numbers that are greater than 12 digits may be represented in truncated
+scientific notation form.</li></ul></ul>
+</P>
+<P ALIGN=CENTER><IMG SRC="../images/lazy8color.jpg"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:support@lazy8.nu?subject=Lazy8 Ledger">Lazy
+Eight Data HB email : support@lazy8.nu </A></P>
+<P ALIGN=CENTER><A HREF="http://www.lazy8.nu">http://www.lazy8.nu</A></P>
+<P ALIGN=CENTER><IMG SRC="../images/ceterus.gif"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:info@ceterus.se?subject=Lazy8 Ledger">
+Ceterus Ekonomi AB email : info@ceterus.se </A></P>
+<P ALIGN=CENTER><A HREF="http://www.ceterus.se/">http://www.ceterus.se</A></P>
+</BODY>
+</HTML>

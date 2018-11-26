@@ -1,0 +1,202 @@
+<!/imagestype html public "-/w3c/dtd html 4.0 transitional/en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+   <meta name="CHANGEDBY" content="Thomas Dilts">
+</head>
+<body>
+
+<hr style="margin-bottom: 0in, ">
+<p style="margin-top: 0in;margin-bottom: 0in">[ <a
+href="index.sv.html">Innehållsförteckning</a>
+] [ <a href="copyright.sv.html">Kopieringsrättigheter</a>
+]</p>
+<hr>
+
+<br><b><font color="#000000"><font size=+3>CSV(Comma Separated Variabel) Inställningar och fält format
+</font></font></b>
+<br>Detta beskriver alla inställningar som finns för att specificera exakt vilket format som
+CSV filer ska ha.  Fast att CSV är en standard, finns många variationer till denna standard
+beroende på vilket land CSV filen skapades i och vilket program skapade CSV filen.  Se 
+<a href="exportoptions.sv.html#standardspecification">"(enbart engelska) Standard CSV format specification"</a>
+ och 
+ <a href="exportoptions.sv.html#excelspecification">"(enbart engelska) Excel CSV format specification"</a>.
+Förutom CSV formatet, finns inga standard när det gäller formatet av individuella fält i CSV filen.  
+Den största fält problematiken ligger i hur man visar valuta, nummer och datum.  Valuta, nummer och datum 
+format variera drastisk mellan olika länder och olika program.  Här finns möjligheten att specificera dessa
+format.  Om formaten specificeras inte, kommer JAVA att använda din lokal och land information för att gissa
+vad formatet borde vara.  I visa fall kommer inga valuta, nummer eller datum att exporteras/importeras och
+då visas inte möjligheten att specificera dessa format.
+<H1><a name="company">Bolag</H1>
+V&auml;lj h&auml;r vilket bolag du ska arbeta med.&nbsp; De flesta
+anv&auml;ndare har bara ett bolag att arbeta med och d&aring; finns
+det inget val, d&aring; dyker det bolaget &nbsp;upp automatiskt.&nbsp;
+Se <A HREF="setup.sv.html">Inst&auml;llningar</A> f&ouml;r mer
+information om hur man v&auml;ljer ett f&ouml;retag att arbeta
+med och se <A HREF="company.sv.html">Bolag</A> f&ouml;r att se hur
+man anger fler bolag. <BR>&nbsp; 
+
+<h1><a name="csvtype"></a>Csv typ</h1>
+Lazy8 bokföring stödjer två CSV typer.  Först är Microsoft Excel typen som bara Microsoft Excel
+använder och sedan finns den standard typen som alla andra använder.  För att se specifikationen
+på dessa typer se 
+<a href="exportoptions.sv.html#standardspecification">"(enbart engelska) Standard CSV format specification"</a>
+och 
+<a href="exportoptions.sv.html#excelspecification">"(enbart engelska) Excel CSV format specification"</a>. 
+  
+<h1><a name="standard"></a>Standard</h1>
+Denna typ är oftast den du behöver så länga som du ska inte blanda in Microsoft Excel på något sätt.
+För att se specifikationen på denna typ se 
+<a href="exportoptions.sv.html#standardspecification">"(enbart engelska) Standard CSV format specification"</a>
+<h1><a name="excel"></a>Microsoft Excel</h1>
+Microsoft Excel typen borde användas enbart om du ska blanda in Microsoft Excel på något sätt.
+För att se specifikationen på denna typ se 
+<a href="exportoptions.sv.html#excelspecification">"(enbart engelska) Excel CSV format specification"</a>. 
+
+<h1><a name="delimiter"></a>Avskiljare</h1>
+Namnet "Comma separated variabels" egentligen innebär att avskiljaren är ett kommatecken.
+Men så är inte fallet alltid.  Vissa länder i Europa och vissa övriga länder använder en semikolon som 
+avskiljare.
+<h1><a name="comma"></a>Kommatecken</h1>
+Detta är det vanligaste fallet.  Ett kommatecken borde användas om det är möjligt. Se
+<a href="exportoptions.sv.html#delimiter">Avskiljare</a>
+
+<h1><a name="semicolon"></a>Semikolon</h1>
+Detta är det ovanligaste fallet.  Enbart vissa länder i Europa och vissa övriga länder använder en semikolon som 
+avskiljare.  Se
+<a href="exportoptions.sv.html#delimiter">Avskiljare</a>
+
+<h1><a name="StartDate"></a>Start datum</h1>
+Detta fält visas enbart för verifikation export.  Detta är start datumet för alla verifikationsdatum på
+verifikationer man vill exportera.
+<h1><a name="StopDate"></a>Stut datum</h1>
+Detta fält visas enbart för verifikation export.  Detta är slut datumet för alla verifikationsdatum på
+verifikationer man vill exportera.
+
+<h1>Fält Formatering</h1>
+
+<h1><a name="moneytitle"></a>
+Valuta</h1>
+Denna specificerar formatet av valuta i debet och kredit fälten.  
+Detta fält visas enbart för verifikation export/import.
+<h1><a name="moneyexample"></a>
+Valuta exempel</h1>
+Detta fält visar ett exempel av formatet som valdes.
+<h1><a name="moneybuttons0"></a>
+OS system standard nummer</h1>
+Om detta väljas, formateras numret enligt hur JAVA tillsammans med operativ systemet bedömer från dina lokal och
+land inställningar.
+<h1><a name="moneybuttons1"></a>
+OS system standard valuta</h1>
+Om detta väljas, formateras numret som valuta enligt hur JAVA tillsammans med operativ systemet bedömer från dina lokal och
+land inställningar.
+Normalt, innebär detta att valuta symbolen och landets antal decimaler för valuta används. 
+<h1><a name="moneybuttons2"></a>
+Special format</h1>
+Här får man specificera exakt vilket format man vill ha.  Här erbjudas redan flera format som borde räcker till
+dina behov.  Men du får ange vilket format som helst.  
+Fast, reglerna bakom dessa strängar är komplexa och man borde se en JAVA manual under beskrivningen för
+NumberFormat, DecimalFormat, DateFormat och SimpleDateFormat klasser för en total beskrivning av reglerna.
+<h1><a name="integertitle"></a>
+Nummer</h1>
+Detta specificerar formatet av kontonummret, verifikationsnumret och kund/projekt-numret.
+<h1><a name="integerexample"></a>
+Nummer exempel</h1>
+Detta fält visar ett exempel av formatet som valdes.
+<h1><a name="integerbuttons0"></a>
+OS system standard nummer</h1>
+Om detta väljas, formateras numret enligt hur JAVA tillsammans med operativ systemet bedömer från dina lokal och
+land inställningar.
+<h1><a name="integerbuttons1"></a>
+Special format</h1>
+Här får man specificera exakt vilket format man vill ha.  Här erbjudas redan flera format som borde räcker till
+dina behov.  Men du får ange vilket format som helst.  
+Fast, reglerna bakom dessa strängar är komplexa och man borde se en JAVA manual under beskrivningen för
+NumberFormat, DecimalFormat, DateFormat och SimpleDateFormat klasser för en total beskrivning av reglerna.
+<h1><a name="datetitle"></a>
+Datum</h1>
+Detta specificerar formatet av datum som finns enbart i verifikationer.
+Detta fält visas enbart för verifikation export/import
+<h1><a name="dateexample"></a>
+Datum exempel</h1>
+Detta fält visar ett exempel av formatet som valdes.
+<h1><a name="datebuttons0"></a>
+OS system standard nummer - Kort</h1>
+Om detta väljas, formateras numret enligt hur JAVA tillsammans med operativ systemet bedömer från dina lokal och
+land inställningar vad formatet av den kortaste presentationen av datumet borde vara.
+<h1><a name="datebuttons1"></a>
+OS system standard nummer - Medel längd</h1>
+Om detta väljas, formateras numret enligt hur JAVA tillsammans med operativ systemet bedömer från dina lokal och
+land inställningar vad formatet av en medel längd presentation av datumet borde vara.
+Detta konvertera månaden till en 3 bokstav presentation.
+<h1><a name="datebuttons2"></a>
+OS system standard nummer - Lång</h1>
+Om detta väljas, formateras numret enligt hur JAVA tillsammans med operativ systemet bedömer från dina lokal och
+land inställningar vad formatet av en medel längd presentation av datumet borde vara.
+Detta konvertera månaden till en fullständig namn och kanske lägger till flera andra saker.
+<h1><a name="datebuttons3"></a>
+Special format</h1>
+Här får man specificera exakt vilket format man vill ha.  Här erbjudas redan flera format som borde räcker till
+dina behov.  Men du får ange vilket format som helst.  
+Fast, reglerna bakom dessa strängar är komplexa och man borde se en JAVA manual under beskrivningen för
+NumberFormat, DecimalFormat, DateFormat och SimpleDateFormat klasser för en total beskrivning av reglerna.
+
+<h1><a name="standardspecification"></a>
+--Engelska--Standard CSV format specification</h1>
+CSV is a file format used as a portable representation of a database.
+Each line is one entry or record and the fields in a record are separated by commas (some rare cases use semicolons).
+Commas may be preceded or followed by arbitrary space and/or tab characters which are
+ignored.
+<P>
+If field includes a comma or a new line, the whole field must be surrounded with double quotes.
+When the field is in quotes, any quote literals must be escaped by \" Backslash
+literals must be escaped by \\.	Otherwise a backslash an the character following it
+will be treated as the following character, ie."\n" is equivalent to "n".  Other escape
+sequences are "\n\r\t\f".	Text that comes after quotes that have
+been closed but come before the next comma will be ignored.
+<P>
+Empty fields are returned as as String of length zero: "".  The following line has four empty
+fields and two non-empty fields in it.  There is an empty field on each end, and two in the
+middle.<br>
+<pre>,second,, ,fifth,</pre>
+<P>
+Blank lines are always ignored.	Other lines will be ignored if they start with # or !<P>
+
+<h1><a name="excelspecification"></a>
+--Engelska--Excel CSV format specification</h1>
+Excel CSV is a file format used as a portable representation of a database.
+Each line is one entry or record and the fields in a record are separated by commas(some rare cases use semicolons).
+<P>
+If field includes a comma or a new line, the whole field must be surrounded with double quotes.
+When the field is in quotes, any quote literals must be escaped by two quotes ("").
+Text that comes after quotes that have been closed but come before the next comma will be ignored.
+<P>
+Empty fields are returned as as String of length zero: "".  The following line has three empty
+fields and three non-empty fields in it.  There is an empty field on each end, and one in the
+middle.	One token is returned as a space.<br>
+<pre>,second,, ,fifth,</pre>
+<P>
+Blank lines are always ignored.	There are no line comment characters which would signal
+that a line should be ignored..
+<P>
+The CSV that Excel outputs differs from the generally accepted standard CSV standard in several respects:
+<ul><li>Leading and trailing whitespace is significant.</li>
+<li>A backslash is not a special character and is not used to escape anything.</li>
+<li>Quotes inside quoted strings are escaped with a double quote rather than a backslash.</li>
+<li>Excel may convert data before putting it in CSV format:<ul>
+<li>Tabs are converted to a single space.</li>
+<li>New lines in the data are always represented as the UNIX new line. ("\n")</li>
+<li>Numbers that are greater than 12 digits may be represented in truncated
+scientific notation form.</li></ul></ul>
+</P>
+<P ALIGN=CENTER><IMG SRC="../images/lazy8color.jpg"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:support@lazy8.nu?subject=Lazy8 Ledger">Lazy
+Eight Data HB email : support@lazy8.nu </A></P>
+<P ALIGN=CENTER><A HREF="http://www.lazy8.nu">http://www.lazy8.nu</A></P>
+<P ALIGN=CENTER><IMG SRC="../images/ceterus.gif"><BR></P>
+<P ALIGN=CENTER><A HREF="mailto:info@ceterus.se?subject=Lazy8 Ledger">
+Ceterus Ekonomi AB email : info@ceterus.se </A></P>
+<P ALIGN=CENTER><A HREF="http://www.ceterus.se/">http://www.ceterus.se</A></P>
+</BODY>
+</HTML>
