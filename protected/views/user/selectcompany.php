@@ -18,7 +18,7 @@
 *
 */
 ?>
-<h2><?php echo Yii::t('lazy8','Select Company/Period for {name}',array('{name}'=>$usersModel->displayname)); ?></h2>
+<h2><?php echo Yii::t('lazy8','Select company/period') . ' - ' .$usersModel->displayname; ?></h2>
 
 <div class="actionBar">
 <?php if(Yii::app()->user->getState('allowAdmin')){ ?>

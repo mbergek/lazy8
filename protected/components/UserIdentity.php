@@ -35,6 +35,7 @@ class UserIdentity extends CUserIdentity
 	 * @return boolean whether authentication succeeds.
 	 */
 	private $_id;
+	private $_salt;
 	public function getId(){
 		return $this->_id;
 	}
@@ -53,6 +54,7 @@ class UserIdentity extends CUserIdentity
 		{
 		    $this->username=$user->username;
 		    $this->_id=$user->id;
+		    $this->_salt=$user->salt;
 		    $user->setStates(true);
 		    $this->errorCode=self::ERROR_NONE;
 		    $user->updateThisLogInDatetime();

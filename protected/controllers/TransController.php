@@ -70,6 +70,8 @@ class TransController extends CController
 		$cLoc=CLocale::getInstance(Yii::app()->user->getState('languagecode'));
 		$numberFormatter=$cLoc->getNumberFormatter();
 		$numberFormat=User::getNumberFormat();
+		$previous="";
+		$next="";
 			//show the report
 		if($screen=='update'){
 			$trans=Trans::model()->findbyPk($_GET['id']);
@@ -144,10 +146,13 @@ class TransController extends CController
 		$trans=TempTrans::model()->findAll(array('condition'=>'userId='.Yii::app()->user->id,'order'=>'rownum'));
 		$existsOldTrans=false;
 		if($trans!==null){
-			$existsOldTrans=count($trans)>1 || strlen($trans[0]->notesheader)>0 
-				|| strlen($trans[0]->amountdebit)>0 || strlen($trans[0]->amountcredit)>0
-				|| strlen($trans[0]->fileInfo)>0 
-				|| strlen($trans[0]->notes)>0 || $trans[0]->customerId!=0;
+			$existsOldTrans=count($trans)>1 
+				|| (isset($trans[0]) && strlen($trans[0]->notesheader)>0 )
+				|| (isset($trans[0]) && strlen($trans[0]->amountdebit)>0 )
+				|| (isset($trans[0]) && strlen($trans[0]->amountcredit)>0 )
+				|| (isset($trans[0]) && strlen($trans[0]->fileInfo)>0 )
+				|| (isset($trans[0]) && strlen($trans[0]->notes)>0 )
+				|| (isset($trans[0]) && $trans[0]->customerId!=0);
 		}
 		$this->render('admin',array(
 			'models'=>$models,
@@ -221,7 +226,7 @@ class TransController extends CController
 				$per->save();
 				//copy temp trans to a new Trans/TransRow
 				$tempdate=User::parseDate($models[0]->invDate);
-				$addedTrans=$this->copyTempTransToNewTrans($per->lastPeriodTransNum,$comp->lastAbsTransNum);
+				$addedTrans=$this->copyTempTransToNewTrans($per->lastPeriodTransNum,$comp->lastAbsTransNum,true);
 				ChangeLog::addLog('ADD','Trans',$addedTrans->toString());
 				//clear temptrans
 				
@@ -341,9 +346,15 @@ class TransController extends CController
 				$models[]=$model; 
 				
 			}
+			if($rownum==0)
+			{
+				$models[]=$this->getBlankTempTrans(0,$trans->invDate);
+			}
+				
 		}else{
 			//same thing as Clear
 			$models=$this->getFromTempTrans();
+			$tempdate=date('Y-m-d H:i:s');
 			if($models!=null && count($models)>0)
 				$tempdate=User::parseDate($models[0]->invDate);
 			//echo $tempdate;die();
@@ -427,14 +438,17 @@ class TransController extends CController
 
 		return $valid;
 	}
-	private function copyTempTransToNewTrans($periodNum,$companyNum)
+	private function copyTempTransToNewTrans($periodNum,$companyNum,$isUpdateRegDate=false)
 	{
 			//everything is ok.  Make the new transaction
 		$models=$this->getFromTempTrans();
 		$trans=new Trans();
 		$cLoc=CLocale::getInstance(Yii::app()->user->getState('languagecode'));
 		$trans->invDate=User::parseDate($models[0]->invDate,$cLoc);
-		$trans->regDate=User::parseDate($models[0]->regDate,$cLoc);
+		if($isUpdateRegDate)
+			$trans->regDate=date('Y-m-d');
+		else
+			$trans->regDate=User::parseDate($models[0]->regDate,$cLoc);
 		$trans->periodNum=$periodNum;
 		$trans->companyNum=$companyNum;
 		$trans->notes=$models[0]->notesheader;
@@ -464,6 +478,7 @@ class TransController extends CController
 		if($trans!==null){
 			$cLoc=CLocale::getInstance(Yii::app()->user->getState('languagecode'));
 			$numberFormatter=$cLoc->getNumberFormatter();
+			$dateformatter=$cLoc->getDateFormatter();
 			$numberFormat=User::getNumberFormat();
 			$models=array();
 			//make sure the data is current
@@ -471,7 +486,7 @@ class TransController extends CController
 			$per=Period::model()->findbyPk(Yii::app()->user->getState('selectedPeriodId'));
 			foreach($trans as $transrow){
 				//see if there is new data to be added..
-				if($_POST['TempTrans'][$transrow->rownum]){
+				if(isset($_POST['TempTrans'][$transrow->rownum]) && $_POST['TempTrans'][$transrow->rownum]){
 					//make sure only one of debit or credit are filled
 					$olddebit=$this->parseNumber($transrow->amountdebit,$cLoc);
 					$transrow->attributes=$_POST['TempTrans'][$transrow->rownum];
@@ -570,7 +585,7 @@ class TransController extends CController
 	}
 	public static function parseNumber($num,$Locale)
 	{
-		$result=preg_replace('/[^0-9a-zA-Z' . $Locale->getNumberSymbol('decimal') . ']/','',$num);
+		$result=preg_replace('/[^0-9a-zA-Z' . $Locale->getNumberSymbol('decimal') . '\-−]/','',$num);
 		//if(strlen($result)>4){echo $result. ";".$Locale->getNumberSymbol('decimal').";".str_replace($Locale->getNumberSymbol('decimal'),'.',$result);die();}
 		return str_replace($Locale->getNumberSymbol('decimal'),'.',$result);
 	}

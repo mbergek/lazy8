@@ -39,7 +39,7 @@ table.ReportRows
 {
 	background: white;
 	border-collapse: collapse;
-	width: 800px;
+	width: 750px;
 	table-layout:fixed;
 	word-wrap: break-word;
 }

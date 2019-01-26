@@ -116,7 +116,8 @@ class SourceMessageController extends CController
 			$model->attributes=$_POST['Message'];
 			if(strlen($model->language)!=0){
 				$model->id=1;
-				$uniqueTest=Message::model()->find(array('condition'=>'language=\''.$model->language-'\''));
+				$uniqueTest=Message::model()->find(array('condition'=>'language=\''.$model->language.'\''));
+				//echo $uniqueTest->language.";".count($uniqueTest).";";print_r($uniqueTest);die();
 				if($uniqueTest===null){
 					$sources=SourceMessage::model()->findAll();
 					foreach($sources as $source){
@@ -329,16 +330,14 @@ class SourceMessageController extends CController
 		if(isset($_POST['Export']))return;//we just sent a file.  Send more and we mess up the file.
 
 		$criteria=new CDbCriteria;
-		$this->editinglanguage=$_POST['langcode'];
+		$this->editinglanguage="";
+		if(isset($_POST['langcode']))$this->editinglanguage=$_POST['langcode'];
 		if(strlen($this->editinglanguage)==0){
-			$this->editinglanguage=$_GET['langcode'];
-			if(strlen($this->editinglanguage)==0){
-				$langs=Message::model()->findAll(array('select'=>'distinct language'));
-				if(isset($langs) && count($langs)>0){
-					$this->editinglanguage=$langs[0]->language;
-				}else{
-					$this->editinglanguage="en_US";
-				}
+			$langs=Message::model()->findAll(array('select'=>'distinct language'));
+			if(isset($langs) && count($langs)>0){
+				$this->editinglanguage=$langs[0]->language;
+			}else{
+				$this->editinglanguage="en_US";
 			}
 		}
 		$criteria->addSearchCondition('language',$this->editinglanguage);

@@ -21,12 +21,12 @@
 <div class="yiiForm">
 
 <p>
-<?php echo Yii::t('lazy8','Fields with {redStar} are required',array('{redStar}'=>'<span class="required">*</span>'));?>
+<?php echo Yii::t('lazy8','Fields with a red star are required') . ' <span class="required">*</span>';?>
 </p>
 
 <?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($model);  if ( ! $isAccountTypesInCompany && ! $update){ 
+<?php echo CHtml::errorSummary($model);  if ( (isset($isAccountTypesInCompany) && ! $isAccountTypesInCompany) && ! $update){ 
 	//You need several account types for your company. We recommend that you select the standard account types according to your nationality show on the buttons below.  Or you may create manually your own account types 
 	
 	?>
@@ -42,7 +42,7 @@
 	
 <?php } ?>
 
-
+<?php $cLoc=null;$dateformatter=null; ?>
 
 
 <div class="simple">

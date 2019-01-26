@@ -29,7 +29,7 @@
 <div class="yiiForm">
 
 <p>
-<?php echo Yii::t('lazy8','Fields with {redStar} are required',array('{redStar}'=>'<span class="required">*</span>'));?>
+<?php echo Yii::t('lazy8','Fields with a red star are required') . ' <span class="required">*</span>';?>
 </p>
 
 <?php echo CHtml::beginForm(); ?>

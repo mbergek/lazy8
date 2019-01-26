@@ -37,7 +37,7 @@ class ReportController extends CController
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
-	private $_model;
+	public $_model;
 
 	/**
 	 * @return array action filters
@@ -92,6 +92,7 @@ class ReportController extends CController
 				}
 			}
 		}
+		$model->dateChanged=User::getDateFormatted(date('Y-m-d'));
 		$this->render('create',array('model'=>$model));
 	}
 	private function updateParameters($model){
@@ -102,10 +103,12 @@ class ReportController extends CController
 				if($_POST['ReportParameters'][$n]){
 					$repParam->attributes=$_POST['ReportParameters'][$n];
 					//this is a bug in yii that requires me to do the next row
+					
 					$repParam->defaultValue=$_POST['ReportParameters'][$n]['defaultValue'];
 					$repParam->isDefaultPhp=$_POST['ReportParameters'][$n]['isDefaultPhp'];
 					$repParam->phpSecondaryInfo=$_POST['ReportParameters'][$n]['phpSecondaryInfo'];
 					$repParam->dataType=$_POST['ReportParameters'][$n]['dataType'];
+					
 					//echo  $repParam->dataType . ' ' . $_POST['ReportParameters'][$n]['dataType'];
 					//die();
 					$repParam->save();
@@ -130,13 +133,14 @@ class ReportController extends CController
 						$repGroupFields=$repGroup->fields;
 						foreach($repGroupFields as $m=>$repGroupField){
 							//see if there is new data to be added..
-							$repGroupField->sortOrder=$_POST['ReportGroupFields'][$n]['sortOrder'][$m];
-							$repGroupField->fieldName=$_POST['ReportGroupFields'][$n]['fieldName'][$m];
-							$repGroupField->fieldWidth=$_POST['ReportGroupFields'][$n]['fieldWidth'][$m];
-							$repGroupField->row=$_POST['ReportGroupFields'][$n]['row'][$m];
-							$repGroupField->isDate=$_POST['ReportGroupFields'][$n]['isDate'][$m];
-							$repGroupField->isDecimal=$_POST['ReportGroupFields'][$n]['isDecimal'][$m];
-							$repGroupField->fieldCalc=$_POST['ReportGroupFields'][$n]['fieldCalc'][$m];
+							$repGroupField->attributes=$_POST['ReportGroupFields'][$n][$m];
+							//$repGroupField->sortOrder=$_POST['ReportGroupFields'][$n]['sortOrder'][$m];
+							//$repGroupField->fieldName=$_POST['ReportGroupFields'][$n]['fieldName'][$m];
+							//$repGroupField->fieldWidth=$_POST['ReportGroupFields'][$n]['fieldWidth'][$m];
+							//$repGroupField->row=$_POST['ReportGroupFields'][$n]['row'][$m];
+							//$repGroupField->isDate=$_POST['ReportGroupFields'][$n]['isDate'][$m];
+							//$repGroupField->isDecimal=$_POST['ReportGroupFields'][$n]['isDecimal'][$m];
+							//$repGroupField->fieldCalc=$_POST['ReportGroupFields'][$n]['fieldCalc'][$m];
 							$repGroupField->save();
 						}
 					}
@@ -339,13 +343,381 @@ class ReportController extends CController
 
 
 	/**
+	 * Get the names of the graphic types from xml files
+	 * 
+	 */
+	public function getXmlGraphicFileTitles()
+	{
+		if ($handle = opendir(dirname(__FILE__))) {
+		    while (false !== ($file = readdir($handle))) {
+			if ($file != "." && $file != ".." && substr($file, -13, 13)=='.graphics.xml') {
+				$dirArray[dirname(__FILE__).DIRECTORY_SEPARATOR.$file] = Yii::t('lazy8',$this->readXmlGraphicFile(dirname(__FILE__).DIRECTORY_SEPARATOR.$file,true));
+			}
+		    }
+		    closedir($handle);
+		}
+		return $dirArray;	
+	}
+	private function fillChartClass($chart,$nodeGraphic,$DataSet,$titletext){
+		$DataSet->AddAllSeries();
+		$DataSet->SetAbsciseLabelSerie();
+		$chart->setFontProperties(dirname(__FILE__).DIRECTORY_SEPARATOR."pchart".DIRECTORY_SEPARATOR."Fonts".DIRECTORY_SEPARATOR.$nodeGraphic->getAttribute('font.name').".ttf",
+			$nodeGraphic->getAttribute('font.size.axis'));
+		$chart->setGraphArea($nodeGraphic->getAttribute('graph.area.x1'),
+			$nodeGraphic->getAttribute('graph.area.y1'),
+			$nodeGraphic->getAttribute('graph.area.x2'),
+			$nodeGraphic->getAttribute('graph.area.y2'));
+
+		if((int)($nodeGraphic->getAttribute('background.corners.radius'))==0)
+			$chart->drawFilledRectangle(
+				$nodeGraphic->getAttribute('background.x1'),
+				$nodeGraphic->getAttribute('background.y1'),
+				$nodeGraphic->getAttribute('background.x2'),
+				$nodeGraphic->getAttribute('background.y2'),
+				$nodeGraphic->getAttribute('background.red'),
+				$nodeGraphic->getAttribute('background.green'),
+				$nodeGraphic->getAttribute('background.blue'),
+				$nodeGraphic->getAttribute('background.border'),
+				$nodeGraphic->getAttribute('background.alpha'));
+		else
+		      $chart->drawFilledRoundedRectangle(
+				$nodeGraphic->getAttribute('background.x1'),
+				$nodeGraphic->getAttribute('background.y1'),
+				$nodeGraphic->getAttribute('background.x2'),
+				$nodeGraphic->getAttribute('background.y2'),
+				$nodeGraphic->getAttribute('background.corners.radius'),
+				$nodeGraphic->getAttribute('background.red'),
+				$nodeGraphic->getAttribute('background.green'),
+				$nodeGraphic->getAttribute('background.blue'));
+		if((int)($nodeGraphic->getAttribute('background.highlight.x2'))!=0){
+			if((int)($nodeGraphic->getAttribute('background.highlight.corners.radius'))==0)
+				$chart->drawRectangle(
+					$nodeGraphic->getAttribute('background.highlight.x1'),
+					$nodeGraphic->getAttribute('background.highlight.y1'),
+					$nodeGraphic->getAttribute('background.highlight.x2'),
+					$nodeGraphic->getAttribute('background.highlight.y2'),
+					$nodeGraphic->getAttribute('background.highlight.red'),
+					$nodeGraphic->getAttribute('background.highlight.green'),
+					$nodeGraphic->getAttribute('background.highlight.blue'));
+			else
+			      $chart->drawRoundedRectangle(
+					$nodeGraphic->getAttribute('background.highlight.x1'),
+					$nodeGraphic->getAttribute('background.highlight.y1'),
+					$nodeGraphic->getAttribute('background.highlight.x2'),
+					$nodeGraphic->getAttribute('background.highlight.y2'),
+					$nodeGraphic->getAttribute('background.highlight.corners.radius'),
+					$nodeGraphic->getAttribute('background.highlight.red'),
+					$nodeGraphic->getAttribute('background.highlight.green'),
+					$nodeGraphic->getAttribute('background.highlight.blue'));
+		}
+		if($nodeGraphic->getAttribute('is.show.scale.and.grid')){
+			$chart->drawGraphArea(
+				$nodeGraphic->getAttribute('graph.area.red'),
+				$nodeGraphic->getAttribute('graph.area.green'),
+				$nodeGraphic->getAttribute('graph.area.blue'),
+				$nodeGraphic->getAttribute('graph.area.striped'));
+			$ScaleModeCode='$ScaleMode='.$nodeGraphic->getAttribute('axis.scale.mode').';';
+			eval($ScaleModeCode);
+			$chart->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),$ScaleMode,
+				$nodeGraphic->getAttribute('axis.scale.red'),
+				$nodeGraphic->getAttribute('axis.scale.green'),
+				$nodeGraphic->getAttribute('axis.scale.blue'),
+				$nodeGraphic->getAttribute('axis.scale.drawticks'),
+				$nodeGraphic->getAttribute('axis.scale.angle'),
+				$nodeGraphic->getAttribute('axis.scale.decimals'),
+				$nodeGraphic->getAttribute('axis.scale.withmargin'),
+				$nodeGraphic->getAttribute('axis.scale.skiplables'),
+				$nodeGraphic->getAttribute('axis.scale.rightscale'));
+			$chart->drawGrid(
+				$nodeGraphic->getAttribute('grid.linewidth'),
+				$nodeGraphic->getAttribute('grid.mosaic'),
+				$nodeGraphic->getAttribute('grid.red'),
+				$nodeGraphic->getAttribute('grid.green'),
+				$nodeGraphic->getAttribute('grid.blue'),
+				$nodeGraphic->getAttribute('grid.alpha'));
+			// Draw the 0 line
+			$chart->setFontProperties(dirname(__FILE__).DIRECTORY_SEPARATOR."pchart".DIRECTORY_SEPARATOR."Fonts".DIRECTORY_SEPARATOR.$nodeGraphic->getAttribute('font.name').".ttf",
+				$nodeGraphic->getAttribute('font.size.threshold'));
+			$chart->drawTreshold(
+				$nodeGraphic->getAttribute('threshold.value'),
+				$nodeGraphic->getAttribute('threshold.red'),
+				$nodeGraphic->getAttribute('threshold.green'),
+				$nodeGraphic->getAttribute('threshold.blue'),
+				$nodeGraphic->getAttribute('threshold.showlabel'),
+				$nodeGraphic->getAttribute('threshold.showonright'),
+				$nodeGraphic->getAttribute('threshold.tickwidth'),
+				$nodeGraphic->getAttribute('threshold.freetext'));
+		}
+		$nodeColors = $nodeGraphic->getElementsByTagName('pallet.color');
+		$i=0;
+		foreach($nodeColors as $nodeColor){
+			$chart->setColorPalette($i++,$nodeColor->getAttribute('red'),$nodeColor->getAttribute('green'),$nodeColor->getAttribute('blue'));
+		}
+ 		$DrawLabels=PIE_NOLABEL;
+		if(strlen($nodeGraphic->getAttribute('graphtype.drawlabels'))>0){
+			$DrawLabelsCode='$DrawLabels='.$nodeGraphic->getAttribute('graphtype.drawlabels').';';
+			eval($DrawLabelsCode);
+		}
+		// Draw the graph
+		switch($nodeGraphic->getAttribute('graphtype')){
+		case 'drawLineGraph':
+			$chart->drawLineGraph($DataSet->GetData(),$DataSet->GetDataDescription()/*,$SerieName=""*/);
+			break;
+		case 'drawFilledLineGraph':
+			$chart->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.alpha'),$nodeGraphic->getAttribute('graphtype.aroundZero'));
+			break;
+		case 'drawOverlayBarGraph':
+			$chart->drawOverlayBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.alpha'));
+			break;
+		case 'drawBarGraph':
+			$chart->drawBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.shadow'));
+			break;
+		case 'drawStackedBarGraph':
+			$chart->drawStackedBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.alpha'),$nodeGraphic->getAttribute('graphtype.contiguous'));
+			break;
+		case 'drawBasicPieGraph':
+			$chart->drawBasicPieGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.x1'),
+				$nodeGraphic->getAttribute('graphtype.y1'),
+				$nodeGraphic->getAttribute('graphtype.radius'),
+				$DrawLabels,
+				$nodeGraphic->getAttribute('graphtype.red'),
+				$nodeGraphic->getAttribute('graphtype.green'),
+				$nodeGraphic->getAttribute('graphtype.blue'),
+				$nodeGraphic->getAttribute('graphtype.decimals'));
+			break;
+		case 'drawFlatPieGraph':
+			$chart->drawFlatPieGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.x1'),
+				$nodeGraphic->getAttribute('graphtype.y1'),
+				$nodeGraphic->getAttribute('graphtype.radius'),
+				$DrawLabels,
+				$nodeGraphic->getAttribute('graphtype.splicedistance'),
+				$nodeGraphic->getAttribute('graphtype.decimals'));
+			break;
+		case 'drawFlatPieGraphWithShadow':
+			$chart->drawFlatPieGraphWithShadow($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.x1'),
+				$nodeGraphic->getAttribute('graphtype.y1'),
+				$nodeGraphic->getAttribute('graphtype.radius'),
+				$DrawLabels,
+				$nodeGraphic->getAttribute('graphtype.splicedistance'),
+				$nodeGraphic->getAttribute('graphtype.decimals'));
+			break;
+		case 'drawPieGraph':
+			$chart->drawPieGraph($DataSet->GetData(),$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('graphtype.x1'),
+				$nodeGraphic->getAttribute('graphtype.y1'),
+				$nodeGraphic->getAttribute('graphtype.radius'),
+				$DrawLabels,
+				$nodeGraphic->getAttribute('graphtype.enhancedcolors'),
+				$nodeGraphic->getAttribute('graphtype.skew'),
+				$nodeGraphic->getAttribute('graphtype.spliceheight'),
+				$nodeGraphic->getAttribute('graphtype.splicedistance'),
+				$nodeGraphic->getAttribute('graphtype.decimals'));
+			break;
+		}
+
+		// Finish the graph
+		if(strlen($nodeGraphic->getAttribute('legend.x1'))>0){
+			$chart->setFontProperties(dirname(__FILE__).DIRECTORY_SEPARATOR."pchart".DIRECTORY_SEPARATOR."Fonts".DIRECTORY_SEPARATOR.$nodeGraphic->getAttribute('font.name').".ttf",
+				$nodeGraphic->getAttribute('font.size.legend'));
+			$chart->drawLegend(
+				$nodeGraphic->getAttribute('legend.x1'),
+				$nodeGraphic->getAttribute('legend.y1'),
+				$DataSet->GetDataDescription(),
+				$nodeGraphic->getAttribute('legend.red'),
+				$nodeGraphic->getAttribute('legend.green'),
+				$nodeGraphic->getAttribute('legend.blue'),
+				$nodeGraphic->getAttribute('legend.red.border'),
+				$nodeGraphic->getAttribute('legend.green.border'),
+				$nodeGraphic->getAttribute('legend.blue.border'),
+				$nodeGraphic->getAttribute('legend.red.text'),
+				$nodeGraphic->getAttribute('legend.green.text'),
+				$nodeGraphic->getAttribute('legend.blue.text'),
+				$nodeGraphic->getAttribute('legend.border'));
+		}
+		$chart->setFontProperties(dirname(__FILE__).DIRECTORY_SEPARATOR."pchart".DIRECTORY_SEPARATOR."Fonts".DIRECTORY_SEPARATOR.$nodeGraphic->getAttribute('font.name').".ttf",
+			$nodeGraphic->getAttribute('font.size.title'));
+		$chart->drawTitle(
+			$nodeGraphic->getAttribute('title.x1'),
+			$nodeGraphic->getAttribute('title.y1'),
+			$titletext,
+			$nodeGraphic->getAttribute('title.red'),
+			$nodeGraphic->getAttribute('title.green'),
+			$nodeGraphic->getAttribute('title.blue'),
+			$nodeGraphic->getAttribute('title.x2'),
+			$nodeGraphic->getAttribute('title.y2'),
+			$nodeGraphic->getAttribute('title.shadow'));
+	}
+	/**
+	 * Get the names of the graphic types from xml files
+	 * 
+	 */
+	public function readXmlGraphicFile($filename, $getTitleOnly=false,$ResultArray=null,$titletext="",$negateGraphicValues=false)
+	{
+		$dom = new domDocument();
+		if( ! $dom->load($filename) ){
+			if($showMessage)
+				throw new CException(Yii::t('lazy8','input file could not be xml parsed'));
+			else
+				throw new CException('input file could not be xml parsed');
+		}
+		
+		$root = $dom->documentElement;
+		if($root->nodeName!="lazy8webgraphics"){
+			if($showMessage)
+				$localErrors=array(array(Yii::t('lazy8','Upload failed.  This is not a valid file.'),Yii::t('lazy8','Select a file and try again')));
+			return $localErrors;
+		}
+		if($root->getAttribute('version')>1.00){
+			if($showMessage)
+				$localErrors=array(array(Yii::t('lazy8','There maybe problems because this is a file version greater then this programs version'),Yii::t('lazy8','Select a file and try again')));
+		}
+		
+		$nodeGraphics = $root->getElementsByTagName('graphic');
+		unset($root);
+		unset($dom);
+		
+		$imageFileNames=array();
+		$imageFilePaths=array();
+		foreach($nodeGraphics as $nodeGraphic){//probably only one graphic per file
+			if($getTitleOnly){
+				return $nodeGraphic->getAttribute('name');
+			}
+			require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."pchart".DIRECTORY_SEPARATOR."pChart.class");
+			require_once(dirname(__FILE__).DIRECTORY_SEPARATOR."pchart".DIRECTORY_SEPARATOR."pData.class");
+			$this->deleteOldImageFiles();
+			$DataSet = new pData;
+			$chart = new pChart((int)($nodeGraphic->getAttribute('width.pixels')),(int)($nodeGraphic->getAttribute('height.pixels')));
+			foreach($ResultArray as $n=>$row){
+				$fieldnum=1;
+				$SerieNameStartFieldNum=$nodeGraphic->getAttribute('serie.name.start.field.num');
+				$SerieNameEndFieldNum=$nodeGraphic->getAttribute('serie.name.end.field.num');
+				$SerieDataStartFieldNum=$nodeGraphic->getAttribute('serie.data.start.field.num');
+				$SerieDataEndFieldNum=$nodeGraphic->getAttribute('serie.data.end.field.num');
+				$serieTempName="Serie".$n;
+				$actualSerieName="";
+				$foundNonZeroValue=false;
+				foreach($row as $fieldname=>$fieldvalue){
+					if($fieldnum>=$SerieNameStartFieldNum && $fieldnum<=$SerieNameEndFieldNum){
+						if(strlen($actualSerieName)>0)
+							$actualSerieName.=' ';
+						$actualSerieName.=$fieldvalue;
+					}
+					if($fieldnum>=$SerieDataStartFieldNum && $fieldnum<=$SerieDataEndFieldNum){
+						if($negateGraphicValues)
+							$fieldvalue=-$fieldvalue;
+						if($nodeGraphic->getAttribute('is.allow.positve.numbers.only'))
+							if($fieldvalue<0)$fieldvalue=0;
+						if(!$nodeGraphic->getAttribute('is.one.image.per.serie') || $fieldvalue>0)
+							$DataSet->AddPoint($fieldvalue,$serieTempName,Yii::t('lazy8',$fieldname));
+						if($fieldvalue>0)$foundNonZeroValue=true;
+					}
+					$fieldnum++;
+				}
+				$DataSet->SetSerieName($actualSerieName,$serieTempName);
+				if($nodeGraphic->getAttribute('is.one.image.per.serie')){
+					if($foundNonZeroValue)
+					{
+						$this->fillChartClass($chart,$nodeGraphic,$DataSet,$titletext . " - " . $actualSerieName);
+						$imageFileName=$this->create_temp_filename('repImg_',".png",dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR.'assets' );
+						$chart->Render(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.$imageFileName);
+						$imageFileNames[]=$imageFileName;
+						$imageFilePaths[]=Yii::app()->request->baseUrl."/assets/".$imageFileName;
+					}
+					$DataSet = new pData;
+					$chart = new pChart($nodeGraphic->getAttribute('width.pixels'),$nodeGraphic->getAttribute('height.pixels'));
+				}
+			}
+			if($DataSet->Data!=""){
+				$this->fillChartClass($chart,$nodeGraphic,$DataSet,$titletext);
+				$imageFileName=$this->create_temp_filename('repImg_',".png",dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR.'assets' );
+				$chart->Render(dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.$imageFileName);
+				$imageFileNames[]=$imageFileName;
+				$imageFilePaths[]=Yii::app()->request->baseUrl."/assets/".$imageFileName;
+				$DataSet = new pData;
+				$chart = new pChart($nodeGraphic->getAttribute('width.pixels'),$nodeGraphic->getAttribute('height.pixels'));
+			}
+		}
+		return array($imageFilePaths,$imageFileNames);
+
+	}
+	private function create_temp_filename($prefix = null, $suffix = null, $dir = null)
+	{
+	    $prefix = trim($prefix);
+	    $suffix = trim($suffix);
+	    $dir = trim($dir);
+	    empty($dir) and $dir = trim(sys_get_temp_dir());
+	    if(empty($dir)) throw new CException(__FUNCTION__.'(): could not get system temp dir');
+	    if(!is_dir($dir)) throw new CException(__FUNCTION__."(): \"$dir\" is not a directory");
+	   
+	    //    posix valid filename characters. exclude "similar" characters 0, O, 1, l, I to enhance readability. add - _
+	    $fn_chars = array_flip(array_diff(array_merge(range(50,57), range(65,90), range(97,122), array(95,45)), array(73,79,108)));
+	
+	    //  create random filename 20 chars long for security
+	    for($fn = "", $loop = 0, $x = 0; $x++ < 20; $fn .= chr(array_rand($fn_chars)));
+	    while (file_exists(rtrim($dir, '/') . '/' . $prefix.$fn.$suffix))
+	    {
+		$fn .= chr(array_rand($fn_chars));
+		if($loop++ > 10) throw new CException(__FUNCTION__."(): looped too many times trying to create a unique file name in directory \"$dir\"");
+		clearstatcache();
+	    }
+
+	    if(!touch(rtrim($dir, '/') . '/' . $prefix.$fn.$suffix)) throw new CException(__FUNCTION__."(): could not create tmp file  \"".rtrim($dir, '/') . '/' . $prefix.$fn.$suffix."\"");
+	    //unlink($fn);
+	    return $prefix.$fn.$suffix;
+	}
+	private function deleteOldImageFiles(){
+		// Define the folder to clean
+		// (keep trailing slashes)
+		$captchaFolder  = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR;
+		 
+		// Filetypes to check (you can also use *.*)
+		$fileTypes      = 'repImg*.png';
+		 
+		// Here you can define after how many
+		// minutes the files should get deleted
+		$expire_time    = 20; 
+		 
+		// Find all files of the given file type
+		$filelist=glob($captchaFolder . $fileTypes);
+		if($filelist!=null && count($filelist)>0)
+		{
+			foreach ($filelist as $Filename) {
+			 
+			    // Read file creation time
+			    $FileCreationTime = filectime($Filename);
+			 
+			    // Calculate file age in seconds
+			    $FileAge = time() - $FileCreationTime; 
+			    // Is the file older than the given time span?
+			    if ($FileAge > ($expire_time * 60)){
+			 
+				// Now do something with the olders files...
+			 
+				//print "The file $Filename is older than $expire_time minutes\n";
+			 
+				// For example deleting files:
+				unlink($Filename);
+			    }
+			 
+			}			
+		}
+	}
+	
+	/**
 	 * Displays the requested report
 	 * 
 	 */
 	public function actionReport()
 	{
 		//throw(new Exception('just die'));
-		if(isset($_POST['ShowReport']) && isset($_POST['reportId']))
+		if((isset($_POST['ShowReport']) || isset($_POST['DownloadPDF'] )) && isset($_POST['reportId']))
 		{
 			$this->_model=Report::model()->findbyPk($_POST['reportId']);
 			if($this->_model===null)
@@ -357,6 +729,8 @@ class ReportController extends CController
 			$replacements=array();
 			$repParams=$this->_model->reportparameters;
 			$parameterValues=array();
+			$graphicFilename="";
+			$title="";
 			if(isset($repParams)&&count($repParams)>0){
 				foreach($repParams as $n=>$repParam){
 					//get the new parameter values
@@ -370,17 +744,23 @@ class ReportController extends CController
 						}
 						$parameterValues[$n]=$defaultValue;
 					}else{
-						if( $repParam->dataType=='DATE')
-							$parameterValues[$n]=User::parseDate($_POST[$n]);
-						else
-							$parameterValues[$n]=$_POST[$n];
-						//save the parameter values
-						$saveLast=new ReportUserLastUsedParams();
-						$saveLast->reportId=$this->_model->id;
-						$saveLast->userId=Yii::app()->user->id;
-						$saveLast->paramId=$n;
-						$saveLast->LastUsedValue=$parameterValues[$n];
-						$saveLast->save();
+						if(isset($_POST[$n]))
+						{
+							if( $repParam->dataType=='DATE')
+								$parameterValues[$n]=User::parseDate($_POST[$n]);
+							else
+								$parameterValues[$n]=$_POST[$n];
+							if(strlen($title)==0)$title=$_POST[$n];
+							$negateGraphicValues=false;
+							if($repParam->name=='Negate values for graphics')$negateGraphicValues=(int)($_POST[$n]);
+							//save the parameter values
+							$saveLast=new ReportUserLastUsedParams();
+							$saveLast->reportId=$this->_model->id;
+							$saveLast->userId=Yii::app()->user->id;
+							$saveLast->paramId=$n;
+							$saveLast->LastUsedValue=$parameterValues[$n];
+							$saveLast->save();
+						}
 					}
 					//get the aliases
 					if(strlen($repParam->alias)>0){
@@ -396,6 +776,9 @@ class ReportController extends CController
 							else
 								$replacements[]=$_POST[$n];
 						}
+						if($repParam->alias=='{ShowGraph}' && strlen($_POST[$n])>0){
+							$graphicFilename=$_POST[$n];
+						}
 					}
 				}
 			}
@@ -410,18 +793,29 @@ class ReportController extends CController
 			}catch(Exception $e){
 				echo '<h2>Died on Sql execution</h2>'.$sqlSelect ;throw $e;
 			}
+			$imageFileNames=array();
+			$imageFilePaths=array();
+			if(strlen($graphicFilename)>0){
+				$images=$this->readXmlGraphicFile($graphicFilename, false, $reader,$title,$negateGraphicValues,$imageFileNames);
+				$imageFileNames=$images[1];
+				$imageFilePaths=$images[0];
+				//must do this again because the reader can only go forwards
+				$reader=$command->query();
+			}
 			//update last used report for printout
-			$printoutview=$_POST['printoutview'];
+			$printoutview="";
+			if(isset($_POST['printoutview']))$printoutview=$_POST['printoutview'];
 			$option=Options::model()->find('name=\'isReportForPrintout\' AND companyId=0 AND userId='. Yii::app()->user->id);
 			$option->datavalue=$printoutview==1?'true':'false';
 			$option->save();
 			Yii::app()->user->setState('isReportForPrintout',$printoutview);
 			//update last used black and white
 			$option=Options::model()->find('name=\'isReportBlackAndWhite\' AND companyId=0 AND userId='. Yii::app()->user->id);
-			$option->datavalue=$_POST['blackandwhite']==1?'true':'false';
+			$option->datavalue=false;
+			$option->datavalue=isset($_POST['blackandwhite']) && $_POST['blackandwhite']==1?'true':'false';
 			$option->save();
-			Yii::app()->user->setState('isReportBlackAndWhite',$_POST['blackandwhite']);
-			if($_POST['blackandwhite']==1)
+			Yii::app()->user->setState('isReportBlackAndWhite',isset($_POST['blackandwhite']) && $_POST['blackandwhite']==1?1:0);
+			if(isset($_POST['blackandwhite']) && $_POST['blackandwhite']==1)
 				Yii::app()->user->setState('reportCssFile',$this->_model->cssBwFileName);
 			else
 				Yii::app()->user->setState('reportCssFile',$this->_model->cssColorFileName);
@@ -430,14 +824,30 @@ class ReportController extends CController
 			$numberFormatter=$cLoc->getNumberFormatter();
 			$dateFormatter=$cLoc->getDateFormatter();
 			$numberFormat=User::getNumberFormat();
-			//show the report
-			$this->render('report',array('model'=>$this->_model,
+			if(isset($_POST['DownloadPDF'] ) ){			
+				Yii::import('application.controllers.tcpdf.*');
+				require_once("lazy8tcpdf.php");
+				new lazy8tcpdf($this->_model,
+					$reader,
+					$numberFormatter,
+					$dateFormatter,
+					$numberFormat,
+					$printoutview,
+					$parameterValues,
+					$imageFileNames,
+					isset($_POST['blackandwhite']) && $_POST['blackandwhite']==1?1:0,
+					strpos(Yii::app()->user->getState('reportCssFile'),"wide")===false);
+			}else{
+				//show the report
+				$this->render('report',array('model'=>$this->_model,
 					'reader'=>$reader,
 					'numberFormatter'=>$numberFormatter,
 					'dateFormatter'=>$dateFormatter,
 					'numberFormat'=>$numberFormat,
 					'printoutview'=>$printoutview,
-					'parameterValues'=>$parameterValues));
+					'parameterValues'=>$parameterValues,
+					'imageFileNames'=>$imageFilePaths));
+			}
 		}else{
 			//show the report parameter selection page.
 			$noActivityLogSelectionString="";
@@ -450,7 +860,7 @@ class ReportController extends CController
 			foreach($reports as $n=>$reportsTrans){
 				$reports[$n]=Yii::t('lazy8',$reportsTrans);
 			}
-			if($_POST['reportId']){
+			if(isset($_POST['reportId']) && $_POST['reportId']){
 				$model=Report::model()->findbyPk($_POST['reportId']);
 				//update last used report
 				$option=Options::model()->find('name=\'lastPrintedReportId\' AND companyId=0 AND userId='. Yii::app()->user->id);
@@ -495,6 +905,7 @@ class ReportController extends CController
 		}
 		
 	}
+
 	public function ExportOneReport($model,&$dom,&$root)
 	{
 		$report=$dom->createElement("report");

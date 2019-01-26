@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Lazy8Web</TITLE>
+	<STYLE TYPE="text/css">
+	</STYLE>
+</HEAD>
+<BODY LANG="en_US">
+<P>Languages</P>
+
+<P>Requirements</P>
+<P>1. You must have Lazy8Web 02.00 or later installed and running properly. Preferably 
+you should have at least a few weeks experience using Lazy8Web as well.</P>
+<P>How to install</P>
+<P>1. Unzip templates.lazy8web.01.00.zip into the Lazy8Web directory 
+[web root]/lazy8/protected/modules. When you are done unzipping this then you should have 
+the directory system [web root]/lazy8/protected/modules/template.</P>
+<p>2. In your configuration file [web root]/lazy8/protected/config/main.config you might need to
+change the following at the bottom of the file if it does not already exist there:</p>
+<h2>Before</h2>
+<pre>
+	// application-level parameters that can be accessed
+	// using Yii::app()->params['paramName']
+	'params'=>array(
+	),
+);
+</pre>
+<h2>After</h2>
+<pre>
+	// application-level parameters that can be accessed
+	// using Yii::app()->params['paramName']
+	'params'=>array(
+	),
+	//The following modules may or may not exist
+	'modules'=>array(
+		'template',
+		'billing',
+		'inventory',
+	),
+);
+</pre>
+
+
+
+<p>Thats it. Start lazy8 web and under the Setup and Data entry menus you will find
+the templates menus</p>
+</BODY>
+</HTML>

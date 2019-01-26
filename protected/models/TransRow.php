@@ -32,9 +32,10 @@ class TransRow extends CActiveRecord
 	 */
 
 	 public function toString(){
+	 	 
 	 	 return 'id=' . $this->id . ';'
-	 	 	.'account='.$this->account->code .  ';' . $this->account->name .  ';' . $this->accountId .';'
-	 	 	.'customer='.$this->customer->code .  ';' . $this->customer->name .  ';' . $this->customerId . ';' 
+	 	 	.$this->accountId!=0&&isset($this->account)?'account='.$this->account->code .  ';' . $this->account->name .  ';' . $this->accountId .';':""
+	 	 	.$this->customerId!=0&&isset($this->customer)?'customer='.$this->customer->code .  ';' . $this->customer->name .  ';' . $this->customerId . ';' : ""
 	 	 	.'notes='.$this->notes .  ';' 
 	 	 	.'amount='.$this->amount ;
 	 }

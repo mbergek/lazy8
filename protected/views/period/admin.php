@@ -51,7 +51,7 @@
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',
 			  'params'=>array('command'=>'delete','id'=>$model->id),
-			  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$model->dateStart)).
+			  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $model->dateStart.
 					"\n".Yii::t('lazy8','This will delete all transactions in this period'))); 
       	      }else{
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(

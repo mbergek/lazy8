@@ -201,4 +201,9 @@ class Account extends CActiveRecord
 		$writer->flush();
 		return;//we may not send any more to the screen or it will mess up the file we just sent!
 	}
+	public function delete()
+	{
+		parent::delete();
+		yii::app()->onDeletePost(new Lazy8Event('Account',$this->id));
+	}
 }

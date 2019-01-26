@@ -44,8 +44,8 @@
     <td><?php echo CHtml::encode($model->code); ?></td>
     <td><?php echo CHtml::encode($model->name); ?></td>
     <td><?php echo CHtml::encode($model->desc); ?></td>
-    <td><?php 
-    echo CHtml::encode($model->account->code . ' ' . $model->account->name); 
+    <td><?php  
+    echo $model->accountId != 0 && isset($model->account) ? CHtml::encode($model->account->code . ' ' . $model->account->name):""; 
     ?></td>
     <td><?php echo CHtml::encode($model->changedBy); ?></td>
     <td><?php echo CHtml::encode(User::getDateFormatted($model->dateChanged,$cLoc,$dateformatter)); ?></td>
@@ -55,7 +55,7 @@
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',
 			  'params'=>array('command'=>'delete','id'=>$model->id),
-			  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$model->name))));
+			  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $model->name));
       	      }else{
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',

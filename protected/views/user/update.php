@@ -18,7 +18,7 @@
 *
 */
 ?>
-<h2><?php echo Yii::t('lazy8','Update User {name}',array('{name}'=>$model->displayname)); ?></h2>
+<h2><?php echo Yii::t('lazy8','Update User') . ' - ' .$model->displayname; ?></h2>
 
 <div class="actionBar">
 <?php if(Yii::app()->user->getState('allowAdmin')){ ?>

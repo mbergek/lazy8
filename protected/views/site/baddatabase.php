@@ -85,30 +85,32 @@ Don't forget to change that file back to read-only afterwards.
 <?php echo CHtml::beginForm(); ?>
 
 <div class="simple">
-<?php echo CHtml::label('MySql host(perhaps \'localhost\')','',false);  echo CHtml::textField('databasehost',$_POST['databasehost']) ?>
+<?php echo CHtml::label('MySql host(perhaps \'localhost\')','',false);  echo CHtml::textField('databasehost',isset($_POST['databasehost'])?$_POST['databasehost']:"") ?>
 </div>
-<br/>
 <br/>
 <br/>
 <div class="simple">
-<?php echo CHtml::label('Database name(perhaps \'lazy8web\')','',false);  echo CHtml::textField('dbname',$_POST['dbname']) ?>
+<?php echo CHtml::label('MySql port (standard=3306)','',false);  echo CHtml::textField('databaseport',isset($_POST['databaseport'])?$_POST['databaseport']:"3306") ?>
 </div>
-<br/>
 <br/>
 <br/>
 <div class="simple">
-<?php echo CHtml::label('database username','',false);  echo CHtml::textField('dbusername',$_POST['dbusername']) ?>
+<?php echo CHtml::label('Database name(perhaps \'lazy8web\')','',false);  echo CHtml::textField('dbname',isset($_POST['dbname'])?$_POST['dbname']:"") ?>
 </div>
-<br/>
 <br/>
 <br/>
 <div class="simple">
-<?php echo CHtml::label('database password','',false);  echo CHtml::textField('dbpassword',$_POST['dbpassword']) ?>
+<?php echo CHtml::label('database username','',false);  echo CHtml::textField('dbusername',isset($_POST['dbusername'])?$_POST['dbusername']:"") ?>
+</div>
+<br/>
+<br/>
+<div class="simple">
+<?php echo CHtml::label('database password','',false);  echo CHtml::textField('dbpassword',isset($_POST['dbpassword'])?$_POST['dbpassword']:"") ?>
 </div>
 <br/>
 <br/>
 <br/>
-<br/>
+
 
 <div class="action">
 <?php echo CHtml::submitButton('Try to connect',array('title'=>'contexthelp.Login')); ?>

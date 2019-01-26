@@ -21,13 +21,13 @@
 <div class="yiiForm">
 
 <p>
-<?php echo Yii::t('lazy8','Fields with {redStar} are required',array('{redStar}'=>'<span class="required">*</span>'));?>
+<?php echo Yii::t('lazy8','Fields with a red star are required') . ' <span class="required">*</span>';?>
 </p>
 
 <?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($model); ?>
-
+<?php $cLoc=null;$dateformatter=null; ?>
 <div class="simple">
 <?php echo CHtml::activeHiddenField($model,'id');  echo CHtml::activeLabelEx($model,'code',array('class'=>'help','title'=>Yii::t('lazy8','contexthelp.code'),'onclick'=>'alert(this.title)'));  echo CHtml::activeTextField($model,'code'); ?>
 </div>

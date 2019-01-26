@@ -27,8 +27,6 @@
 <?php echo $this->renderPartial('_form', array(
 	'model'=>$model,
 	'update'=>false,
-	'companies'=>$companies,
-	'weboptions'=>$weboptions,
 	'allCompanies'=>$allCompanies,
 	'selectedCompanies'=>$selectedCompanies,
 )); ?>

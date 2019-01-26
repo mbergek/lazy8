@@ -77,6 +77,7 @@ class CustomerController extends CController
 				$this->redirect(array('admin','id'=>$model->id));
 			}
 		}
+		$model->dateChanged=User::getDateFormatted(date('Y-m-d'));
 		$this->render('create',array('model'=>$model));
 	}
 

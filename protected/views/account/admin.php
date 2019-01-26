@@ -37,6 +37,7 @@
   </tr>
   </thead>
   <tbody>
+<?php $cLoc=null;$dateformatter=null; ?>
 <?php foreach($models as $n=>$model): ?>
   <tr class="<?php echo $n%2?'even':'odd';?>">
     <td><?php echo CHtml::encode($model->code); ?></td>
@@ -51,7 +52,7 @@
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',
 			  'params'=>array('command'=>'delete','id'=>$model->id),
-			  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$model->name))));
+			  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $model->name));
       	      }else{
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',

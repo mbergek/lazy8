@@ -30,7 +30,9 @@ writeable.  This should be changed to read-only..
 <h1>
 	<?php echo Yii::t("lazy8",'Welcome to Lazy8Web!'); ?>
 </h1>
-<p>Version 1.07 2010-04-24</p>
+<?php foreach(User::$Version as $version): ?>
+<p>Version <?php echo $version ?></p>
+<?php endforeach; ?>
 <p>
 <?php 
 if(!Yii::app()->user->isGuest){ 

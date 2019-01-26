@@ -18,7 +18,7 @@
 *
 */
 ?>
-<h2><?php echo Yii::t('lazy8','Update Report {name}',array('{name}'=>$model->name)); ?></h2>
+<h2><?php echo Yii::t('lazy8','Update Report') . ' - ' .$model->name; ?></h2>
 
 <div class="actionBar">
 [<?php echo CHtml::link(Yii::t('lazy8','New Report'),array('create')); ?>]

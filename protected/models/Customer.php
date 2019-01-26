@@ -106,4 +106,9 @@ class Customer extends CActiveRecord
 			'actions' => Yii::t('lazy8','Actions'),
 		);
 	}
+	public function delete()
+	{
+		parent::delete();
+		yii::app()->onDeletePost(new Lazy8Event('Customer',$this->id));
+	}
 }

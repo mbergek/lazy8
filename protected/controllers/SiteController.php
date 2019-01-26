@@ -116,8 +116,25 @@ class SiteController extends CController
 	 */
 	public function actionBaddatabase()
 	{
+		//before we allow someone to enter this very critical page, we must first
+		//make sure that this is truely the very first attempt to show this database
+		//and not somebody trying to hack their way in.
+		$connection=null;
+		try{
+			$connection=yii::app()->getDb();
+			//if we come to this point, then somebody is trying to hack their way into the application
+			//lets just get out.
+			return;
+		}catch(Exception $zz){
+			//we are okay, this is the first time showing and not some hacker
+		}
+
 		// collect user input data
-		if(strlen($_POST['databasehost'])!=0&&strlen($_POST['dbname'])!=0&&strlen($_POST['dbusername'])!=0&&strlen($_POST['dbpassword'])!=0)
+		if(isset($_POST['databasehost']) && strlen($_POST['databasehost'])!=0
+			&& isset($_POST['dbname']) && strlen($_POST['dbname'])!=0
+			&& isset($_POST['dbusername']) && strlen($_POST['dbusername'])!=0
+			&& isset($_POST['dbpassword']) && strlen($_POST['dbpassword'])!=0
+			&& isset($_POST['databaseport']) && strlen($_POST['databaseport'])!=0)
 		{
 			if((is_writable(dirname(__FILE__).DIRECTORY_SEPARATOR.'../config/main.php')
 					|| is_writable(dirname(__FILE__).DIRECTORY_SEPARATOR.'../config'))
@@ -127,8 +144,8 @@ class SiteController extends CController
 				$fileread = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'../config/main.php.toinstall',"r");
 				while (!feof($fileread)) {
 					$line=fgets($fileread);
-					$line=str_replace(array('zzzmysqllocalhost','zzzmysqllazy8web','zzzmysqlusername','zzzmysqlpassword'),
-						array($_POST['databasehost'],$_POST['dbname'],$_POST['dbusername'],$_POST['dbpassword']),$line);
+					$line=str_replace(array('zzzmysqllocalhost','zzzmysqllazy8web','zzzmysqlusername','zzzmysqlpassword','zzzmysqlport'),
+						array($_POST['databasehost'],$_POST['dbname'],$_POST['dbusername'],$_POST['dbpassword'],$_POST['databaseport']),$line);
 					fwrite($filewrite,$line);
 				}  
 				fclose($filewrite);
@@ -160,59 +177,6 @@ class SiteController extends CController
 			$connection->active=true;
 		}catch(Exception $zz){
 			$this->redirect(array('site/baddatabase'));
-		}
-		try{
-			$command=$connection->createCommand('select * from Company');
-			$reader=$command->query();
-			
-		}catch(Exception $zz){
-			//create the database
-			$fileread = fopen(dirname(__FILE__).DIRECTORY_SEPARATOR.'lazy8web.sql',"r");
-			while (!feof($fileread)) {
-				$sqlCommand="";
-				$line=trim(fgets($fileread));
-				$sqlCommand.=$line;
-				while (!feof($fileread) && substr($line,strlen($line)-1,1) != ";") {
-					$line=fgets($fileread);
-					$sqlCommand.=$line;
-				}
-				$command=$connection->createCommand($sqlCommand);
-				$command->execute();
-			}  
-			fclose($fileread);
-			$this->redirect(array('/'));
-		}
-		$criteria=new CDbCriteria;
-		$pages=new CPagination(10);
-		$pages->pageSize=2;
-		$pages->applyLimit($criteria);
-		$models=Message::model()->findAll($criteria);
-		if(!isset($models) || count($models)==0){
-			include('SourceMessageController.php');
-			include('ReportController.php');
-			//the languages are not initialized yet
-			SourceMessageController::importLanguage(dirname(__FILE__).DIRECTORY_SEPARATOR.'lazy8weblanguage.xml',false,true);
-			//load the reports as well
-			ReportController::importFile(dirname(__FILE__).DIRECTORY_SEPARATOR.'lazy8webreport.xml',false);
-		}
-		$models=User::model()->findAll();
-		if(!isset($models) || count($models)==0){
-			//load an admin person.
-			$model=new User;
-			$model->username='admin';
-			$model->displayname='Admin!ChangeName!';
-			$model->salt=hash('sha1', uniqid(rand(), true));
-			$model->password=hash('sha1','admin' . $model->salt);
-			$model->confirmPassword=hash('sha1','admin' . $model->salt);
-			$model->save();
-			$optionsUser=User::optionsUserTemplate();
-			//preset with the default value for the user options
-			foreach($optionsUser as $key=>$option)
-				$_POST['option_' . $key]=$option[1];
-			foreach($optionsUser as $key=>$option)
-				if($option[6]=='true')
-					$_POST['option_' . $key]=1;
-			User::updateOptionTemplate(User::optionsUserTemplate(),$model->id,0);
 		}
 		$criteria=new CDbCriteria;
 		$pages=new CPagination(User::model()->count($criteria));

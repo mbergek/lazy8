@@ -23,7 +23,7 @@
 <div class="actionBar">
 [<?php echo CHtml::link(Yii::t('lazy8','New AccountType'),array('create')); ?>]
 </div>
-
+<?php $cLoc=null;$dateformatter=null; ?>
 <table class="dataGrid">
   <thead>
   <tr>
@@ -52,7 +52,7 @@
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',
 			  'params'=>array('command'=>'delete','id'=>$model->id),
-			  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$model->name))));
+			  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $model->name));
       	      }else{
       		$deletebutton=CHtml::linkButton(Yii::t('lazy8','Delete'),array(
 			  'submit'=>'',

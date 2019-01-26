@@ -106,7 +106,7 @@ class TempTrans extends CActiveRecord
 			'debit' => Yii::t('lazy8','Debit'),
 			'actions' => Yii::t('lazy8','Actions'),
 			'changedBy' => Yii::t('lazy8','Changed by'),
-			'dateChanged' => Yii::t('lazy8','Date changed'),
+			'dateChanged' => Yii::t('lazy8','Date Changed'),
 		);
 	}
 }

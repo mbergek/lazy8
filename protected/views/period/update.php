@@ -18,7 +18,7 @@
 *
 */
 ?>
-<h2><?php echo Yii::t('lazy8','Update Period {name}',array('{name}'=>$model->id)); ?></h2>
+<h2><?php echo Yii::t('lazy8','Update Period') . ' - ' .$model->id; ?></h2>
 
 <div class="actionBar">
 [<?php echo CHtml::link(Yii::t('lazy8','New Period'),array('create')); ?>]

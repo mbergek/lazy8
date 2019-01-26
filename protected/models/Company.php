@@ -117,6 +117,7 @@ class Company extends CActiveRecord
 	public function delete()
 	{
 		parent::delete();
+		yii::app()->onDeletePost(new Lazy8Event('Company',$this->id));
 		$this->dbConnection->createCommand("DELETE FROM Customer WHERE companyId={$this->id}")->execute();
 		$this->dbConnection->createCommand("DELETE FROM Period WHERE companyId={$this->id}")->execute();
 		$this->dbConnection->createCommand("DELETE FROM Account WHERE companyId={$this->id}")->execute();

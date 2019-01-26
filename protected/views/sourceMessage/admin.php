@@ -61,7 +61,7 @@ echo CHtml::encode("Version=".$version);
   <tr class="<?php echo $n%2?'even':'odd';?>">
     <td><?php echo CHtml::encode($model->source->category); ?></td>
     <td><?php echo CHtml::encode($model->source->message); ?></td>
-    <td><?php echo CHtml::encode($model->standard->translation); ?></td>
+    <td><?php if($model->standard!=null)echo CHtml::encode($model->standard->translation); ?></td>
     <td><?php echo CHtml::activeTextArea($model,"[$model->id]translation",array('style'=>'width:380px;height:50px')); ?></td>
   </tr>
 <?php endforeach; ?>
@@ -78,7 +78,7 @@ echo CHtml::encode("Version=".$version);
 <?php echo CHtml::submitButton(Yii::t('lazy8','Save'),array('name'=>'Save','title'=>Yii::t('lazy8','contexthelp.Save')));  echo CHtml::submitButton(Yii::t('lazy8','Delete'),array('name'=>'Delete',
       	  'submit'=>'',
       	  'params'=>array('Delete'=>'delete','id'=>$language),
-      	  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$language)),
+      	  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $language,
       	  'title'=>Yii::t('lazy8','contexthelp.Delete'))); ?>
 
 <?php echo CHtml::submitButton(Yii::t('lazy8','Export'),array('name'=>'Export','title'=>Yii::t('lazy8','contexthelp.Export'))); ?>

@@ -125,7 +125,8 @@ class UserController extends CController
 			$model->confirmPassword=hash('sha1',$model->confirmPassword . $model->salt);
 			if($model->save()){
 				$this->setOptionsByTemplate(true);
-				$companies=$_POST['companies'];
+				$companies=array();
+				if(isset($_POST['companies']))$companies=$_POST['companies'];
 				User::updateOptionTemplate(User::optionsUserTemplate(),$model->id,0);
 				foreach($companies as $comp){
 					User::model()->dbConnection->createCommand("INSERT INTO CompanyUser (userId, companyId) VALUES ({$model->id},{$comp})")->execute();
@@ -139,9 +140,9 @@ class UserController extends CController
 				unset($this->_model->confirmPassword);
 			}
 		}
-		$usersModel=User::model()->findbyPk($_GET['id']);
+		$usersModel=User::model()->findbyPk($model->id);
 		//put  all the user companies in an array
-		$companiesUsers=$usersModel->companies;
+		if(isset($usersModel) && $usersModel!=null)$companiesUsers=$usersModel->companies;
 		$selectedCompanies=array();
 
 		if(isset($companiesUsers)){
@@ -159,6 +160,7 @@ class UserController extends CController
 			$UsersOptions[]=$newOp;
 		}
 		$model->useroptions=$UsersOptions;
+		$model->dateChanged=User::getDateFormatted(date('Y-m-d'));
 		$this->render('create',array('model'=>$model,
 			'allCompanies'=>$allCompanies,
 			'selectedCompanies'=>$selectedCompanies,
@@ -199,7 +201,8 @@ class UserController extends CController
 				if(Yii::app()->user->getState('allowAdmin')){
 					//remove all companies for this user
 					User::model()->dbConnection->createCommand("DELETE FROM CompanyUser WHERE userId={$model->id}")->execute();
-					$companies=$_POST['companies'];
+					$companies=array();
+					if(isset($_POST['companies']))$companies=$_POST['companies'];
 					//must remove all options for unchosen companies.
 					$beforeCompanies=$model->companies;
 					foreach($beforeCompanies as $beforeComp){
@@ -244,7 +247,7 @@ class UserController extends CController
 					//we must set all companies to the template chosen
 					foreach($companies as $comp)
 						User::updateOptionTemplate(User::optionsCompanyUserTemplate(),$model->id,$comp);
-				}elseif($foundSelectedCompany && Yii::app()->user->getState('allowAdmin')){
+				}elseif(isset($foundSelectedCompany) && $foundSelectedCompany && Yii::app()->user->getState('allowAdmin')){
 					//no template chosen.  Just update the visible options for the selected company
 					$model->updateOptionTemplate($model->optionsCompanyUserTemplate(),$model->id,$_POST['companyForOptionsBeforeChange']);
 				}
@@ -253,7 +256,7 @@ class UserController extends CController
 				if ($modelBeforeChange!=$stringModel)
 					ChangeLog::addLog('UPDATE','Account','BEFORE<br />' . $modelBeforeChange . '<br />AFTER<br />' . $stringModel);
 				//we need to reload this user to get all the updates in the companies.
-				$this->_model=User::model()->findbyPk($id!==null ? $id : $_GET['id']);
+				$this->_model=User::model()->findbyPk(isset($id) && $id!==null ? $id : $_GET['id']);
 				$model=$this->_model;
 //				$this->redirect(array('update','id'=>$model->id));
 			}else{
@@ -266,6 +269,11 @@ class UserController extends CController
 			//make sure the options are all created 
 			$this->_model->setStates();
 		}
+		$companyForOptions=null;
+		$companyList=null;
+		$options=null;
+		$allCompanies=null;
+		$selectedCompanies=null;
 		if(Yii::app()->user->getState('allowAdmin')==1||Yii::app()->user->getState('allowAdmin')==1)
 		{
 			$companiesUsers=$model->companies;

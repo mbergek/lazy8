@@ -33,6 +33,7 @@
   </tr>
   </thead>
   <tbody>
+<?php $cLoc=null;$dateformatter=null; ?>
 <?php foreach($models as $n=>$model): ?>
   <tr class="<?php echo $n%2?'even':'odd';?>">
     <td><?php echo CHtml::encode($model->company->name); ?></td>

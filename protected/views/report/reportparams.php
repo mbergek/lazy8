@@ -94,6 +94,7 @@ echo CHtml::checkBox('printoutview',$_POST['printoutview']);
 
 <div class="action">
 <?php echo CHtml::submitButton(Yii::t('lazy8','Show report'),array('name'=>'ShowReport','title'=>Yii::t('lazy8','contexthelp.Show report'))); ?>
+<?php echo CHtml::submitButton(Yii::t('lazy8','Download PDF'),array('name'=>'DownloadPDF','title'=>Yii::t('lazy8','contexthelp.Download PDF'))); ?>
 </div>
 
 

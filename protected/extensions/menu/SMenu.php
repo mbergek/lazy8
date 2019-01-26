@@ -256,7 +256,7 @@ class SMenu extends CWidget {
     isset($data["disabled"]) ? $disabled = $data["disabled"] : $disabled = "" ;
     isset($data['url']['params']) ? $params = $data['url']['params'] : $params = array();
     isset($data['url']['link']) ? $link = $data['url']['link'] : $link = "";
-    if(($route!= "" || $data['url'] != array()) && !$disabled) {
+    if(($route!= "" || (isset($data['url']) && $data['url'] != array())) && !$disabled) {
     //if url is array create the url
       if($route) {
       // If there are parameters get them

@@ -106,6 +106,7 @@ class CompanyController extends CController
 			$newOp->datavalue=$option[1];
 			$options[]=$newOp;
 		}
+		$model->dateChanged=User::getDateFormatted(date('Y-m-d'));
 		$this->render('create',array('model'=>$model,'options'=>$options));
 	}
 
@@ -365,6 +366,8 @@ class CompanyController extends CController
 				$modelCompany->delete();
 				throw $e;
 			}
+			$errors=array();//we ignore the errors...
+			yii::app()->onImport(new Lazy8Event(array('importobject'=>'Company','root'=>$nodeCompany,'errors'=>$errors),$modelCompany->id));
 			unset($nodeCompany);
 		}
 		unset($nodeCompanys);
@@ -457,7 +460,10 @@ class CompanyController extends CController
 				$writer->writeAttribute("code",$customer->code);
 				$writer->writeAttribute("name",$customer->name);
 				$writer->writeAttribute("desc",$customer->desc);
-				$writer->writeAttribute("accountcode",$allAccounts[$customer->accountId]);
+				if(isset($allAccounts[$customer->accountId]))
+					$writer->writeAttribute("accountcode",$allAccounts[$customer->accountId]);
+				else
+					$writer->writeAttribute("accountcode",0);
 				$writer->endElement();
 			}
 			$periods= Period::model()->findAll(array('condition'=>'companyId='.$company->id,'order'=>'dateStart'));
@@ -478,8 +484,8 @@ class CompanyController extends CController
 					$transrows= TransRow::model()->findAll(array('condition'=>'transId='.$transaction->id,'order'=>'amount DESC'));
 					foreach($transrows as $transrow){
 						$writer->startElement('amount');
-						$writer->writeAttribute("accountcode",$allAccounts[$transrow->accountId]);
-						$writer->writeAttribute("customercode",$allCustomers[$transrow->customerId]);
+						$writer->writeAttribute("accountcode",isset($allAccounts[$transrow->accountId])?$allAccounts[$transrow->accountId]:0);
+						$writer->writeAttribute("customercode",isset($allCustomers[$transrow->customerId])?$allCustomers[$transrow->customerId]:0);
 						$writer->writeAttribute("notes",$transrow->notes);
 						$writer->writeAttribute("amount",$transrow->amount);
 						$writer->endElement();
@@ -488,6 +494,8 @@ class CompanyController extends CController
 				}
 				$writer->endElement();
 			}
+			yii::app()->onExport(new Lazy8Event(array('exportobject'=>'Company','writer'=>$writer),$company->id));
+			
 			$writer->endElement();
 		}
 		$writer->endElement();

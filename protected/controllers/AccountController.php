@@ -97,6 +97,7 @@ class AccountController extends CController
 		$criteria->addSearchCondition('companyId',Yii::app()->user->getState('selectedCompanyId'));
 		$models=Account::model()->findAll($criteria);
 		$isAccountsInCompany=(isset($models) && count($models)>0);
+		$model->dateChanged=User::getDateFormatted(date('Y-m-d'));
 		$this->render('create',array('model'=>$model,
 					'isAccountsInCompany'=>$isAccountsInCompany,
 			));

@@ -27,6 +27,31 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 <?php if(strlen(Yii::app()->user->getState('reportCssFile'))>0){  ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl.'/css/'.Yii::app()->user->getState('reportCssFile'); ?>" />
+<?php	
+		$controller=Yii::app()->getController();
+		//print_r($controller->_model);die();
+		if($controller->id=="report" && $controller->_model!=null){
+			$repRows=$controller->_model->rows;
+			if(isset($repRows) && count($repRows)>0){
+				echo "<style type=\"text/css\">\n";
+				foreach($repRows as $n=>$repRow){ 
+					echo "td.col" . $n . ", th.col" . $n ." {\n";
+					if($repRow->isSummed){
+						$sums[$repRow->fieldName]=0.0;
+						$groupSums[$repRow->fieldName]=0.0;
+					}
+					echo "    width:".$repRow->fieldWidth.";\n";
+					if($repRow->isAlignRight)
+						echo "    text-align:right;\n";
+					echo "}\n";
+				}
+				echo "</style>\n";
+			}
+		}
+?>	
+	
+	
+	
 <?php }  ?>
 <title><?php echo $this->pageTitle; ?></title>
 </head>
@@ -35,7 +60,7 @@
 <div id="page">
 
 
-<?php if( $_GET['r']!='report/report' || !isset($_POST['ShowReport']) || !Yii::app()->user->getState('isReportForPrintout')){ ?>
+<?php if( (isset($_GET['r']) && $_GET['r']!='report/report') || ( !isset($_POST['ShowReport'])) || !Yii::app()->user->getState('isReportForPrintout')){ ?>
 <div id="header">
 
 <table><tr><td>
@@ -44,6 +69,8 @@
 	</a></div>
 </td><td style="text-align:center">
 <?php 
+$linkhtml="";
+$linkendhtml="";
 if(!Yii::app()->user->isGuest){ 
 	if(Yii::app()->user->getState('allowPeriodSelection')){
 		$linkhtml='<a href="' . Yii::app()->request->hostInfo  . Yii::app()->request->scriptUrl . "?r=user/selectcompany&id=".Yii::app()->user->id . '">'; 
@@ -81,98 +108,11 @@ $menu=array(
         "delay"=>3
         );
 if(!Yii::app()->user->isGuest){ 
-	$menu["menu"]=array(
-                  array(
-                      "label"=>Yii::t("lazy8","Data Entry"),
-                      "visible"=>Yii::app()->user->getState('allowTrans') || Yii::app()->user->getState('allowAccount') || Yii::app()->user->getState('allowCustomer'),
-                       array(
-                          "url"=>array("route"=>"trans"),
-                          "label"=>Yii::t("lazy8","Transactions"),
-			  "visible"=>Yii::app()->user->getState('allowTrans')),
-                       array(
-                          "url"=>array("route"=>"account"),
-                          "label"=>Yii::t("lazy8","Accounts"),
-			  "visible"=>Yii::app()->user->getState('allowAccount')),
-                       array(
-                          "url"=>array("route"=>"customer"),
-                          "label"=>Yii::t("lazy8","Customers"),
-			  "visible"=>Yii::app()->user->getState('allowCustomer')),
-                       ),
-                  array(
-                      "label"=>Yii::t("lazy8","Reports"),
-                      "visible"=>Yii::app()->user->getState('allowReports'),
-   		      "url"=>array("route"=>"report/report"),
-                       ),
-                  array(
-                      "label"=>Yii::t("lazy8","Company"),
-                       "visible"=>Yii::app()->user->getState('allowCompanyCreation')
-                       		|| Yii::app()->user->getState('allowPeriod')
-                       		|| Yii::app()->user->getState('allowAccountTypes')
-                       		|| Yii::app()->user->getState('allowExport')
-                       		|| Yii::app()->user->getState('allowImport'),
-                       array(
-                          "url"=>array("route"=>"company"),
-                          "label"=>Yii::t("lazy8","Company"),
-                          "visible"=>Yii::app()->user->getState('allowCompanyCreation')),
-                       array(
-                          "url"=>array("route"=>"period"),
-                          "label"=>Yii::t("lazy8","Period"),
-                          "visible"=>Yii::app()->user->getState('allowPeriod') && Yii::app()->user->getState('selectedCompanyId')!=0),
-                       array(
-                          "url"=>array("route"=>"accountType"),
-                          "label"=>Yii::t("lazy8","Account types"),
-                          "visible"=>Yii::app()->user->getState('allowAccountTypes') && Yii::app()->user->getState('selectedCompanyId')!=0),
-                       array(
-                          "url"=>array("route"=>"company/export&id=" . Yii::app()->user->getState('selectedCompanyId')),
-                          "label"=>Yii::t("lazy8","Export this company"),
-                          "visible"=> !Yii::app()->user->getState('allowCompanyCreation') && Yii::app()->user->getState('allowCompanyExport')!=0),
-                       ),
-                  array(
-                      "label"=>Yii::t("lazy8","Setup"),
-                       "visible"=>Yii::app()->user->getState('allowSelf')
-                       		|| Yii::app()->user->getState('allowAdmin'),
-                       array(
-                          "url"=>array("route"=>"user/update&id=".Yii::app()->user->id),
-                          "label"=>Yii::t("lazy8","Your profile"),
-                          "visible"=>Yii::app()->user->getState('allowSelf') || Yii::app()->user->getState('allowAdmin')),
-                       array(
-                          "url"=>array("route"=>"options"),
-                          "label"=>Yii::t("lazy8","Website"),
-                          "visible"=>Yii::app()->user->getState('allowAdmin')),
-                       array(
-                          "url"=>array("route"=>"user"),
-                          "label"=>Yii::t("lazy8","Users"),
-                          "visible"=>Yii::app()->user->getState('allowAdmin')),
-                       array(
-                          "url"=>array("route"=>"report"),
-                          "label"=>Yii::t("lazy8","Reports"),
-                          "visible"=>Yii::app()->user->getState('allowAdmin')),
-                       array(
-                          "url"=>array("route"=>"sourceMessage"),
-                          "label"=>Yii::t("lazy8","Translations"),
-                          "visible"=>Yii::app()->user->getState('allowAdmin')),
-                       array(
-                          "url"=>array("route"=>"changeLog"),
-                          "label"=>Yii::t("lazy8","Logs"),
-                          "visible"=>Yii::app()->user->getState('allowChangeLog')),
-                       ),
-/*                  array(
-                      "label"=>Yii::t("lazy8","Help"),
-                       array(
-                          "url"=>array("route"=>"/product/create"),
-                          "label"=>Yii::t("lazy8","Tutorial")),
-                       array(
-                          "url"=>array("route"=>"/product/create"),
-                          "label"=>Yii::t("lazy8","Documentation")),
-                       array(
-                          "url"=>array("route"=>"/product/create"),
-                          "label"=>Yii::t("lazy8","About")),
-                    ),*/
-                  array(
-                      "url"=>array("route"=>"/site/logout"),
-                      "label"=>Yii::t("lazy8","Logout"),
-                    ),
-        );
+	$menu["menu"]=Yii::app()->mainMenu;
+
+
+
+
 }else{
 	$menu["menu"]=array(array(
 		"url"=>array("route"=>"/site/login"),

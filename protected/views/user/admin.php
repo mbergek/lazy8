@@ -56,7 +56,7 @@
       <?php echo CHtml::linkButton(Yii::t('lazy8','Delete'),array(
       	  'submit'=>'',
       	  'params'=>array('command'=>'delete','id'=>$model->id),
-      	  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$model->displayname)))); ?>
+      	  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $model->displayname)); ?>
 	</td>
   </tr>
 <?php endforeach; ?>

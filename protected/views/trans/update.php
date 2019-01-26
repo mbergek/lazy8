@@ -18,7 +18,7 @@
 *
 */
 ?>
-<h2><?php echo Yii::t('lazy8','Update Transaction {name}',array('{name}'=>$models[0]->periodNum . ' ; ' . $models[0]->companyNum . ' ; ' . $models[0]->invDate));?></h2>
+<h2><?php echo Yii::t('lazy8','Update Transaction') . ' - ' .$models[0]->periodNum . ' ; ' . $models[0]->companyNum . ' ; ' . $models[0]->invDate;?></h2>
 
 <div class="actionBar">
 [<?php echo CHtml::link(Yii::t('lazy8','New Trans'),array('create')); ?>]

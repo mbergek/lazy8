@@ -37,8 +37,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.controllers.*',
 	),
-
 	// application components
 	'components'=>array(
         	'messages'=>array(
@@ -57,7 +57,7 @@ return array(
 			'allowAutoLogin'=>true,
 		),
 		'db'=>array(
-			'connectionString'=>'mysql:host=zzzmysqllocalhost;dbname=zzzmysqllazy8web',
+			'connectionString'=>'mysql:host=zzzmysqllocalhost;port=zzzmysqlport;dbname=zzzmysqllazy8web',
 			'username'=>'zzzmysqlusername',
 			'password'=>'zzzmysqlpassword',
 		),
@@ -66,6 +66,12 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
+	),
+	//The following modules may or may not exist
+	'modules'=>array(
+		'template',
+		'billing',
+		'inventory',
 	),
 );
 

@@ -66,7 +66,7 @@
       <?php echo CHtml::linkButton(Yii::t('lazy8','Delete'),array(
       	  'submit'=>'',
       	  'params'=>array('command'=>'delete','id'=>$model->id),
-      	  'confirm'=>Yii::t('lazy8',"Are you sure to delete {recName}?",array('{recName}'=>$model->periodNum)))); ?>
+      	  'confirm'=>Yii::t('lazy8',"Are you sure to delete?") . ' - ' . $model->periodNum)); ?>
 	</td>
     <?php }else{ ?>
       <?php echo CHtml::link(Yii::t('lazy8','View'),array('update','id'=>$model->id)); ?>

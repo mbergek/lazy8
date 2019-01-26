@@ -18,7 +18,6 @@
 *
 */
 ?>
-<h2>Website options <?php echo $model->id; ?></h2>
 
 <div class="yiiForm">
 
@@ -40,39 +39,41 @@ if(isset($weboptions)){
 <?php 
 	foreach($useroptions as $useroption){
 		if(isset($optionTemplate[$useroption->name])){
+			if($optionTemplate[$useroption->name][3]=='false'){
 ?>
 <tr><td>
 <!-- <div class="simple"> -->
 <?php 
-		echo CHtml::label(yii::t('lazy8','option.name.' . $useroption->name),'false',array('class'=>'help','title'=>Yii::t('lazy8','contexthelp.option.'. $useroption->name),'onclick'=>'alert(this.title)'));
+				echo CHtml::label(yii::t('lazy8','option.name.' . $useroption->name),'false',array('class'=>'help','title'=>Yii::t('lazy8','contexthelp.option.'. $useroption->name),'onclick'=>'alert(this.title)'));
 ?>
 </td><td>
 <?php 
-		switch($optionTemplate[$useroption->name][0]){
-		case 'DROP_DOWN_LIST':
-			//this eval creats the $list array for the list box.
-			eval($optionTemplate[$useroption->name][4]);
-			echo CHtml::dropDownList('option_' . $useroption->name, $useroption->datavalue,$list);
-			break;
-		case 'STRING':
-		case 'INTEGER':
-		case 'FLOAT':
-			echo CHtml::textField('option_' . $useroption->name,$useroption->datavalue,array('size'=>'10')); 
-			break;
-		case 'DATE':
-			echo CHtml::textField('option_' . $useroption->name,$useroption->datavalue);
-			$calendar['inputField']='utbildningsstart';
-			$this->widget('application.extensions.calendar.SCalendar',$calendar);
-			break;
-		case 'BOOLEAN':
-			echo CHtml::checkBox('option_' . $useroption->name,$useroption->datavalue=='true');
-			break;
-		}
+				switch($optionTemplate[$useroption->name][0]){
+				case 'DROP_DOWN_LIST':
+					//this eval creats the $list array for the list box.
+					eval($optionTemplate[$useroption->name][4]);
+					echo CHtml::dropDownList('option_' . $useroption->name, $useroption->datavalue,$list);
+					break;
+				case 'STRING':
+				case 'INTEGER':
+				case 'FLOAT':
+					echo CHtml::textField('option_' . $useroption->name,$useroption->datavalue,array('size'=>'10')); 
+					break;
+				case 'DATE':
+					echo CHtml::textField('option_' . $useroption->name,$useroption->datavalue);
+					$calendar['inputField']='utbildningsstart';
+					$this->widget('application.extensions.calendar.SCalendar',$calendar);
+					break;
+				case 'BOOLEAN':
+					echo CHtml::checkBox('option_' . $useroption->name,$useroption->datavalue=='true');
+					break;
+				}
 ?>
 </td></tr>
 <!-- </div> -->
 
 <?php 
+			}
 		}
 	}
 }

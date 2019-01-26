@@ -21,6 +21,8 @@
 
 class User extends CActiveRecord
 {
+	public static $Version=array("Lazy8Web 02.03 2011-02-27");
+	
 	private $_confirmPassword;
 	public function getConfirmPassword(){
 		return $this->_confirmPassword;
@@ -298,7 +300,7 @@ class User extends CActiveRecord
 					$foundOption->datavalue=$_POST['option_' . $foundOption->name];
 					break;
 				case 'BOOLEAN':
-					$foundOption->datavalue=$_POST['option_' . $foundOption->name]==1?'true':'false';
+					$foundOption->datavalue=isset($_POST['option_' . $foundOption->name]) && $_POST['option_' . $foundOption->name]==1?'true':'false';
 					break;
 				}
 				$foundOption->save();
@@ -323,11 +325,14 @@ class User extends CActiveRecord
 			'allowImport'=>array('BOOLEAN','false','false','false','','true','true','false','false'),
 			'allowChangeLog'=>array('BOOLEAN','false','false','false','','true','true','false','false'),
 			'allowCompanyCreation'=>array('BOOLEAN','false','false','false','','true','true','false','false'),
-			'languagecode'=>array('DROP_DOWN_LIST','en','en','false','$ar=array();$msg=Message::model()->findAll(array(\'select\'=>\'distinct language\'));foreach($msg as $a){$ar[]=array(\'id\'=>$a[\'language\'],name=>yii::t(\'lazy8\',\'languagename.iso636.\'.$a[\'language\']));}$list=CHtml::encodeArray(CHtml::listData($ar,\'id\',\'name\'));','false','false','false','false'),
+			'languagecode'=>array('DROP_DOWN_LIST','en','en','false','$ar=array();$msg=Message::model()->findAll(array(\'select\'=>\'distinct language\'));foreach($msg as $a){$ar[]=array(\'id\'=>$a[\'language\'],\'name\'=>yii::t(\'lazy8\',\'languagename.iso636.\'.$a[\'language\']));}$list=CHtml::encodeArray(CHtml::listData($ar,\'id\',\'name\'));','false','false','false','false'),
 			'NumberRecordsPerPage'=>array('INTEGER','20','20','false','','false','false','false','false'),
 			'TransactionEditWidthMultiplier'=>array('FLOAT','1.0','1.0','false','','false','false','false','false'),
 			'NonStandardNumberDecimalFormat'=>array('STRING','','','false','','false','false','false','false'),
 			'NonStandardDateFormat'=>array('STRING','','','false','','false','false','false','false'),
+			'PdfPageFormat'=>array('DROP_DOWN_LIST','A4','A4','false','$list=array(\'A4\'=>\'A4\',\'LETTER\'=>\'LETTER\',\'A3\'=>\'A3\',\'A5\'=>\'A5\',\'B4\'=>\'B4\',\'B5\'=>\'B5\',\'B6\'=>\'B6\',\'C4\'=>\'C4\',\'C5\'=>\'C5\',\'E4\'=>\'E4\',\'E5\'=>\'E5\',\'G4\'=>\'G4\',\'G5\'=>\'G5\',\'P3\'=>\'P3\',\'P4\'=>\'P4\',\'LEGAL\'=>\'LEGAL\',\'GLETTER\'=>\'GLETTER\',\'JLEGAL\'=>\'JLEGAL\',\'QUARTO\'=>\'QUARTO\',\'FOLIO\'=>\'FOLIO\',\'EXECUTIVE\'=>\'EXECUTIVE\',\'MEMO\'=>\'MEMO\',\'FOOLSCAP\'=>\'FOOLSCAP\');','false','false','false','false'),
+			'PdfFont'=>array('DROP_DOWN_LIST','helvetica','helvetica','false','$list=array(\'courier\'=>\'courier\',\'dejavusanscondensed\'=>\'dejavusanscondensed\',\'dejavusansmono\'=>\'dejavusansmono\',\'dejavusans\'=>\'dejavusans\',\'dejavuserifcondensed\'=>\'dejavuserifcondensed\',\'dejavuserif\'=>\'dejavuserif\',\'freemono\'=>\'freemono\',\'freesans\'=>\'freesans\',\'freeserif\'=>\'freeserif\',\'helvetica\'=>\'helvetica\',\'times\'=>\'times\');','false','false','false','false'),
+			'PdfFontSize'=>array('DROP_DOWN_LIST','8','8','false','$list=array(6=>6,7=>7,8=>8,9=>9,10=>10,11=>11,12=>12,13=>13,14=>14);','false','false','false','false'),
 			'lastPrintedReportId'=>array('INTEGER','0','0','true','','false','false','false','false'),
 			'isReportBlackAndWhite'=>array('BOOLEAN','false','true','true','','false','false','false','false'),
 			'isReportForPrintout'=>array('BOOLEAN','false','true','true','','false','false','false','false'),
@@ -343,7 +348,6 @@ class User extends CActiveRecord
 All Rights Reserved.<br/>
 Licensed under <a href=\"http://gnu.org/licenses\">GNU General Public License.</a><br/>
 Powered by <a href=\"http://yiiframework.com/\">Yii Framework</a>";
-
 		//arrayname=>StringType,DefaultValue,DefaultValueNoLogin,IsHidden,dropdownlist
 		return array(
 			'siteHeaderTitle'=>array('STRING','Lazy8Web','Lazy8Web','false'),
@@ -384,11 +388,14 @@ Powered by <a href=\"http://yiiframework.com/\">Yii Framework</a>";
 	public function delete()
 	{
 		parent::delete();
+		$this->onDeletePost(new Lazy8Event('User',$this->id));
 		$this->dbConnection->createCommand("DELETE FROM CompanyUser WHERE userId={$this->id}")->execute();
 		$this->dbConnection->createCommand("DELETE FROM Options WHERE userId={$this->id}")->execute();
 		$this->dbConnection->createCommand("DELETE FROM ReportUserLastUsedParams WHERE userId={$this->id}")->execute();
+		$this->dbConnection->createCommand("DELETE FROM TempTrans WHERE userId={$this->id}")->execute();
 	}
 	private static function leading_zeros($value, $places){
+	    $leading = "";
 	    if(is_numeric($value)){
 		for($x = 1; $x <= $places; $x++){
 		    $ceiling = pow(10, $x);
@@ -408,8 +415,70 @@ Powered by <a href=\"http://yiiframework.com/\">Yii Framework</a>";
 	    return $output;
 	}	
 	public static function parseDate($toParse,$locale=null){
+		//this will parse a date.  Simple thing. But it takes
+		//a lot of code to do it since:
+		//the following 2 rows can't be used because it is only in php 5.3.  Too new!	
+		/*
+		$dt = date_create_from_format( User::getPhPDateFormatNoPercent($locale),$toParse );
+		return $dt->format('Y-m-d') ;
+		*/
+		//and the following 2 rows wont work because it wont work in windows.
+		/*
 		$dateArray=strptime($toParse,User::getPhPDateFormat($locale));
 		return ($dateArray['tm_year']+1900) . "-" . User::leading_zeros($dateArray['tm_mon']+1,2) . "-" . User::leading_zeros($dateArray['tm_mday'],2);
+		*/
+		
+		//so here is my solution
+		$format=User::getPhPDateFormatNoPercent($locale);
+		//parse out the given date into a number array
+		$intArray=array();
+		$testInt='';
+		$foundStart=false;
+		$splitStringArray=str_split($toParse);
+		foreach($splitStringArray as $testChar){
+			if(is_numeric($testChar)){
+				$testInt.= $testChar;
+				$foundStart=true;
+			}else{
+				if($foundStart){
+					$intArray[]=$testInt+0;//force conversion to number.Drops leading zeros
+					$testInt='';
+					$foundStart=false;
+				}
+			}
+		}
+		$intArray[]=$testInt+0;//force conversion to number.Drops leading zeros
+		
+		//read the format and put into an array
+		$NumberOrder=array();
+		$posYear=strpos($format,'y');
+		if($posYear===false)
+			$NumberOrder['Y']=strpos($format,'Y');
+		else
+			$NumberOrder['y']=$posYear;
+		$NumberOrder['m']=strpos($format,'m');
+		$NumberOrder['d']=strpos($format,'d');
+		//merge the format and the number array
+		asort($NumberOrder);
+		$i=0;
+		$resultArray=array();
+		foreach ($NumberOrder as $key => $val) {
+			if($key=='y')
+				$resultArray['Y']=(date('Y') - (date('Y') % 100))+$intArray[$i];
+			elseif($key=='Y')
+				$resultArray['Y']=$intArray[$i];
+			elseif($key=='m')
+				$resultArray['m']=$intArray[$i];
+			elseif($key=='d')
+				$resultArray['d']=$intArray[$i];
+			$i++;
+		}	
+		//return mysql formatted time , that is, Y-m-d
+		return User::leading_zeros($resultArray['Y'],4) . '-' .  User::leading_zeros($resultArray['m'],2) . '-' .  User::leading_zeros($resultArray['d'],2) ;
+	}
+	public static function getPhPDateFormatNoPercent($locale=null){
+		//convert the format to PHP date format
+		return str_replace(array('MM','M','dd','d','%%d','yyyy','yy'),array('m','m','d','d','d','Y','y',),User::getDateFormat($locale));
 	}
 	public static function getPhPDateFormat($locale=null){
 		//convert the format to PHP date format

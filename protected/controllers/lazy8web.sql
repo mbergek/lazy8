@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS`User`;
+
 CREATE TABLE IF NOT EXISTS `User` (
   `id` int(11) NOT NULL auto_increment,
   `username` varchar(128) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   UNIQUE  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`Options`;
+
 CREATE TABLE IF NOT EXISTS `Options` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(128) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `Options` (
     REFERENCES User (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`ChangeLog`;
+
 CREATE TABLE IF NOT EXISTS `ChangeLog` (
   `id` int(11) NOT NULL auto_increment,
   `tableName` varchar(128),
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `ChangeLog` (
     REFERENCES Company (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`Report`;
+
 CREATE TABLE IF NOT EXISTS `Report` (
   `id` int(11) NOT NULL auto_increment,
   `companyId` int(11) DEFAULT 0,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `Report` (
     REFERENCES Company (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`ReportUserLastUsedParams`;
+
 CREATE TABLE IF NOT EXISTS `ReportUserLastUsedParams` (
   `id` int(11) NOT NULL auto_increment,
   `reportId` int(11) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `ReportUserLastUsedParams` (
     REFERENCES ReportParameters (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`ReportParameters`;
+
 CREATE TABLE IF NOT EXISTS `ReportParameters` (
   `id` int(11) NOT NULL auto_increment,
   `reportId` int(11) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `ReportParameters` (
     REFERENCES Report (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`ReportGroups`;
+
 CREATE TABLE IF NOT EXISTS `ReportGroups` (
   `id` int(11) NOT NULL auto_increment,
   `reportId` int(11) NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `ReportGroups` (
     REFERENCES Report (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`ReportGroupFields`;
+
 CREATE TABLE IF NOT EXISTS `ReportGroupFields` (
   `id` int(11) NOT NULL auto_increment,
   `reportGroupId` int(11) NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `ReportGroupFields` (
     REFERENCES ReportGroups (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`ReportRows`;
+
 CREATE TABLE IF NOT EXISTS `ReportRows` (
   `id` int(11) NOT NULL auto_increment,
   `reportId` int(11) NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `ReportRows` (
     REFERENCES Report (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`Company`;
+
 CREATE TABLE IF NOT EXISTS `Company` (
   `id` int(11) NOT NULL auto_increment,
   `code` int(11) NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `Company` (
   UNIQUE  (`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`CompanyUser`;
+
 CREATE TABLE IF NOT EXISTS `CompanyUser` (
   `userId` int(11) NOT NULL,
   `companyId` int(11) NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `CompanyUser` (
     REFERENCES User (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`Customer`;
+
 CREATE TABLE IF NOT EXISTS `Customer` (
   `id` int(11) NOT NULL auto_increment,
   `companyId` int(11) NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `Customer` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS`TempTrans`;
+
 CREATE TABLE IF NOT EXISTS `TempTrans` (
   `id` int(11) NOT NULL auto_increment,
   `rownum` int(11) NOT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `TempTrans` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS`Trans`;
+
 CREATE TABLE IF NOT EXISTS `Trans` (
   `id` int(11) NOT NULL auto_increment,
   `companyId` int(11) NOT NULL,
@@ -240,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `Trans` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS`TransRow`;
+
 CREATE TABLE IF NOT EXISTS `TransRow` (
   `id` int(11) NOT NULL auto_increment,
   `transId` int(11) NOT NULL,
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `TransRow` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS`AccountType`;
+
 CREATE TABLE IF NOT EXISTS `AccountType` (
   `id` int(11) NOT NULL auto_increment,
   `companyId` int(11) NOT NULL,
@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `AccountType` (
     REFERENCES Company (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`Account`;
+
 CREATE TABLE IF NOT EXISTS `Account` (
   `id` int(11) NOT NULL auto_increment,
   `companyId` int(11) NOT NULL,
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `Account` (
     REFERENCES Company (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`Period`;
+
 CREATE TABLE IF NOT EXISTS `Period` (
   `id` int(11) NOT NULL auto_increment,
   `companyId` int(11) NOT NULL,
@@ -306,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `Period` (
     REFERENCES Company (id) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS`SourceMessage`;
+
 CREATE TABLE IF NOT EXISTS SourceMessage
 (
   `id` int(11) NOT NULL,
@@ -315,7 +315,7 @@ CREATE TABLE IF NOT EXISTS SourceMessage
   PRIMARY KEY  (`id`)
 );
 
-DROP TABLE IF EXISTS`Message`;
+
 CREATE TABLE IF NOT EXISTS Message
 (
     id INTEGER,

@@ -21,15 +21,16 @@
 <div class="yiiForm">
 
 <p>
-<?php echo Yii::t('lazy8','Fields with {redStar} are required',array('{redStar}'=>'<span class="required">*</span>'));?>
+<?php echo Yii::t('lazy8','Fields with a red star are required') . ' <span class="required">*</span>';?>
 </p>
 
 <?php echo CHtml::beginForm(); ?>
-
-<?php echo CHtml::errorSummary($model);  if ( ! $isAccountsInCompany && ! $update){ 
+<?php $cLoc=null;$dateformatter=null; ?>
+<?php echo CHtml::errorSummary($model);  if ( (isset($isAccountsInCompany) && ! $isAccountsInCompany) && ! $update){ 
 	//You need several accounts for your company. We recommend that you select one of the two buttons below a standard accounts system.  Or you may create manually your own accounts 
 	
 	?>
+
 <div class="action">
 <table><tr><td colspan="2">
 <?php echo CHtml::encode(Yii::t('lazy8','You.need.several.accounts.for.your.company')); ?>

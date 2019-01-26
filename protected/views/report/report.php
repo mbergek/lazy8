@@ -20,7 +20,21 @@
  if($printoutview!=1){ ?>
 <h2><?php echo Yii::t('lazy8','Reports'); ?></h2>
 
-<?php } ?>
+<?php } 
+
+$sums=array();
+$repRows=$model->rows;
+$groupSums=array();
+if(isset($repRows) && count($repRows)>0){
+	foreach($repRows as $n=>$repRow){ 
+		if($repRow->isSummed){
+			$sums[$repRow->fieldName]=0.0;
+			$groupSums[$repRow->fieldName]=0.0;
+		}
+	}
+}
+?>
+
 
 <div class="report">
 
@@ -37,7 +51,8 @@ if(isset($repParams) && count($repParams)>0){
 			?><tr class="<?php echo $n%2?'even':'odd';?>"><td><?php 
 			echo CHtml::encode(Yii::t('lazy8',$repParam->name));
 			?></td><td><?php
-			$displayNum=$parameterValues[$n];
+			$displayNum="";
+			if(isset($parameterValues[$n]))$displayNum=$parameterValues[$n];
 			if($repParam->isDecimal){
 				if(round($displayNum,5)==0.0)
 					$displayNum="";
@@ -64,30 +79,18 @@ if(isset($repGroups) && count($repGroups)>0){
 			$doGroupSummming=true;
 	}	
 }
-$sums=array();
-$repRows=$model->rows;
-$groupSums=array();
-$repRowColumnWidths="";
-if(isset($repRows) && count($repRows)>0){
-	foreach($repRows as $n=>$repRow){ 
-		if($repRow->isSummed){
-			$sums[$repRow->fieldName]=0.0;
-			$groupSums[$repRow->fieldName]=0.0;
-		}
-		$repRowColumnWidths.= "<col width=\"" . $repRow->fieldWidth . "\" />";
-	}
-}
-function startNewRowTable($repRows,$repRowColumnWidths){
+function startNewRowTable($repRows){
 	?><table class="ReportRows"><?php 
-	echo $repRowColumnWidths;
 	if(isset($repRows) && count($repRows)>0){
 		?><thead><tr><?php 
 		foreach($repRows as $n=>$repRow){ 
-			?><th><?php 
+			echo '<th class="col'.$n.'">'; 
 			echo CHtml::encode(Yii::t('lazy8',$repRow->fieldName));
-			?></th><?php 
+			?></th>
+			<?php 
 		}
-		?></tr></thead><?php
+		?></tr></thead>
+		<?php
 	}
 	?><tbody>
 	<?php
@@ -98,9 +101,7 @@ function endRowTable($repRows,&$sums,&$groupSums,$numberFormatter,$numberFormat,
 		?><tr class="ReportSums"><?php 
 		$isGroupSumFound=false;
 		for($i=0;$i<count($repRows);$i++){
-			$align="<td>";
-			if ( $repRows[$i]->isAlignRight)$align="<td align=\"right\">";
-			echo $align;
+			echo '<td class="col'.$i.'">'; 
 			if(isset($sums[$repRows[$i]->fieldName])){
 				$displayNum=round($sums[$repRows[$i]->fieldName],5);
 				if($repRows[$i]->isDecimal){
@@ -118,7 +119,8 @@ function endRowTable($repRows,&$sums,&$groupSums,$numberFormatter,$numberFormat,
 				//reset to zero
 				$sums[$repRows[$i]->fieldName]=0.0;
 			}
-			?></td><?php 
+			?></td>
+			<?php 
 		}
 		?></tr><?php 
 		if($isGroupSumFound && $doGroupSummming){
@@ -126,9 +128,7 @@ function endRowTable($repRows,&$sums,&$groupSums,$numberFormatter,$numberFormat,
 			?><tr class="ReportSumsSums"><?php 
 			$isGroupSumFound=false;
 			for($i=0;$i<count($repRows);$i++){
-				$align="<td>";
-				if ( $repRows[$i]->isAlignRight)$align="<td align=\"right\">";
-				echo $align;
+				echo '<td class="col'.$i.'">'; 
 				if(isset($groupSums[$repRows[$i]->fieldName])){
 					$displayNum=round($groupSums[$repRows[$i]->fieldName],5);
 					if($repRows[$i]->isDecimal){
@@ -142,9 +142,11 @@ function endRowTable($repRows,&$sums,&$groupSums,$numberFormatter,$numberFormat,
 						$groupSums[$repRows[$i]->fieldName]=0.0;
 					}
 				}
-				?></td><?php 
+				?></td>
+				<?php 
 			}
-			?></tr><?php 
+			?></tr>
+			<?php 
 		}
 	}
 	?></tbody></table>
@@ -178,17 +180,20 @@ foreach($reader as $n=>$row){
 							foreach($repGroupFields as $repGroupField){ 
 								?><th><?php
 								echo CHtml::encode(Yii::t('lazy8',$repGroupField->fieldName));
-								?></th><?php
+								?></th>
+								<?php
 							}
 							?></tr><?php 
-							?></thead><?php 
+							?></thead>
+							<?php 
 						}
 					}
 					?><tbody><tr class="ReportGroupBody"><?php 
 					//show the fields for the group  
 					foreach($repGroupFields as $repGroupField){ 
 						?><td><?php
-						$display=$row[$repGroupField->fieldName];
+						$display="";
+						if(isset($row[$repGroupField->fieldName]))$display=$row[$repGroupField->fieldName];
 						if(strlen($repGroupField->fieldCalc)>0){
 							eval($repGroupField->fieldCalc);
 						}
@@ -201,34 +206,38 @@ foreach($reader as $n=>$row){
 						if($repGroupField->isDate)$display=$dateFormatter->formatDateTime($display,'short',null);
 							
 						echo $display;
-						?></td><?php
+						?></td>
+						<?php
 					}
-					?></tr><?php 
-					?></tbody></table><?php 
+					?></tr>
+					<?php 
+					?></tbody></table>
+					<?php 
 				}
 			}
 			$breaksLastValue[$repGroup->breakingField]=$row[$repGroup->breakingField];
 		}	
 	}
 	if($n==0 || $isRowBroken){
-		startNewRowTable($repRows,$repRowColumnWidths);
+		startNewRowTable($repRows);
 	}
 	//now we actually print out the row.
 	if(isset($repRows) && count($repRows)>0){
 		//first update the sums
 		foreach($repRows as $repRow){ 
 			if(isset($sums[$repRow->fieldName])){
-				$display=$row[$repRow->fieldName];
+				$display="";
+				if(isset($row[$repRow->fieldName]))$display=$row[$repRow->fieldName];
 				if(strlen($repRow->fieldCalc)>0)
 					eval($repRow->fieldCalc);
 				$sums[$repRow->fieldName]+=$display;
 			}
 		}
 		?><tr class="<?php echo $n%2?'even':'odd';?>"><?php 
+		$i=0;
 		foreach($repRows as $repRow){ 
-			$align="<td>";
-			if ( $repRow->isAlignRight)$align="<td align=\"right\">";
-			echo $align;
+			echo '<td class="col'.$i.'">'; 
+			$i++;
 			if(strlen($repRow->fieldCalc)>0){
 				eval($repRow->fieldCalc);
 				if($repRow->isDecimal){
@@ -250,13 +259,18 @@ foreach($reader as $n=>$row){
 				if($repRow->isDate)$displayNum=$dateFormatter->formatDateTime($displayNum,'short',null);
 				echo $displayNum;
 			}
-			?></td><?php 
+			?></td>
+			<?php 
 		}
 		?></tr>
 		<?php
 	}
 }
 endRowTable($repRows,$sums,$groupSums,$numberFormatter,$numberFormat,$doGroupSummming);
+if(count($imageFileNames)>0)
+foreach($imageFileNames as $imageFileName)
+	echo '<p><img src="'.$imageFileName.'" alt="image" /></p>';
 
 ?>
+
 </div><!-- report -->

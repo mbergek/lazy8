@@ -21,13 +21,13 @@
 <div class="yiiForm">
 
 <p>
-<?php echo Yii::t('lazy8','Fields with {redStar} are required',array('{redStar}'=>'<span class="required">*</span>'));?>
+<?php echo Yii::t('lazy8','Fields with a red star are required') . ' <span class="required">*</span>';?>
 </p>
 
 <?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($model); ?>
-
+<?php $cLoc=null;$dateformatter=null; ?>
 <?php
 $companies=CHtml::encodeArray(CHtml::listData(Company::model()->findAll(array('select'=>'id, CAST(CONCAT(code,\' \',name) AS CHAR CHARACTER SET utf8) as name','order'=>'code')),'id','name'));
 $companies[0]=Yii::t('lazy8','-- '.'all'.' --');
@@ -160,7 +160,7 @@ if(count($repRows)>0){
   <tbody>
 <?php 
 foreach($repRows as $n=>$repRow){ ?>
-  <tr class="<?php echo $m%2?'even':'odd';?>">
+  <tr class="<?php echo $n%2?'even':'odd';?>">
 <td>
 <?php echo CHtml::activeTextField($repRow,"[$n]sortOrder",array('size'=>8,'maxlength'=>12)); 
 CHtml::activeHiddenField($repRow,"id[$n]");
@@ -267,21 +267,21 @@ if(count($repGroupFields)>0){
 foreach($repGroupFields as $m=>$repGroupField){ ?>
   <tr class="<?php echo $m%2?'even':'odd';?>">
 <td>
-<?php echo CHtml::activeTextField($repGroupField,"[$n]sortOrder[$m]",array('size'=>8,'maxlength'=>12)); 
-CHtml::activeHiddenField($repGroupField,"id[$n][$m]");
+<?php echo CHtml::activeTextField($repGroupField,"[$n][$m]sortOrder",array('size'=>8,'maxlength'=>12)); 
+CHtml::activeHiddenField($repGroupField,"[$n][$m]id");
 CHtml::hiddenField("ReportGroupFields[$n][reportGroupId]$m");?>
 </td><td>
-<?php echo CHtml::activeTextField($repGroupField,"[$n]fieldName[$m]",array('size'=>8,'maxlength'=>100)); ?>
+<?php echo CHtml::activeTextField($repGroupField,"[$n][$m]fieldName",array('size'=>8,'maxlength'=>100)); ?>
 </td><td>
-<?php echo CHtml::activeTextField($repGroupField,"[$n]fieldCalc[$m]",array('size'=>8)); ?>
+<?php echo CHtml::activeTextField($repGroupField,"[$n][$m]fieldCalc",array('size'=>8)); ?>
 </td><td>
-<?php echo CHtml::activeTextField($repGroupField,"[$n]fieldWidth[$m]",array('size'=>8,'maxlength'=>10)); ?>
+<?php echo CHtml::activeTextField($repGroupField,"[$n][$m]fieldWidth",array('size'=>8,'maxlength'=>10)); ?>
 </td><td>
-<?php echo CHtml::activeTextField($repGroupField,"[$n]row[$m]",array('size'=>8,'maxlength'=>12)); ?>
+<?php echo CHtml::activeTextField($repGroupField,"[$n][$m]row",array('size'=>8,'maxlength'=>12)); ?>
 </td><td>
-<?php echo CHtml::activeCheckBox($repGroupField,"[$n]isDate[$m]"); ?>
+<?php echo CHtml::activeCheckBox($repGroupField,"[$n][$m]isDate"); ?>
 </td><td>
-<?php echo CHtml::activeCheckBox($repGroupField,"[$n]isDecimal[$m]"); ?>
+<?php echo CHtml::activeCheckBox($repGroupField,"[$n][$m]isDecimal"); ?>
 </td><td>
 <?php echo CHtml::submitButton(Yii::t('lazy8','delete'),array('name'=>"deletegroupfieldrow[$n][$m]",'title'=>Yii::t('lazy8','contexthelp.delete'))); ?>
 </td>
